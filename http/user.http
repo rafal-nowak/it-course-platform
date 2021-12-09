@@ -1,0 +1,17 @@
+###
+GET http://localhost:8080/users/userLogin
+Accept: application/json
+Content-Type: application/json
+
+
+
+###
+POST http://localhost:8080/users
+Accept: application/json
+Content-Type: application/json
+
+{
+  "login": "userLogin",
+  "password": "userPass",
+  "role": "STUDENT"
+}
