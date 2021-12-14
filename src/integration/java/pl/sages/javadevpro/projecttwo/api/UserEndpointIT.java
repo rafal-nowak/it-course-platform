@@ -57,7 +57,7 @@ class UserEndpointIT extends BaseIT {
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
         headers.add(HttpHeaders.ACCEPT, "application/json");
         return restTemplate.exchange(
-            localUrl("/user/" + userLogin),
+            localUrl("/users/" + userLogin),
             HttpMethod.GET,
             new HttpEntity(headers),
             UserDto.class
@@ -68,7 +68,7 @@ class UserEndpointIT extends BaseIT {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
         return restTemplate.exchange(
-            localUrl("/api/user/new"),
+            localUrl("/users"),
             HttpMethod.POST,
             new HttpEntity(headers),
             UserDto.class
