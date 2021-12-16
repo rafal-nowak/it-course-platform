@@ -22,7 +22,7 @@ public class UserController {
         this.userService = userService;
         this.userDao = userDao;
     }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @RequestMapping(value = "/addUser", method = RequestMethod.GET)
     public String addUser(Model model) {
         model.addAttribute("user", new User());
@@ -37,5 +37,5 @@ public class UserController {
         userService.saveUser(user);
         return "redirect:/login";
     }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
