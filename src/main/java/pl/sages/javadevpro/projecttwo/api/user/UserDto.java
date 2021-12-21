@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -13,17 +15,19 @@ import pl.sages.javadevpro.projecttwo.domain.user.User;
 public class UserDto {
 
     private Long id;
-    private String login;
+    private String email;
+    private String name;
     private String password;
-    private String role;
+    private List<String> roles;
 
 
     public static UserDto from(User user) {
         return new UserDto(
             user.getId(),
-            user.getLogin(),
-            "######",
-            user.getRole().name()
+            user.getEmail(),
+            user.getName(),
+            user.getPassword(),
+            user.getRoles()
         );
     }
 }

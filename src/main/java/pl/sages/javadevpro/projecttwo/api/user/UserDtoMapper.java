@@ -11,9 +11,10 @@ public class UserDtoMapper {
         if (user != null) {
             return new UserDto(
                 user.getId(),
-                user.getLogin(),
+                user.getEmail(),
+                user.getName(),
                 "######",
-                user.getRole().name()
+                user.getRoles()
             );
         }
 
@@ -23,9 +24,10 @@ public class UserDtoMapper {
     public User toDomain(UserDto dto) {
         return new User(
             dto.getId(),
-            dto.getLogin(),
+            dto.getEmail(),
+            dto.getName(),
             dto.getPassword(),
-            UserRole.valueOf(dto.getRole())
+            dto.getRoles()
         );
     }
 }

@@ -6,5 +6,5 @@ public interface UserRepository {
 
     User save(User user);
 
-    Optional<User> findUserByLogin(String user);
+    Optional<User> findByEmail(String user);
 }

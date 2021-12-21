@@ -13,7 +13,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User getUser(String login) {
-        return userRepository.findUserByLogin(login).orElse(null);
+    public User getUser(String email) {
+        return userRepository.findByEmail(email).orElse(null);
     }
 }

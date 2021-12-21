@@ -1,9 +1,8 @@
-###
-GET http://localhost:8080/users/userLogin
+### get user by email
+GET http://localhost:8080/users/jan@example.com
 Accept: application/json
 Content-Type: application/json
-
-
+Authorization: {{auth_token}}
 
 ###
 POST http://localhost:8080/users

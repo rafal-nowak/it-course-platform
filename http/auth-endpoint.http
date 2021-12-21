@@ -1,0 +1,11 @@
+### login user
+POST http://localhost:8080/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "jan@example.com",
+  "password": "MyPassword"
+}
+
+> {% client.global.set("auth_token", response.headers.valueOf("Authorization")); %}

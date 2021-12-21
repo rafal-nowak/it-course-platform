@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import pl.sages.javadevpro.projecttwo.domain.UserService;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
 import pl.sages.javadevpro.projecttwo.external.StorageAdapter;
-import pl.sages.javadevpro.projecttwo.external.storage.JpaUserRepository;
+import pl.sages.javadevpro.projecttwo.external.storage.InMemoryRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.UserEntityMapper;
 
 @Configuration
@@ -16,11 +16,11 @@ public class DomainConfiguration {
 
     @Bean
     public UserRepository userRepository(
-        JpaUserRepository jpaUserRepository,
+        InMemoryRepository inMemoryRepository,
         UserEntityMapper mapper
     ) {
         return new StorageAdapter(
-            jpaUserRepository,
+            inMemoryRepository,
             mapper
         );
     }

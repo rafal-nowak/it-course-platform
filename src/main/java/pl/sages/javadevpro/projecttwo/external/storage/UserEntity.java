@@ -1,28 +1,18 @@
 package pl.sages.javadevpro.projecttwo.external.storage;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Value;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import java.util.List;
 
-@Entity
+@Value
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 public class UserEntity {
 
-    @GeneratedValue
-    @Id
     private Long id;
-    private String login;
+    private String email;
+    private String name;
     private String password;
-    private String role;
+    private List<String> roles;
 
 }
