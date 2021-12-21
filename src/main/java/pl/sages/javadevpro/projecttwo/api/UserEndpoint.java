@@ -2,7 +2,8 @@ package pl.sages.javadevpro.projecttwo.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.sages.javadevpro.projecttwo.api.user.UserDto;
 import pl.sages.javadevpro.projecttwo.api.user.UserDtoMapper;
@@ -18,12 +19,13 @@ public class UserEndpoint {
     private final UserDtoMapper dtoMapper;
 
     @GetMapping(
-        path = "/{login}",
+        path = "/{email}",
         produces = "application/json",
         consumes = "application/json"
     )
-    public ResponseEntity<UserDto> getUser(@PathVariable(name = "login") String login) {
-        User user = userService.getUser(login);
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity<UserDto> getUser(@PathVariable(name = "email") String email) {
+        User user = userService.getUser(email);
 
         return ResponseEntity
             .ok(dtoMapper.toDto(user));
@@ -33,10 +35,21 @@ public class UserEndpoint {
         produces = "application/json",
         consumes = "application/json"
     )
-
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<UserDto> saveUser(@RequestBody UserDto dto) {
         User user = userService.saveUser(dtoMapper.toDomain(dto));
+        return ResponseEntity
+            .ok(dtoMapper.toDto(user));
+    }
 
+    @PostMapping(
+        path = "/me",
+        produces = "application/json",
+        consumes = "application/json"
+    )
+    @Secured("ROLE_STUDENT")
+    public ResponseEntity<UserDto> getUser(Authentication authentication) {
+        User user = userService.getUser((String) authentication.getPrincipal());
         return ResponseEntity
             .ok(dtoMapper.toDto(user));
     }
