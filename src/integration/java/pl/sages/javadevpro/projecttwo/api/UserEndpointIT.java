@@ -104,6 +104,34 @@ class UserEndpointIT extends BaseIT {
         Assertions.assertEquals(body.getRoles().toString(), user.getRoles().toString());
     }
 
+    @Test
+    void student_should_not_get_information_about_other_student() {
+        //given
+        User user1 = new User(
+                4L,
+                "newUser@example.com",
+                "User Name",
+                "pass",
+                List.of("STUDENT")
+        );
+        User user2 = new User(
+                5L,
+                "oldUser@example.com",
+                "Old User Name",
+                "pass",
+                List.of("STUDENT")
+        );
+        service.saveUser(user1);
+        service.saveUser(user2);
+        String accessToken = getAccessTokenForUser(user1.getEmail(), user1.getPassword());
+
+        //when
+        ResponseEntity response = callGetUser(user2.getEmail(), accessToken);
+
+        //then
+        Assertions.assertEquals(response.getStatusCode(), HttpStatus.FORBIDDEN);
+    }
+
     private ResponseEntity<UserDto> callGetUser(String email, String token) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
