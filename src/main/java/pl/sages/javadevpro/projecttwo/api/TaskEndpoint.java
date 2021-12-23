@@ -20,7 +20,7 @@ public class TaskEndpoint {
             produces = "application/json",
             consumes = "application/json"
     )
-    @Secured("ROLE_STUDENT")
+    @Secured({"ROLE_STUDENT", "ROLE_ADMIN"})
     public ResponseEntity<TaskDto> getTask(@PathVariable(name = "id")int taskId) {
         return ResponseEntity.ok(new TaskDto(1, "Task1", "Description first task1"));
     }
