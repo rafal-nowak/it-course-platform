@@ -46,7 +46,7 @@ public class BaseIT {
         userService.saveUser(adminUser);
     }
 
-    protected String getTokenForUser(String email, String password) {
+    protected String getAccessTokenForUser(String email, String password) {
         CredentialsDTO body = new CredentialsDTO();
         body.setEmail(email);
         body.setPassword(password);

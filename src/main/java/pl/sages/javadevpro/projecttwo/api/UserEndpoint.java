@@ -42,13 +42,13 @@ public class UserEndpoint {
             .ok(dtoMapper.toDto(user));
     }
 
-    @PostMapping(
+    @GetMapping(
         path = "/me",
         produces = "application/json",
         consumes = "application/json"
     )
     @Secured("ROLE_STUDENT")
-    public ResponseEntity<UserDto> getUser(Authentication authentication) {
+    public ResponseEntity<UserDto> aboutMe(Authentication authentication) {
         User user = userService.getUser((String) authentication.getPrincipal());
         return ResponseEntity
             .ok(dtoMapper.toDto(user));
