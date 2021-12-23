@@ -78,6 +78,32 @@ class UserEndpointIT extends BaseIT {
         Assertions.assertEquals(body.getRoles().toString(), user.getRoles().toString());
     }
 
+    @Test
+    void student_should_get_information_about_himself() {
+        //given
+        User user = new User(
+                3L,
+                "newUser@example.com",
+                "User Name",
+                "pass",
+                List.of("STUDENT")
+        );
+        service.saveUser(user);
+        String accessToken = getAccessTokenForUser(user.getEmail(), user.getPassword());
+
+        //when
+        ResponseEntity<UserDto> response = callAboutMe(accessToken);
+
+        //then
+        UserDto body = response.getBody();
+        Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
+        Assertions.assertEquals(body.getId(), user.getId());
+        Assertions.assertEquals(body.getEmail(), user.getEmail());
+        Assertions.assertEquals(body.getName(), user.getName());
+        Assertions.assertEquals(body.getPassword(), "######");
+        Assertions.assertEquals(body.getRoles().toString(), user.getRoles().toString());
+    }
+
     private ResponseEntity<UserDto> callGetUser(String email, String token) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
@@ -88,6 +114,19 @@ class UserEndpointIT extends BaseIT {
             HttpMethod.GET,
             new HttpEntity(headers),
             UserDto.class
+        );
+    }
+
+    private ResponseEntity<UserDto> callAboutMe(String accessToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
+        headers.add(HttpHeaders.ACCEPT, "application/json");
+        headers.add(HttpHeaders.AUTHORIZATION, accessToken);
+        return restTemplate.exchange(
+                localUrl("/users/me"),
+                HttpMethod.GET,
+                new HttpEntity(headers),
+                UserDto.class
         );
     }
 
