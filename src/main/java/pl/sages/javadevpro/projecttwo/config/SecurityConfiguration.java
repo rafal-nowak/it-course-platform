@@ -1,5 +1,6 @@
 package pl.sages.javadevpro.projecttwo.config;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,11 +22,11 @@ import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private UserRepository userRepository;
 
     @Override

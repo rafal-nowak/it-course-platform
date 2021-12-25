@@ -31,7 +31,7 @@ public class BaseIT {
     protected UserService userService;
 
     private static User adminUser = new User(
-            1_000_999L,
+//            1_000_999L,
             "admin@example.pl",
             "Stefan Burczymucha",
             "password",

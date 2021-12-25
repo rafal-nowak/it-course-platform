@@ -10,7 +10,6 @@ public class UserDtoMapper {
     public UserDto toDto(User user) {
         if (user != null) {
             return new UserDto(
-                user.getId(),
                 user.getEmail(),
                 user.getName(),
                 "######",
@@ -23,7 +22,6 @@ public class UserDtoMapper {
 
     public User toDomain(UserDto dto) {
         return new User(
-            dto.getId(),
             dto.getEmail(),
             dto.getName(),
             dto.getPassword(),

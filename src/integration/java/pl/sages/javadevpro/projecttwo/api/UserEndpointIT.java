@@ -30,8 +30,7 @@ class UserEndpointIT extends BaseIT {
     void admin_should_get_information_about_any_user() {
         //given
         User user = new User(
-            1L,
-            "newUser@example.com",
+            "newUser1@example.com",
             "User Name",
             "pass",
             List.of("STUDENT")
@@ -45,7 +44,6 @@ class UserEndpointIT extends BaseIT {
         //then
         UserDto body = response.getBody();
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
-        Assertions.assertEquals(body.getId(), user.getId());
         Assertions.assertEquals(body.getEmail(), user.getEmail());
         Assertions.assertEquals(body.getName(), user.getName());
         Assertions.assertEquals(body.getPassword(), "######");
@@ -56,8 +54,7 @@ class UserEndpointIT extends BaseIT {
     void admin_should_be_able_to_save_new_user() {
         //given
         User user = new User(
-            2L,
-            "newUser@example.com",
+            "newUser2@example.com",
             "User Name",
             "pass",
             List.of("STUDENT")
@@ -71,7 +68,6 @@ class UserEndpointIT extends BaseIT {
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
         //and
         UserDto body = response.getBody();
-        Assertions.assertEquals(body.getId(), user.getId());
         Assertions.assertEquals(body.getEmail(), user.getEmail());
         Assertions.assertEquals(body.getName(), user.getName());
         Assertions.assertEquals(body.getPassword(), "######");
@@ -82,8 +78,7 @@ class UserEndpointIT extends BaseIT {
     void student_should_get_information_about_himself() {
         //given
         User user = new User(
-                3L,
-                "newUser@example.com",
+                "newUser3@example.com",
                 "User Name",
                 "pass",
                 List.of("STUDENT")
@@ -97,7 +92,6 @@ class UserEndpointIT extends BaseIT {
         //then
         UserDto body = response.getBody();
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
-        Assertions.assertEquals(body.getId(), user.getId());
         Assertions.assertEquals(body.getEmail(), user.getEmail());
         Assertions.assertEquals(body.getName(), user.getName());
         Assertions.assertEquals(body.getPassword(), "######");
@@ -108,15 +102,13 @@ class UserEndpointIT extends BaseIT {
     void student_should_not_get_information_about_other_student() {
         //given
         User user1 = new User(
-                4L,
-                "newUser@example.com",
+                "newUser4@example.com",
                 "User Name",
                 "pass",
                 List.of("STUDENT")
         );
         User user2 = new User(
-                5L,
-                "oldUser@example.com",
+                "oldUser5@example.com",
                 "Old User Name",
                 "pass",
                 List.of("STUDENT")

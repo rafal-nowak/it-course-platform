@@ -14,7 +14,6 @@ import java.util.List;
 @Setter
 public class UserDto {
 
-    private Long id;
     private String email;
     private String name;
     private String password;
@@ -23,7 +22,6 @@ public class UserDto {
 
     public static UserDto from(User user) {
         return new UserDto(
-            user.getId(),
             user.getEmail(),
             user.getName(),
             user.getPassword(),
