@@ -1,8 +1,10 @@
 package pl.sages.javadevpro.projecttwo;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
 
@@ -18,7 +20,6 @@ public class ProjectTwoApplication {
 		final UserRepository userRepository = context.getBean(UserRepository.class);
 		userRepository.save(
 			new User(
-				1L,
 				"jan@example.com",
 				"Jan Kowalski",
 				"MyPassword",
@@ -27,7 +28,6 @@ public class ProjectTwoApplication {
 		);
 		userRepository.save(
 			new User(
-				1L,
 				"stefan@example.com",
 				"Stefan Burczymucha",
 				"password",

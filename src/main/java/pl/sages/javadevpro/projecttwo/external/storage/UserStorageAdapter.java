@@ -1,20 +1,20 @@
-package pl.sages.javadevpro.projecttwo.external;
+package pl.sages.javadevpro.projecttwo.external.storage;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
-import pl.sages.javadevpro.projecttwo.external.storage.InMemoryRepository;
-import pl.sages.javadevpro.projecttwo.external.storage.UserEntity;
-import pl.sages.javadevpro.projecttwo.external.storage.UserEntityMapper;
+import pl.sages.javadevpro.projecttwo.external.storage.user.JpaUserRepository;
+import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntity;
+import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntityMapper;
 
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Log
-public class StorageAdapter implements UserRepository {
+public class UserStorageAdapter implements UserRepository {
 
-    private final InMemoryRepository userRepository;
+    private final JpaUserRepository userRepository;
     private final UserEntityMapper mapper;
 
     @Override
