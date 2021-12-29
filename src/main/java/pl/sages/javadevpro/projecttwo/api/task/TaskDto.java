@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class TaskDto {
 
-    private Integer id;
+    private String id;
     private String name;
     private String description;
 

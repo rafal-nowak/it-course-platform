@@ -13,7 +13,7 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public Task getTask(Integer id) {
+    public Task getTask(String id) {
         return taskRepository.findById(id).orElse(null);
     }
 

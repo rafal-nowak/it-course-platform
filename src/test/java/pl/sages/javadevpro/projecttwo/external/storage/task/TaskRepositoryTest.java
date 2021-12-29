@@ -21,7 +21,7 @@ public class TaskRepositoryTest {
     public void add_task_test() {
         //given
         Task task1 = new Task(
-                1,
+                "1",
                 "Task Name 1",
                 "Task Description 1"
         );
@@ -41,17 +41,17 @@ public class TaskRepositoryTest {
     public void get_email_should_return_correct_user() {
         //given
         Task task2 = new Task(
-                2,
+                "2",
                 "Task Name 2",
                 "Task Description 2"
         );
         Task task3 = new Task(
-                3,
+                "3",
                 "Task Name 3",
                 "Task Description 3"
         );
         Task task4 = new Task(
-                4,
+                "4",
                 "Task Name 4",
                 "Task Description 4"
         );

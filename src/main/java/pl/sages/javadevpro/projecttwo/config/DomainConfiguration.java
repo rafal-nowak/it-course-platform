@@ -1,20 +1,21 @@
 package pl.sages.javadevpro.projecttwo.config;
 
-import org.mapstruct.factory.Mappers;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.sages.javadevpro.projecttwo.api.task.TaskDtoMapper;
 import pl.sages.javadevpro.projecttwo.api.user.UserDtoMapper;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import pl.sages.javadevpro.projecttwo.domain.TaskService;
 import pl.sages.javadevpro.projecttwo.domain.UserService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskRepository;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
-import pl.sages.javadevpro.projecttwo.external.storage.task.JpaTaskRepository;
+import pl.sages.javadevpro.projecttwo.external.storage.task.MongoTaskRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.task.TaskEntityMapper;
 import pl.sages.javadevpro.projecttwo.external.storage.TaskStorageAdapter;
 import pl.sages.javadevpro.projecttwo.external.storage.UserStorageAdapter;
-import pl.sages.javadevpro.projecttwo.external.storage.user.JpaUserRepository;
+import pl.sages.javadevpro.projecttwo.external.storage.user.MongoUserRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntityMapper;
 
 @Configuration
@@ -24,11 +25,13 @@ public class DomainConfiguration {
 
     @Bean
     public UserRepository userRepository(
-            JpaUserRepository jpaUserRepository,
+            MongoUserRepository mongoUserRepository,
+            MongoTemplate mongoTemplate,
             UserEntityMapper mapper
     ) {
         return new UserStorageAdapter(
-                jpaUserRepository,
+                mongoUserRepository,
+                mongoTemplate,
                 mapper
         );
     }
@@ -45,11 +48,11 @@ public class DomainConfiguration {
 
     @Bean
     public TaskRepository taskRepository(
-            JpaTaskRepository jpaTaskRepository,
+            MongoTaskRepository taskRepository,
             TaskEntityMapper mapper
     ) {
         return new TaskStorageAdapter(
-                jpaTaskRepository,
+                taskRepository,
                 mapper
         );
     }
