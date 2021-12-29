@@ -1,8 +1,11 @@
 package pl.sages.javadevpro.projecttwo.config;
 
+import org.mapstruct.factory.Mappers;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.sages.javadevpro.projecttwo.api.task.TaskDtoMapper;
+import pl.sages.javadevpro.projecttwo.api.user.UserDtoMapper;
 import pl.sages.javadevpro.projecttwo.domain.TaskService;
 import pl.sages.javadevpro.projecttwo.domain.UserService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskRepository;
@@ -59,5 +62,25 @@ public class DomainConfiguration {
         return new TaskService(
                 taskRepository
         );
+    }
+
+    @Bean
+    public UserDtoMapper userDtoMapper() {
+        return Mappers.getMapper(UserDtoMapper.class);
+    }
+
+    @Bean
+    public UserEntityMapper userEntityMapper() {
+        return Mappers.getMapper(UserEntityMapper.class);
+    }
+
+    @Bean
+    public TaskDtoMapper taskDtoMapper() {
+        return Mappers.getMapper(TaskDtoMapper.class);
+    }
+
+    @Bean
+    public TaskEntityMapper taskEntityMapper() {
+        return Mappers.getMapper(TaskEntityMapper.class);
     }
 }

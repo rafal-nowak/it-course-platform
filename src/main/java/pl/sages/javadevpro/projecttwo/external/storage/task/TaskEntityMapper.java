@@ -1,25 +1,13 @@
 package pl.sages.javadevpro.projecttwo.external.storage.task;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
 
-@Component
-public class TaskEntityMapper {
+@Mapper
+public interface TaskEntityMapper {
 
-    public TaskEntity toEntity(Task task) {
-        return TaskEntity.builder()
-                .id(task.getId())
-                .name(task.getName())
-                .description(task.getDescription())
-                .build();
-    }
+    TaskEntity toEntity(Task task);
 
-    public Task toDomain(TaskEntity entity) {
-        return new Task(
-                entity.getId(),
-                entity.getName(),
-                entity.getDescription()
-        );
-    }
+    Task toDomain(TaskEntity entity);
 
 }

@@ -1,31 +1,13 @@
 package pl.sages.javadevpro.projecttwo.api.task;
 
-import org.springframework.stereotype.Component;
-import pl.sages.javadevpro.projecttwo.api.user.UserDto;
+import org.mapstruct.Mapper;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
-import pl.sages.javadevpro.projecttwo.domain.user.User;
 
-@Component
-public class TaskDtoMapper {
+@Mapper
+public interface TaskDtoMapper {
 
-    public TaskDto toDto(Task task) {
-        if (task != null) {
-            return new TaskDto(
-                    task.getId(),
-                    task.getName(),
-                    task.getDescription()
-            );
-        }
+    TaskDto toDto(Task task);
 
-        return null;
-    }
-
-    public Task toDomain(TaskDto dto) {
-        return new Task(
-                dto.getId(),
-                dto.getName(),
-                dto.getDescription()
-        );
-    }
+    Task toDomain(TaskDto dto);
 
 }
