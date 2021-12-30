@@ -15,5 +15,4 @@ public class TaskDto {
     private String name;
     private String description;
 
-
 }

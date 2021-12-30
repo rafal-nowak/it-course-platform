@@ -13,4 +13,12 @@ public class Task {
     private String id;
     private String name;
     private String description;
+
+    public Task updateTask(Task task){
+        return new Task(
+                this.id,
+                task.name,
+                task.description
+                );
+    }
 }

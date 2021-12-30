@@ -17,4 +17,8 @@ public class TaskService {
         return taskRepository.findById(id).orElse(null);
     }
 
+    public void removeTask(Task task){ taskRepository.remove(task); }
+
+    public void updateTask( Task task) { taskRepository.update(task); }
+
 }

@@ -8,4 +8,7 @@ public interface TaskRepository {
 
     Optional<Task> findById(String id);
 
+    void remove(Task task);
+
+    void update(Task task);
 }

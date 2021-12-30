@@ -4,12 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.sages.javadevpro.projecttwo.api.task.TaskDto;
 import pl.sages.javadevpro.projecttwo.api.task.TaskDtoMapper;
 import pl.sages.javadevpro.projecttwo.domain.TaskService;
@@ -45,6 +40,27 @@ public class TaskEndpoint {
         Task task = taskService.saveTask(dtoMapper.toDomain(dto));
         return ResponseEntity
                 .ok(dtoMapper.toDto(task));
+    }
+
+    @DeleteMapping(
+            produces = "application/json",
+            consumes = "application/json"
+    )
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity removeTask(@RequestBody TaskDto dto){
+        taskService.removeTask(dtoMapper.toDomain(dto));
+        return ResponseEntity.ok("Removed");
+    }
+
+    @PutMapping(
+            produces = "application/json",
+            consumes = "application/json"
+    )
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity updateTask(@RequestBody TaskDto dto){
+       taskService.updateTask(dtoMapper.toDomain(dto));
+        //return ResponseEntity.ok(dtoMapper.toDto(dtoMapper.toDomain(dto)));
+        return ResponseEntity.ok(dto);
     }
 
 }
