@@ -34,5 +34,18 @@ public class TaskStorageAdapter implements TaskRepository {
 
         return Optional.empty();
     }
+    @Override
+    public void remove(Task task) {
+        Optional<TaskEntity> entity = taskRepository.findById(task.getId());
+        if(entity.isPresent()) {
+            log.info("Removing task " + mapper.toEntity(task).toString());
+            taskRepository.delete(mapper.toEntity(task));
+        }else log.info("Task not exist");
+    }
 
+    @Override
+    public void update(Task updatedTask) {
+        TaskEntity updated = taskRepository.save(mapper.toEntity(updatedTask));
+        log.info("Updating task "+ updated);
+    }
 }
