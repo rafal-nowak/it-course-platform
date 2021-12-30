@@ -1,0 +1,9 @@
+-------------------------------------------------------------------------------
+Test set: GeneralCodingRulesTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 1.131 s <<< FAILURE! - in GeneralCodingRulesTest
+generalRules  Time elapsed: 1.131 s  <<< FAILURE!
+java.lang.AssertionError: 
+Architecture Violation [Priority: MEDIUM] - Rule 'no classes should throw generic exceptions and no classes should use field injection, because field injection is considered harmful; use constructor injection or setter injection instead; see https://stackoverflow.com/q/39890849 for detailed explanations and no classes should access standard streams' was violated (1 times):
+Method <pl.sages.javadevpro.projecttwo.config.JwtAuthenticationFilter.parseCredentials(javax.servlet.http.HttpServletRequest)> calls method <java.io.IOException.printStackTrace()> in (JwtAuthenticationFilter.java:75)
+
