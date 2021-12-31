@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 @TypeAlias("Users")
 @Document(value = "UserEntity")
+@Builder
 public class UserEntity {
 
     @Id

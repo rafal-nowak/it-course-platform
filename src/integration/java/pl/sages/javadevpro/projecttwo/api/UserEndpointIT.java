@@ -1,9 +1,11 @@
 package pl.sages.javadevpro.projecttwo.api;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,11 +22,6 @@ class UserEndpointIT extends BaseIT {
 
     @Autowired
     UserService service;
-
-    @BeforeEach
-    void init() {
-        addTestUsers();
-    }
 
     @Test
     void admin_should_get_information_about_any_user() {

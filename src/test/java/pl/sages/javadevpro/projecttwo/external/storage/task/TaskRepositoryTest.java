@@ -5,11 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.sages.javadevpro.projecttwo.domain.TaskService;
-import pl.sages.javadevpro.projecttwo.domain.UserService;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
-import pl.sages.javadevpro.projecttwo.domain.user.User;
-
-import java.util.List;
 
 @SpringBootTest
 public class TaskRepositoryTest {

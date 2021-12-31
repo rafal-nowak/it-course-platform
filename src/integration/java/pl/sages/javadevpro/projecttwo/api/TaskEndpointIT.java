@@ -1,6 +1,7 @@
 package pl.sages.javadevpro.projecttwo.api;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,6 @@ public class TaskEndpointIT extends BaseIT {
     UserService userService;
     @Autowired
     TaskService taskService;
-
-    @BeforeEach
-    void init() {
-        addTestUsers();
-    }
 
     @Test
     void should_get_information_about_task() {
