@@ -6,6 +6,6 @@ public interface TaskRepository {
 
     Task save(Task task);
 
-    Optional<Task> findById(Integer id);
+    Optional<Task> findById(String id);
 
 }

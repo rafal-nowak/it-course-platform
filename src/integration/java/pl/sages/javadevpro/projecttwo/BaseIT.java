@@ -1,9 +1,14 @@
 package pl.sages.javadevpro.projecttwo;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,7 +21,7 @@ import pl.sages.javadevpro.projecttwo.domain.user.User;
 
 import java.util.List;
 
-
+@AutoConfigureDataMongo
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
     classes = ProjectTwoApplication.class
@@ -30,8 +35,20 @@ public class BaseIT {
     @Autowired
     protected UserService userService;
 
+    @Autowired
+    MongoTemplate mongoTemplate;
+
+    @BeforeEach
+    void init() {
+        dropDb();
+        addTestUsers();
+    }
+
+    protected void dropDb(){
+        mongoTemplate.getDb().drop();
+    }
+
     private static User adminUser = new User(
-//            1_000_999L,
             "admin@example.pl",
             "Stefan Burczymucha",
             "password",
@@ -39,7 +56,7 @@ public class BaseIT {
         );
 
     protected String localUrl(String endpoint) {
-        return "http://localhost:8080" + endpoint;
+        return "http://localhost:7777" + endpoint;
     }
 
     protected void addTestUsers() {

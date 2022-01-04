@@ -29,7 +29,7 @@ public class TaskEndpoint {
             consumes = "application/json"
     )
     @Secured({"ROLE_STUDENT", "ROLE_ADMIN"})
-    public ResponseEntity<TaskDto> getTask(@PathVariable(name = "id")int taskId) {
+    public ResponseEntity<TaskDto> getTask(@PathVariable(name = "id")String taskId) {
         Task task = taskService.getTask(taskId);
 
         return ResponseEntity

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskRepository;
-import pl.sages.javadevpro.projecttwo.external.storage.task.JpaTaskRepository;
+import pl.sages.javadevpro.projecttwo.external.storage.task.MongoTaskRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.task.TaskEntity;
 import pl.sages.javadevpro.projecttwo.external.storage.task.TaskEntityMapper;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Log
 public class TaskStorageAdapter implements TaskRepository {
-    private final JpaTaskRepository taskRepository;
+    private final MongoTaskRepository taskRepository;
     private final TaskEntityMapper mapper;
 
     @Override
@@ -24,7 +24,7 @@ public class TaskStorageAdapter implements TaskRepository {
     }
 
     @Override
-    public Optional<Task> findById(Integer id) {
+    public Optional<Task> findById(String id) {
         Optional<TaskEntity> entity = taskRepository.findById(id);
         log.info("Found task " + entity.map(Object::toString).orElse("none"));
         if (entity.isPresent()) {

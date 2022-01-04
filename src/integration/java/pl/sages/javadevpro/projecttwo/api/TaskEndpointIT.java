@@ -1,6 +1,7 @@
 package pl.sages.javadevpro.projecttwo.api;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,6 @@ public class TaskEndpointIT extends BaseIT {
     @Autowired
     TaskService taskService;
 
-    @BeforeEach
-    void init() {
-        addTestUsers();
-    }
-
     @Test
     void should_get_information_about_task() {
         //given
@@ -41,7 +37,7 @@ public class TaskEndpointIT extends BaseIT {
                 List.of("STUDENT")
         );
         Task task = new Task(
-                1,
+                "1",
                 "Task Name 1",
                 "Task description 1"
         );
@@ -70,17 +66,17 @@ public class TaskEndpointIT extends BaseIT {
                 List.of("STUDENT")
         );
         Task task2 = new Task(
-                2,
+                "2",
                 "Task Name 2",
                 "Task description 2"
         );
         Task task3 = new Task(
-                3,
+                "3",
                 "Task Name 3",
                 "Task description 3"
         );
         Task task4 = new Task(
-                4,
+                "4",
                 "Task Name 4",
                 "Task description 4"
         );
@@ -105,7 +101,7 @@ public class TaskEndpointIT extends BaseIT {
     void admin_should_be_able_to_save_new_task() {
         //given
         Task task5 = new Task(
-                5,
+                "5",
                 "Task Name 5",
                 "Task description 5"
         );

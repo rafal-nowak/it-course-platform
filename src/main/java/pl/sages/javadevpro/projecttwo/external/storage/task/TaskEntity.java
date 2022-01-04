@@ -1,22 +1,18 @@
 package pl.sages.javadevpro.projecttwo.external.storage.task;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity
 @Data
-@Builder
+@TypeAlias("Tasks")
+@Document(value = "TaskEntity")
 public class TaskEntity {
 
     @Id
-    private Integer id;
+    private String id;
     private String name;
     private String description;
 
