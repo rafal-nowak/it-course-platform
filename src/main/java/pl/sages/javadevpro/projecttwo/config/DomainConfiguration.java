@@ -27,12 +27,10 @@ public class DomainConfiguration {
     @Bean
     public UserRepository userRepository(
             MongoUserRepository mongoUserRepository,
-            MongoTemplate mongoTemplate,
             UserEntityMapper mapper
     ) {
         return new UserStorageAdapter(
                 mongoUserRepository,
-                mongoTemplate,
                 mapper
         );
     }
