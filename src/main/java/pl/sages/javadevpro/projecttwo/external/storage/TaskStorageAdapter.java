@@ -31,16 +31,16 @@ public class TaskStorageAdapter implements TaskRepository {
             return entity
                     .map(mapper::toDomain);
         }
-
         return Optional.empty();
     }
     @Override
     public void remove(Task task) {
         Optional<TaskEntity> entity = taskRepository.findById(task.getId());
+        TaskEntity entityTask = mapper.toEntity(task);
         if(entity.isPresent()) {
-            log.info("Removing task " + mapper.toEntity(task).toString());
-            taskRepository.delete(mapper.toEntity(task));
-        }else log.info("Task not exist");
+            log.info("Removing task " + entityTask.toString());
+            taskRepository.delete(entityTask);
+        }
     }
 
     @Override

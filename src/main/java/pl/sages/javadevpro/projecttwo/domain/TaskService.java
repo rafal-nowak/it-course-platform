@@ -19,6 +19,6 @@ public class TaskService {
 
     public void removeTask(Task task){ taskRepository.remove(task); }
 
-    public void updateTask( Task task) { taskRepository.update(task); }
+    public void updateTask(Task task) { taskRepository.update(task); }
 
 }
