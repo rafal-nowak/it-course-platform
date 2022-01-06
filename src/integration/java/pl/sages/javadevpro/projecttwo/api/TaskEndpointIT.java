@@ -238,7 +238,7 @@ public class TaskEndpointIT extends BaseIT {
         //when
         ResponseEntity<TaskDto> response = callUpdateTask(updatedTask, adminAccessToken);
         //then
-        Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         //and
         TaskDto body = response.getBody();
         Assertions.assertEquals(task7.getId(), body.getId());

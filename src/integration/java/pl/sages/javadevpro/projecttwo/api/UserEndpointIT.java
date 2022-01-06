@@ -109,6 +109,38 @@ class UserEndpointIT extends BaseIT {
     }
 
     @Test
+    void admin_should_get_response_code_conflict_when_user_is_in_db() {
+        //given
+        User user = new User(
+            "newUser1@example.com",
+            "User Name",
+            "pass",
+            List.of("STUDENT"),
+                new ArrayList<>()
+        );
+        service.saveUser(user);
+        String adminToken = getTokenForAdmin();
+
+        //when
+        ResponseEntity<UserDto> response = callSaveUser(user, adminToken);
+
+        //then
+        Assertions.assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
+    }
+
+    @Test
+    void admin_should_get_response_code_204_when_user_not_exits_in_db() {
+        //given
+        String token = getTokenForAdmin();
+
+        //when
+        ResponseEntity<UserDto> response = callGetUser("notExits@example.com", token);
+
+        //then
+        Assertions.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+    }
+
+    @Test
     void admin_should_be_able_to_save_new_user() {
         //given
         User user = new User(
