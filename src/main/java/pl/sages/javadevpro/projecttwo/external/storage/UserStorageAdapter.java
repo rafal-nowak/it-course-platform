@@ -11,6 +11,7 @@ import pl.sages.javadevpro.projecttwo.external.storage.user.MongoUserRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntity;
 import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntityMapper;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
