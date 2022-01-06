@@ -49,7 +49,7 @@ public class TaskEndpoint {
     @Secured("ROLE_ADMIN")
     public ResponseEntity removeTask(@RequestBody TaskDto dto){
         taskService.removeTask(dtoMapper.toDomain(dto));
-        return ResponseEntity.ok("Removed");
+        return ResponseEntity.ok(dto);
     }
 
     @PutMapping(
@@ -59,8 +59,7 @@ public class TaskEndpoint {
     @Secured("ROLE_ADMIN")
     public ResponseEntity updateTask(@RequestBody TaskDto dto){
        taskService.updateTask(dtoMapper.toDomain(dto));
-        //return ResponseEntity.ok(dtoMapper.toDto(dtoMapper.toDomain(dto)));
-        return ResponseEntity.ok(dto);
+       return ResponseEntity.ok(dto);
     }
 
 }

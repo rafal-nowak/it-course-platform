@@ -17,6 +17,8 @@ import pl.sages.javadevpro.projecttwo.domain.user.User;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 public class TaskEndpointIT extends BaseIT {
 
     @Autowired
@@ -95,7 +97,7 @@ public class TaskEndpointIT extends BaseIT {
     }
 
     @Test
-    void admin_should_be_able_to_save_new_task() {
+     void admin_should_be_able_to_save_new_task() {
         //given
         Task task5 = new Task(
                 "5",
@@ -103,10 +105,8 @@ public class TaskEndpointIT extends BaseIT {
                 "Task description 5"
         );
         String adminAccessToken = getTokenForAdmin();
-
         //when
         ResponseEntity<TaskDto> response = callSaveTask(task5, adminAccessToken);
-
         //then
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
         //and
@@ -114,6 +114,48 @@ public class TaskEndpointIT extends BaseIT {
         Assertions.assertEquals(body.getId(), task5.getId());
         Assertions.assertEquals(body.getName(), task5.getName());
         Assertions.assertEquals(body.getDescription(), task5.getDescription());
+    }
+
+    @Test
+    void admin_should_be_able_to_delete_task() {
+        //given
+        Task task6 = new Task(
+                6,
+                "Task Name 6",
+                "Task description 6"
+        );
+        String adminAccessToken = getTokenForAdmin();
+        taskService.saveTask(task6);
+        //when
+        ResponseEntity<TaskDto> response = callDeleteTask(task6, adminAccessToken);
+        //then
+        Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
+    }
+
+    @Test
+    void admin_should_be_able_to_update_task() {
+        //given
+        Task task7 = new Task(
+                7,
+                "Task Name 7",
+                "Task description 7"
+        );
+        Task updatedTask = new Task(
+                7,
+                "Task Name 7 is updated",
+                "Task 7 description is updated "
+        );
+        String adminAccessToken = getTokenForAdmin();
+        taskService.saveTask(task7);
+        //when
+        ResponseEntity<TaskDto> response = callUpdateTask(updatedTask, adminAccessToken);
+        //then
+        Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
+        //and
+        TaskDto body = response.getBody();
+        Assertions.assertEquals(task7.getId(), body.getId());
+        Assertions.assertEquals(updatedTask.getName(), body.getName());
+        Assertions.assertEquals(updatedTask.getDescription(), body.getDescription());
     }
 
     private ResponseEntity<TaskDto> callGetTask(int id, String token) {
@@ -136,6 +178,30 @@ public class TaskEndpointIT extends BaseIT {
         return restTemplate.exchange(
                 localUrl("/tasks"),
                 HttpMethod.POST,
+                new HttpEntity(body, headers),
+                TaskDto.class
+        );
+    }
+
+    private ResponseEntity<TaskDto> callDeleteTask(Task body, String accessToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
+        headers.add(HttpHeaders.AUTHORIZATION, accessToken);
+        return restTemplate.exchange(
+                localUrl("/tasks"),
+                HttpMethod.DELETE,
+                new HttpEntity(body, headers),
+                TaskDto.class
+        );
+    }
+
+    private ResponseEntity<TaskDto> callUpdateTask(Task body, String accessToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
+        headers.add(HttpHeaders.AUTHORIZATION, accessToken);
+        return restTemplate.exchange(
+                localUrl("/tasks"),
+                HttpMethod.PUT,
                 new HttpEntity(body, headers),
                 TaskDto.class
         );
