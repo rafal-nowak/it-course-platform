@@ -71,5 +71,4 @@ public class UserStorageAdapter implements UserRepository {
 
         return Optional.empty();
     }
-
 }
