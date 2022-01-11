@@ -42,7 +42,7 @@ public class UserEndpoint {
             .ok(dtoMapper.toDto(user));
     }
 
-    @PostMapping(
+    @PutMapping(
             produces = "application/json",
             consumes = "application/json"
     )
@@ -53,6 +53,15 @@ public class UserEndpoint {
                 .ok(dtoMapper.toDto(user));
     }
 
+    @DeleteMapping(
+            produces = "application/json",
+            consumes = "application/json"
+    )
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity removeUser(@RequestBody UserDto dto){
+        userService.removeUser(dtoMapper.toDomain(dto));
+        return ResponseEntity.ok(dto);
+    }
 
     @GetMapping(
         path = "/me",
