@@ -1,12 +1,16 @@
 package pl.sages.javadevpro.projecttwo.external.storage;
 
+import com.mongodb.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
+import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.task.MongoTaskRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.task.TaskEntity;
 import pl.sages.javadevpro.projecttwo.external.storage.task.TaskEntityMapper;
+import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntity;
 
 import java.util.Optional;
 
@@ -18,21 +22,27 @@ public class TaskStorageAdapter implements TaskRepository {
 
     @Override
     public Task save(Task task) {
-        TaskEntity saved = taskRepository.save(mapper.toEntity(task));
-        log.info("Saved task " + saved.toString());
-        return mapper.toDomain(saved);
+        try{
+            TaskEntity saved = taskRepository.save(mapper.toEntity(task));
+            log.info("Saved task " + saved.toString());
+            return mapper.toDomain(saved);
+        }catch (DuplicateKeyException ex){
+            log.warning("Task " +  task.getName() + " already exits");
+            throw new DuplicateRecordException("Task already exits");
+        }
     }
 
     @Override
     public Optional<Task> findById(String id) {
         Optional<TaskEntity> entity = taskRepository.findById(id);
-        log.info("Found task " + entity.map(Object::toString).orElse("none"));
-        if (entity.isPresent()) {
-            return entity
-                    .map(mapper::toDomain);
+        if (entity.isEmpty()) {
+            throw new RecordNotFoundException("Task not found");
         }
-        return Optional.empty();
+        log.info("Found task " + entity.map(Object::toString));
+        return entity
+                .map(mapper::toDomain);
     }
+
     @Override
     public void remove(Task task) {
         Optional<TaskEntity> entity = taskRepository.findById(task.getId());
@@ -44,8 +54,9 @@ public class TaskStorageAdapter implements TaskRepository {
     }
 
     @Override
-    public void update(Task updatedTask) {
+    public Task update(Task updatedTask) {
         TaskEntity updated = taskRepository.save(mapper.toEntity(updatedTask));
         log.info("Updating task "+ updated);
+        return mapper.toDomain(updated);
     }
 }

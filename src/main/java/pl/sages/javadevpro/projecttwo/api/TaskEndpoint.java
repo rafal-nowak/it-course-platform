@@ -58,8 +58,8 @@ public class TaskEndpoint {
     )
     @Secured("ROLE_ADMIN")
     public ResponseEntity updateTask(@RequestBody TaskDto dto){
-       taskService.updateTask(dtoMapper.toDomain(dto));
-       return ResponseEntity.ok(dto);
+       Task task = taskService.updateTask(dtoMapper.toDomain(dto));
+       return ResponseEntity.ok(dtoMapper.toDto(task));
     }
 
 }
