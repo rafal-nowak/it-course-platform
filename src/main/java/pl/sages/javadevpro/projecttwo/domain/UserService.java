@@ -17,6 +17,10 @@ public class UserService {
         return userRepository.update(user);
     }
 
+    public void removeUser(User user) {
+        userRepository.remove(user);
+    }
+
     public User getUser(String email) {
         return userRepository.findByEmail(email).orElse(null);
     }
