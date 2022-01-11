@@ -35,6 +35,15 @@ public class UserStorageAdapter implements UserRepository {
     }
 
     @Override
+    public User update(User user) {
+        Optional<UserEntity> userEmailId = userRepository.findById(user.getEmail());
+        if (userEmailId.isPresent()) {
+            userRepository.save(user);
+        }
+        throw new RecordNotFoundException("User not found");
+    }
+
+    @Override
     public Optional<User> findByEmail(String email) {
         Optional<UserEntity> entity = userRepository.findById(email);
         if (entity.isEmpty()) {
