@@ -10,7 +10,9 @@ import org.springframework.http.*;
 import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.api.task.TaskDto;
 import pl.sages.javadevpro.projecttwo.api.task.TaskDtoMapper;
+import pl.sages.javadevpro.projecttwo.api.usertask.AssignTaskRequest;
 import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskDto;
+import pl.sages.javadevpro.projecttwo.domain.TaskService;
 import pl.sages.javadevpro.projecttwo.domain.UserService;
 import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
@@ -28,6 +30,9 @@ class UserTaskEndpointIT extends BaseIT {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    TaskService taskService;
 
     @Autowired
     TaskDtoMapper taskDtoMapper;
@@ -50,11 +55,12 @@ class UserTaskEndpointIT extends BaseIT {
                 "Task description 1",
                 "https://github.com/Piorrt/projectOne"
         );
-        TaskDto taskDto = taskDtoMapper.toDto(task);
+        taskService.saveTask(task);
+        AssignTaskRequest assignTaskRequest = new AssignTaskRequest(user.getEmail(), task.getId());
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
-        ResponseEntity<UserTaskDto> response = callAssignTask(taskDto, token, user.getEmail());
+        ResponseEntity<UserTaskDto> response = callAssignTask(assignTaskRequest, token);
 
         //then
         Assertions.assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
@@ -77,12 +83,12 @@ class UserTaskEndpointIT extends BaseIT {
                 "Task description 1",
                 "https://github.com/Piorrt/projectOne"
         );
-        TaskDto taskDto = taskDtoMapper.toDto(task);
-
+        taskService.saveTask(task);
+        AssignTaskRequest assignTaskRequest = new AssignTaskRequest(user.getEmail(), task.getId());
         String token = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserTaskDto> response = callAssignTask(taskDto, token, user.getEmail());
+        ResponseEntity<UserTaskDto> response = callAssignTask(assignTaskRequest, token);
         UserTaskDto body = response.getBody();
 
         //then
@@ -110,12 +116,13 @@ class UserTaskEndpointIT extends BaseIT {
                 "Task description 1",
                 "https://github.com/Piorrt/projectOne"
         );
-        TaskDto taskDto = taskDtoMapper.toDto(task);
+        taskService.saveTask(task);
+        AssignTaskRequest assignTaskRequest = new AssignTaskRequest(user.getEmail(), task.getId());
         String token = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserTaskDto> response1 = callAssignTask(taskDto, token, user.getEmail());
-        ResponseEntity<UserTaskDto> response2 = callAssignTask(taskDto, token, user.getEmail());
+        ResponseEntity<UserTaskDto> response1 = callAssignTask(assignTaskRequest, token);
+        ResponseEntity<UserTaskDto> response2 = callAssignTask(assignTaskRequest, token);
 
         //then
         Assertions.assertEquals(HttpStatus.CONFLICT, response2.getStatusCode());
@@ -129,11 +136,12 @@ class UserTaskEndpointIT extends BaseIT {
                 "Task description 1",
                 "https://github.com/Piorrt/projectOne"
         );
-        TaskDto taskDto = taskDtoMapper.toDto(task);
+        taskService.saveTask(task);
+        AssignTaskRequest assignTaskRequest = new AssignTaskRequest("notExist@sample.com", task.getId());
         String token = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserTaskDto> response = callAssignTask(taskDto, token, "notExist@sample.com");
+        ResponseEntity<UserTaskDto> response = callAssignTask(assignTaskRequest, token);
 
         //then
         Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
@@ -141,12 +149,12 @@ class UserTaskEndpointIT extends BaseIT {
 
 
 
-    private ResponseEntity<UserTaskDto> callAssignTask(TaskDto body, String accessToken, String userEmail) {
+    private ResponseEntity<UserTaskDto> callAssignTask(AssignTaskRequest body, String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
         headers.add(HttpHeaders.AUTHORIZATION, accessToken);
         return restTemplate.exchange(
-                localUrl("/users/" + userEmail + "/tasks"),
+                localUrl("/usertask/assign"),
                 HttpMethod.POST,
                 new HttpEntity(body, headers),
                 UserTaskDto.class

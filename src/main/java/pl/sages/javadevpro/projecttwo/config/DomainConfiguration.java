@@ -15,7 +15,7 @@ import pl.sages.javadevpro.projecttwo.domain.task.TaskRepository;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
 import pl.sages.javadevpro.projecttwo.domain.usertask.DirectoryService;
 import pl.sages.javadevpro.projecttwo.domain.usertask.GitService;
-import pl.sages.javadevpro.projecttwo.domain.usertask.LocalDirectoryService;
+import pl.sages.javadevpro.projecttwo.external.directory.LocalDirectoryService;
 import pl.sages.javadevpro.projecttwo.external.git.JGitService;
 import pl.sages.javadevpro.projecttwo.external.storage.task.MongoTaskRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.task.TaskEntityMapper;
@@ -23,7 +23,6 @@ import pl.sages.javadevpro.projecttwo.external.storage.TaskStorageAdapter;
 import pl.sages.javadevpro.projecttwo.external.storage.UserStorageAdapter;
 import pl.sages.javadevpro.projecttwo.external.storage.user.MongoUserRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntityMapper;
-import pl.sages.javadevpro.projecttwo.external.storage.usertask.UserTaskEntity;
 import pl.sages.javadevpro.projecttwo.external.storage.usertask.UserTaskEntityMapper;
 
 @Configuration

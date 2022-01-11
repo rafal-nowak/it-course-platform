@@ -16,5 +16,4 @@ public class TaskDto {
     private String description;
     private String repositoryPath;
 
-
 }

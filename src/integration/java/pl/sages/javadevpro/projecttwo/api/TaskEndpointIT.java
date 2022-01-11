@@ -48,7 +48,6 @@ public class TaskEndpointIT extends BaseIT {
         userService.saveUser(user);
         taskService.saveTask(task);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
-
         //when
         ResponseEntity<TaskDto> response = callGetTask(1, token);
 
@@ -108,7 +107,7 @@ public class TaskEndpointIT extends BaseIT {
     }
 
     @Test
-    void admin_should_be_able_to_save_new_task() {
+     void admin_should_be_able_to_save_new_task() {
         //given
         Task task5 = new Task(
                 "5",
@@ -117,10 +116,8 @@ public class TaskEndpointIT extends BaseIT {
                 "https://github.com/some-reporitory-5"
         );
         String adminAccessToken = getTokenForAdmin();
-
         //when
         ResponseEntity<TaskDto> response = callSaveTask(task5, adminAccessToken);
-
         //then
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         //and

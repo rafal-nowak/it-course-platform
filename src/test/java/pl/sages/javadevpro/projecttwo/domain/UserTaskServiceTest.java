@@ -32,36 +32,39 @@ class UserTaskServiceTest {
     @InjectMocks
     private UserTaskService userTaskService;
 
-
     @BeforeEach
-    void prepare() {
+    void prepareMocks() {
         User fakeUser = new User();
         fakeUser.setTasks(new ArrayList<>());
 
-        when(directoryService.createDirectoryForUserTask(Mockito.any(Task.class),Mockito.anyString()))
-                .thenReturn(TEST_DIRECTORY);
-        when(userService.getUser(Mockito.anyString())).thenReturn(fakeUser);
-        when(userService.updateUser(Mockito.any(User.class))).thenReturn(fakeUser);
+        when(directoryService.createDirectoryForUserTask(Mockito.any(),Mockito.anyString())).thenReturn(TEST_DIRECTORY);
+        when(userService.updateUser(Mockito.any())).thenReturn(fakeUser);
     }
 
 
     @DisplayName("Should create new UserTask")
     @Test
     void shouldCreateNewUserTask() {
+        //given
         Task sampleTask = new Task(
                 "1",
                 "task1",
                 "description",
                 "https://githb.com/sample"
         );
+        User sampleUser = new User();
+        sampleUser.setTasks(new ArrayList<>());
+        sampleUser.setEmail("user@email.com");
 
-        UserTask userTask = userTaskService.assignTask(sampleTask,"user@email.com");
+        //when
+        UserTask userTask = userTaskService.assignTask(sampleUser, sampleTask);
 
+        //then
         Assertions.assertNotNull(userTask);
         Assertions.assertEquals(sampleTask.getId(),userTask.getId());
         Assertions.assertEquals(sampleTask.getName(),userTask.getName());
         Assertions.assertEquals(sampleTask.getDescription(),userTask.getDescription());
-        Assertions.assertEquals("user@email.com", userTask.getUserEmail());
+        Assertions.assertEquals(sampleUser.getEmail(), userTask.getUserEmail());
         Assertions.assertEquals(TEST_DIRECTORY,userTask.getUserTaskFolder());
         Assertions.assertEquals(TaskStatus.NOT_STARTED,userTask.getTaskStatus());
     }
