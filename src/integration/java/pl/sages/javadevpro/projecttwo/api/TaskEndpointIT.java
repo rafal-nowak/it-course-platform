@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.ResourceAccessException;
 import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.api.task.TaskDto;
 import pl.sages.javadevpro.projecttwo.domain.TaskService;
@@ -44,10 +45,8 @@ public class TaskEndpointIT extends BaseIT {
         userService.saveUser(user);
         taskService.saveTask(task);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
-
         //when
         ResponseEntity<TaskDto> response = callGetTask(1, token);
-
         //then
         TaskDto body = response.getBody();
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -85,10 +84,8 @@ public class TaskEndpointIT extends BaseIT {
         taskService.saveTask(task3);
         taskService.saveTask(task4);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
-
         //when
         ResponseEntity<TaskDto> response = callGetTask(3, token);
-
         //then
         TaskDto body = response.getBody();
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -118,7 +115,29 @@ public class TaskEndpointIT extends BaseIT {
     }
 
     @Test
-    void should_throw_exception_about_duplicated_task(){
+    void student_should_not_be_able_to_save_new_task() {
+        //given
+        User user = new User(
+                "newUser1@example.com",
+                "User Name1",
+                "pass1",
+                List.of("STUDENT")
+        );
+        Task task5 = new Task(
+                "5",
+                "Task Name 5",
+                "Task description 5"
+        );
+        userService.saveUser(user);
+        String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
+        //when
+        ResponseEntity<TaskDto> response = callSaveTask(task5, token);
+        //then
+        Assertions.assertEquals(response.getStatusCode(), HttpStatus.FORBIDDEN);
+    }
+
+    @Test
+    void should_return_conflict_about_duplicated_task(){
         //given
         Task task9 = new Task(
                 "9",
@@ -131,13 +150,11 @@ public class TaskEndpointIT extends BaseIT {
         ResponseEntity<TaskDto> response = callSaveTask(task9,adminAccessToken);
         //then
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
-
     }
 
     @Test
     void admin_should_be_able_to_delete_task() {
         //given
-
         Task task6 = new Task(
                 "6",
                 "Task Name 6",
@@ -145,17 +162,37 @@ public class TaskEndpointIT extends BaseIT {
         );
         String adminAccessToken = getTokenForAdmin();
         taskService.saveTask(task6);
-
         callDeleteTask(task6, adminAccessToken);
-
         //when
         Exception exception = assertThrows(RecordNotFoundException.class, () -> {
             taskService.getTask(task6.getId());
         });
+        //then
+        Assertions.assertEquals("Task already exists",exception.getMessage());
+    }
+    @Test
+    void student_should_not_be_able_to_delete_task() {
+        //given
+        User user = new User(
+                "newUser@example.com",
+                "User Name",
+                "pass",
+                List.of("STUDENT")
+        );
+        Task task6 = new Task(
+                "6",
+                "Task Name 6",
+                "Task description 6"
+        );
+        userService.saveUser(user);
+        String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
+        taskService.saveTask(task6);
+
+        //when
+        ResponseEntity<TaskDto> response = callDeleteTask(task6, token);
 
         //then
-        Assertions.assertEquals("Task already exits",exception.getMessage());
-
+        Assertions.assertEquals(response.getStatusCode(),HttpStatus.FORBIDDEN);
     }
 
     @Test
@@ -185,7 +222,7 @@ public class TaskEndpointIT extends BaseIT {
     }
 
     @Test
-    void admin_should_get_response_code_204_when_task_not_exits() {
+    void should_get_response_code_204_when_task_not_exits() {
         //given
         User user = new User(
                 "newUser1@example.com",
@@ -195,10 +232,8 @@ public class TaskEndpointIT extends BaseIT {
         );
         userService.saveUser(user);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
-
         //when
         ResponseEntity<TaskDto> response = callGetTask(1,token);
-
         //then
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
     }
