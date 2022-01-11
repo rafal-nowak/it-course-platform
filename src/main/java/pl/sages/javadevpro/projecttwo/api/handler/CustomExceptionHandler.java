@@ -18,7 +18,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(DuplicateRecordException.class)
-    public final ResponseEntity<Object> handleDuplicateRecordException(RecordNotFoundException ex, WebRequest request) {
+    public final ResponseEntity handleDuplicateRecordException() {
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 }

@@ -1,6 +1,6 @@
 package pl.sages.javadevpro.projecttwo.external.storage;
 
-import com.mongodb.DuplicateKeyException;
+import org.springframework.dao.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
