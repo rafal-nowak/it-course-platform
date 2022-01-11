@@ -18,24 +18,19 @@ public class UserTaskService {
     private final DirectoryService directoryService;
     private final UserService userService;
 
-    public UserTask assignTask(Task task, String userEmail) {
-        User user = userService.getUser(userEmail);
-        if (user==null) {
-            throw new RecordNotFoundException("User does not exist");
-        }
-
+    public UserTask assignTask(User user, Task task) {
         UserTask userTask;
         try {
-            userTask = createFromTask(task, userEmail);
+            userTask = createFromTask(task, user.getEmail());
         } catch (JGitInternalException e) {
-            throw new DuplicateRecordException("Task " + task.getId() + " ias already assigned to user " + userEmail);
+            throw new DuplicateRecordException("Task " + task.getId() + " ias already assigned to user " + user.getEmail());
         }
 
         addUserTaskToDB(userTask, user);
         return userTask;
     }
 
-    UserTask createFromTask(Task task, String userEmail) {
+    private UserTask createFromTask(Task task, String userEmail) {
         UserTask userTask = new UserTask();
         userTask.setUserTaskFolder(copyRepositoryToUserFolder(task, userEmail));
         userTask.setId(task.getId());
@@ -46,7 +41,7 @@ public class UserTaskService {
         return userTask;
     }
 
-    void addUserTaskToDB(UserTask userTask, User user) {
+    private void addUserTaskToDB(UserTask userTask, User user) {
         user.getTasks().add(userTask);
         userService.updateUser(user);
     }

@@ -1,6 +1,7 @@
-package pl.sages.javadevpro.projecttwo.domain.usertask;
+package pl.sages.javadevpro.projecttwo.external.directory;
 
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
+import pl.sages.javadevpro.projecttwo.domain.usertask.DirectoryService;
 
 import java.io.IOException;
 import java.nio.file.Files;

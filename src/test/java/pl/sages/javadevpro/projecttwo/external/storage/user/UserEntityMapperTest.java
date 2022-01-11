@@ -10,10 +10,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class UserMapperTest {
+public class UserEntityMapperTest {
 
     private final UserEntityMapper userEntityMapper = Mappers.getMapper(UserEntityMapper.class);
-    private final UserDtoMapper userDtoMapper = Mappers.getMapper(UserDtoMapper.class);
 
     private final static String USER_NAME = "User1";
     private final static String USER_EMAIL = "user1@email.com";
@@ -37,31 +36,6 @@ public class UserMapperTest {
         assertEquals(USER_ROLES, domain.getRoles());
     }
 
-    @Test
-    void password_should_be_hidden_while_mapping_from_domain_to_dto() {
-        User domain = new User();
-        domain.setName(USER_NAME);
-        domain.setPassword(USER_PASSWORD);
-        UserDto dto = userDtoMapper.toDto(domain);
-
-        assertEquals("######", dto.getPassword());
-        assertEquals(USER_NAME, dto.getName());
-    }
-
-    @Test
-    void user_dto_values_should_be_mapped_directly_to_domain(){
-        UserDto dto = new UserDto();
-        dto.setName(USER_NAME);
-        dto.setPassword(USER_PASSWORD);
-        dto.setEmail(USER_EMAIL);
-        dto.setRoles(USER_ROLES);
-        User domain = userDtoMapper.toDomain(dto);
-
-        assertEquals(USER_NAME, domain.getName());
-        assertEquals(USER_EMAIL, domain.getEmail());
-        assertEquals(USER_PASSWORD, domain.getPassword());
-        assertEquals(USER_ROLES, domain.getRoles());
-    }
 
     @Test
     void user_domain_values_should_be_mapped_directly_to_entity(){
