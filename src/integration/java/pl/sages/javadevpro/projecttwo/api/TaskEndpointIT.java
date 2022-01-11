@@ -12,12 +12,13 @@ import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.api.task.TaskDto;
 import pl.sages.javadevpro.projecttwo.domain.TaskService;
 import pl.sages.javadevpro.projecttwo.domain.UserService;
+import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
-
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 public class TaskEndpointIT extends BaseIT {
 
@@ -117,31 +118,63 @@ public class TaskEndpointIT extends BaseIT {
     }
 
     @Test
+    void should_throw_exception_about_duplicated_task(){
+        //given
+        Task task9 = new Task(
+                "9",
+                "Task Name 9",
+                "Task description 9"
+        );
+        //when
+        taskService.saveTask(task9);
+
+        Exception exception = assertThrows(RecordNotFoundException.class, () -> {
+            taskService.saveTask(task9);
+        });
+        String actualMessage = exception.getMessage();
+
+        //then
+        Assertions.assertTrue(actualMessage.contains("Task already exits"));
+
+
+    }
+
+    @Test
     void admin_should_be_able_to_delete_task() {
         //given
+
         Task task6 = new Task(
-                6,
+                "6",
                 "Task Name 6",
                 "Task description 6"
         );
         String adminAccessToken = getTokenForAdmin();
         taskService.saveTask(task6);
+
+        callDeleteTask(task6, adminAccessToken);
+
         //when
-        ResponseEntity<TaskDto> response = callDeleteTask(task6, adminAccessToken);
+        Exception exception = assertThrows(RecordNotFoundException.class, () -> {
+            taskService.getTask(task6.getId());
+        });
+
+        String actualMessage = exception.getMessage();
+
         //then
-        Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
+        Assertions.assertTrue(actualMessage.contains("Task not found"));
+
     }
 
     @Test
     void admin_should_be_able_to_update_task() {
         //given
         Task task7 = new Task(
-                7,
+                "7",
                 "Task Name 7",
                 "Task description 7"
         );
         Task updatedTask = new Task(
-                7,
+                "7",
                 "Task Name 7 is updated",
                 "Task 7 description is updated "
         );
@@ -157,6 +190,26 @@ public class TaskEndpointIT extends BaseIT {
         Assertions.assertEquals(updatedTask.getName(), body.getName());
         Assertions.assertEquals(updatedTask.getDescription(), body.getDescription());
     }
+
+    @Test
+    void admin_should_get_response_code_204_when_task_not_exits() {
+        //given
+        User user = new User(
+                "newUser1@example.com",
+                "User Name1",
+                "pass1",
+                List.of("STUDENT")
+        );
+        String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
+
+        //when
+        ResponseEntity<TaskDto> response = callGetTask(1,token);
+
+        //then
+        Assertions.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+    }
+
+
 
     private ResponseEntity<TaskDto> callGetTask(int id, String token) {
         HttpHeaders headers = new HttpHeaders();
