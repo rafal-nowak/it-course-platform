@@ -42,6 +42,18 @@ public class UserEndpoint {
             .ok(dtoMapper.toDto(user));
     }
 
+    @PostMapping(
+            produces = "application/json",
+            consumes = "application/json"
+    )
+    @Secured("ROLE_STUDENT")
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto dto) {
+        User user = userService.updateUser(dtoMapper.toDomain(dto));
+        return ResponseEntity
+                .ok(dtoMapper.toDto(user));
+    }
+
+
     @GetMapping(
         path = "/me",
         produces = "application/json",
