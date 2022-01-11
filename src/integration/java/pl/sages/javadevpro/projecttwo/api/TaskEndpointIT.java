@@ -125,17 +125,12 @@ public class TaskEndpointIT extends BaseIT {
                 "Task Name 9",
                 "Task description 9"
         );
-        //when
+        String adminAccessToken = getTokenForAdmin();
         taskService.saveTask(task9);
-
-        Exception exception = assertThrows(RecordNotFoundException.class, () -> {
-            taskService.saveTask(task9);
-        });
-        String actualMessage = exception.getMessage();
-
+        //when
+        ResponseEntity<TaskDto> response = callSaveTask(task9,adminAccessToken);
         //then
-        Assertions.assertTrue(actualMessage.contains("Task already exits"));
-
+        Assertions.assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
 
     }
 
@@ -158,10 +153,8 @@ public class TaskEndpointIT extends BaseIT {
             taskService.getTask(task6.getId());
         });
 
-        String actualMessage = exception.getMessage();
-
         //then
-        Assertions.assertTrue(actualMessage.contains("Task not found"));
+        Assertions.assertEquals("Task already exits",exception.getMessage());
 
     }
 
@@ -200,6 +193,7 @@ public class TaskEndpointIT extends BaseIT {
                 "pass1",
                 List.of("STUDENT")
         );
+        userService.saveUser(user);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when

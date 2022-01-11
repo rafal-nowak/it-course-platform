@@ -1,6 +1,6 @@
 package pl.sages.javadevpro.projecttwo.external.storage;
 
-import com.mongodb.DuplicateKeyException;
+import org.springframework.dao.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
@@ -10,7 +10,6 @@ import pl.sages.javadevpro.projecttwo.domain.task.TaskRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.task.MongoTaskRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.task.TaskEntity;
 import pl.sages.javadevpro.projecttwo.external.storage.task.TaskEntityMapper;
-import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntity;
 
 import java.util.Optional;
 
@@ -23,7 +22,7 @@ public class TaskStorageAdapter implements TaskRepository {
     @Override
     public Task save(Task task) {
         try{
-            TaskEntity saved = taskRepository.save(mapper.toEntity(task));
+            TaskEntity saved = taskRepository.insert(mapper.toEntity(task));
             log.info("Saved task " + saved.toString());
             return mapper.toDomain(saved);
         }catch (DuplicateKeyException ex){
