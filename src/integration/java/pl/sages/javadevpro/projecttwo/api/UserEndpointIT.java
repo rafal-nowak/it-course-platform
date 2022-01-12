@@ -11,8 +11,11 @@ import org.springframework.http.ResponseEntity;
 import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.api.user.UserDto;
 import pl.sages.javadevpro.projecttwo.domain.UserService;
+import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class UserEndpointIT extends BaseIT {
 
@@ -36,11 +39,11 @@ class UserEndpointIT extends BaseIT {
 
         //then
         UserDto body = response.getBody();
-        Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
-        Assertions.assertEquals(body.getEmail(), user.getEmail());
-        Assertions.assertEquals(body.getName(), user.getName());
-        Assertions.assertEquals(body.getPassword(), "######");
-        Assertions.assertEquals(body.getRoles().toString(), user.getRoles().toString());
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(body.getEmail(), user.getEmail());
+        assertEquals(body.getName(), user.getName());
+        assertEquals(body.getPassword(), "######");
+        assertEquals(body.getRoles().toString(), user.getRoles().toString());
     }
 
     @Test
@@ -59,7 +62,7 @@ class UserEndpointIT extends BaseIT {
         ResponseEntity<UserDto> response = callSaveUser(user, adminToken);
 
         //then
-        Assertions.assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
+        assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
     }
 
     @Test
@@ -71,7 +74,7 @@ class UserEndpointIT extends BaseIT {
         ResponseEntity<UserDto> response = callGetUser("notExits@example.com", token);
 
         //then
-        Assertions.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+        assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
     }
 
     @Test
@@ -89,13 +92,88 @@ class UserEndpointIT extends BaseIT {
         ResponseEntity<UserDto> response = callSaveUser(user, adminAccessToken);
 
         //then
-        Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
         //and
         UserDto body = response.getBody();
-        Assertions.assertEquals(body.getEmail(), user.getEmail());
-        Assertions.assertEquals(body.getName(), user.getName());
-        Assertions.assertEquals(body.getPassword(), "######");
-        Assertions.assertEquals(body.getRoles().toString(), user.getRoles().toString());
+        assertEquals(body.getEmail(), user.getEmail());
+        assertEquals(body.getName(), user.getName());
+        assertEquals(body.getPassword(), "######");
+        assertEquals(body.getRoles().toString(), user.getRoles().toString());
+    }
+
+    @Test
+    void admin_should_be_able_to_update_user() {
+        //given
+        User user = new User(
+                "email@emal.com",
+                "Person",
+                "password",
+                List.of("STUDENT")
+        );
+        User updatedUser = new User(
+                "newemail@email.com",
+                "newPerson",
+                "newpassword",
+                List.of("STUDENT")
+        );
+        String adminAccessToken = getTokenForAdmin();
+        userService.saveUser(user);
+        //when
+        ResponseEntity<UserDto> response = callUpdateUser(updatedUser, adminAccessToken);
+        //then
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        //and
+        UserDto body = response.getBody();
+        assertEquals(user.getEmail(), body.getEmail());
+        assertEquals(updatedUser.getName(), body.getName());
+        assertEquals(updatedUser.getPassword(), body.getPassword());
+        assertEquals(updatedUser.getRoles(), body.getRoles());
+    }
+
+    @Test
+    void admin_should_be_able_to_delete_user() {
+        //given
+        User user = new User(
+                "newUser@email.com",
+                "Person",
+                "pass",
+                List.of("STUDENT")
+        );
+        String adminAccessToken = getTokenForAdmin();
+        userService.saveUser(user);
+        callDeleteUser(user, adminAccessToken);
+        //when
+        Exception exception = assertThrows(RecordNotFoundException.class, () -> {
+            userService.getUser(user.getEmail());
+        });
+        //then
+        Assertions.assertEquals("User already exists",exception.getMessage());
+    }
+
+    @Test
+    void student_should_not_be_able_to_delete_user() {
+        //given
+        User user = new User(
+                "newUser@example.com",
+                "Person",
+                "pass",
+                List.of("STUDENT")
+        );
+        User otherUser = new User(
+                "otherUser@email.com",
+                "Person",
+                "password",
+                List.of("STUDENT")
+        );
+        userService.saveUser(user);
+        String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
+        userService.saveUser(otherUser);
+
+        //when
+        ResponseEntity<UserDto> response = callDeleteUser(otherUser, token);
+
+        //then
+        Assertions.assertEquals(response.getStatusCode(),HttpStatus.FORBIDDEN);
     }
 
     @Test
@@ -115,11 +193,11 @@ class UserEndpointIT extends BaseIT {
 
         //then
         UserDto body = response.getBody();
-        Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
-        Assertions.assertEquals(body.getEmail(), user.getEmail());
-        Assertions.assertEquals(body.getName(), user.getName());
-        Assertions.assertEquals(body.getPassword(), "######");
-        Assertions.assertEquals(body.getRoles().toString(), user.getRoles().toString());
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(body.getEmail(), user.getEmail());
+        assertEquals(body.getName(), user.getName());
+        assertEquals(body.getPassword(), "######");
+        assertEquals(body.getRoles().toString(), user.getRoles().toString());
     }
 
     @Test
@@ -145,7 +223,7 @@ class UserEndpointIT extends BaseIT {
         ResponseEntity response = callGetUser(user2.getEmail(), accessToken);
 
         //then
-        Assertions.assertEquals(response.getStatusCode(), HttpStatus.FORBIDDEN);
+        assertEquals(response.getStatusCode(), HttpStatus.FORBIDDEN);
     }
 
     private ResponseEntity<UserDto> callGetUser(String email, String token) {
@@ -183,6 +261,30 @@ class UserEndpointIT extends BaseIT {
             HttpMethod.POST,
             new HttpEntity(body, headers),
             UserDto.class
+        );
+    }
+
+    private ResponseEntity<UserDto> callUpdateUser(User body, String accessToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
+        headers.add(HttpHeaders.AUTHORIZATION, accessToken);
+        return restTemplate.exchange(
+                localUrl("/users"),
+                HttpMethod.PUT,
+                new HttpEntity(body, headers),
+                UserDto.class
+        );
+    }
+
+    private ResponseEntity<UserDto> callDeleteUser(User body, String accessToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
+        headers.add(HttpHeaders.AUTHORIZATION, accessToken);
+        return restTemplate.exchange(
+                localUrl("/users"),
+                HttpMethod.DELETE,
+                new HttpEntity(body, headers),
+                UserDto.class
         );
     }
 }
