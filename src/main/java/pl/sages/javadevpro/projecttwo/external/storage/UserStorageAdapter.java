@@ -36,25 +36,24 @@ public class UserStorageAdapter implements UserRepository {
 
     @Override
     public User update(User user) {
-//        Optional<UserEntity> userEmailId = userRepository.findById(user.getEmail());
-//        if (userEmailId.isPresent()) {
-//            userRepository.save(user);
-//        }
-//        throw new RecordNotFoundException("User not found");
-
-        UserEntity updateUser = userRepository.save(mapper.toEntity(user));
-        log.info("Updating user "+ updateUser);
-        return mapper.toDomain(updateUser);
+        Optional<UserEntity> entity = userRepository.findById(user.getEmail());
+        if (entity.isEmpty()) {
+            throw new RecordNotFoundException("Task not found");
+        }
+        UserEntity updated = userRepository.save(mapper.toEntity(user));
+        log.info("Updating task "+ updated);
+        return mapper.toDomain(updated);
     }
 
     @Override
     public void remove(User user) {
         Optional<UserEntity> entity = userRepository.findById(user.getEmail());
         UserEntity userEntity = mapper.toEntity(user);
-        if(entity.isPresent()) {
-            log.info("Removing user " + userEntity.toString());
-            userRepository.delete(userEntity);
+        if(entity.isEmpty()) {
+            throw new RecordNotFoundException("User not exist!");
         }
+        log.info("Removing user " + userEntity.toString());
+        userRepository.delete(userEntity);
     }
 
     @Override
