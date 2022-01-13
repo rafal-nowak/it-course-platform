@@ -3,18 +3,18 @@ services:
 
   mongodb-production:
     image: mongo
-    container_name: mongodb-production
+    container_name: p2-mongodb-production
     ports:
       - 27017:27017
     volumes:
-      - data:/data
+      - ./mongo-data:/data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=rootuser
       - MONGO_INITDB_ROOT_PASSWORD=rootpass
 
   mongo-express-production:
     image: mongo-express
-    container_name: mongo-express-production
+    container_name: p2-mongo-express-production
     depends_on:
       - mongodb-production
     ports:
@@ -26,18 +26,16 @@ services:
 
   mongodb-it:
     image: mongo
-    container_name: mongodb-it
+    container_name: p2-mongodb-it
     ports:
       - 27016:27017
-    volumes:
-      - data:/data
     environment:
       - MONGO_INITDB_ROOT_USERNAME=rootuser
       - MONGO_INITDB_ROOT_PASSWORD=rootpass
 
   mongo-express-it:
     image: mongo-express
-    container_name: mongo-express-it
+    container_name: p2-mongo-express-it
     depends_on:
       - mongodb-it
     ports:
@@ -46,7 +44,6 @@ services:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
       - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
       - ME_CONFIG_MONGODB_SERVER=mongodb-it
-
 volumes:
   data: {}
 
