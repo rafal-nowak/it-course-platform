@@ -86,4 +86,10 @@ public class UserTaskService {
         gitService.cloneTask(task.getRepositoryPath(), destinationFolderPath);
         return destinationFolderPath;
     }
+
+    public String exec(UserTask userTask) {
+
+        return userTaskExecutor.exec(userTask);
+    }
+
 }
