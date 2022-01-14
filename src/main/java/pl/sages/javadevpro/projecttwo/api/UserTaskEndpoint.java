@@ -19,6 +19,12 @@ import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskRequest;
 import pl.sages.javadevpro.projecttwo.api.usertask.ListOfFilesResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
+import pl.sages.javadevpro.projecttwo.domain.usertask.UserTask;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,6 +49,15 @@ public class UserTaskEndpoint {
     public ResponseEntity<MessageResponse> assignTaskToUser(@RequestBody UserTaskRequest userTaskRequest) {
         userTaskService.assignTask(userTaskRequest.getUserEmail(), userTaskRequest.getTaskId());
         return ResponseEntity.ok(new MessageResponse("OK", "Task assigned to user"));
+    }
+
+    @GetMapping("/sendtask/{taskId}")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    public ResponseEntity<String> post(@PathVariable("taskId") final String taskId) {
+
+        String taskStatus = userTaskService
+                .exec(new UserTask(taskId, "example@gmail.com", "/home/raggy2k4/Dokumenty/task1", "locked"));
+        return ResponseEntity.ok(taskStatus);
     }
 
     @GetMapping(
@@ -92,7 +107,6 @@ public class UserTaskEndpoint {
         }
 
     }
-
 
     @PostMapping(
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
