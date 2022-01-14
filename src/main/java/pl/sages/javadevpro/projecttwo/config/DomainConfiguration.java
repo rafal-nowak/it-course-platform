@@ -81,8 +81,17 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public UserTaskService userTaskService(GitService gitService, DirectoryService directoryService, UserService userService) {
-        return new UserTaskService(gitService, directoryService, userService);
+    public UserTaskService userTaskService(
+            GitService gitService,
+            DirectoryService directoryService,
+            UserService userService,
+            TaskService taskService
+    ) {
+        return new UserTaskService(
+                gitService,
+                directoryService,
+                userService,
+                taskService);
     }
 
     @Bean
