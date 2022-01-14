@@ -17,6 +17,7 @@ import pl.sages.javadevpro.projecttwo.domain.usertask.TaskStatus;
 import pl.sages.javadevpro.projecttwo.domain.usertask.UserTask;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 
@@ -28,16 +29,29 @@ class UserTaskServiceTest {
     @Mock private GitService gitService;
     @Mock private DirectoryService directoryService;
     @Mock private UserService userService;
+    @Mock private TaskService taskService;
 
     @InjectMocks
     private UserTaskService userTaskService;
 
+    private final User fakeUser = new User(
+            "email@email.any",
+            "user name",
+            "pass",
+            List.of("STUDENT"),
+            new ArrayList<>()
+    );
+    private final Task fakeTask = new Task(
+            "1",
+            "task name",
+            "description",
+            "/path/sample");
+
     @BeforeEach
     void prepareMocks() {
-        User fakeUser = new User();
-        fakeUser.setTasks(new ArrayList<>());
-
         when(directoryService.createDirectoryForUserTask(Mockito.any(),Mockito.anyString())).thenReturn(TEST_DIRECTORY);
+        when(userService.getUser(Mockito.anyString())).thenReturn(fakeUser);
+        when(taskService.getTask(Mockito.anyString())).thenReturn(fakeTask);
         when(userService.updateUser(Mockito.any())).thenReturn(fakeUser);
     }
 
@@ -45,26 +59,18 @@ class UserTaskServiceTest {
     @DisplayName("Should create new UserTask")
     @Test
     void shouldCreateNewUserTask() {
-        //given
-        Task sampleTask = new Task(
-                "1",
-                "task1",
-                "description",
-                "https://githb.com/sample"
-        );
-        User sampleUser = new User();
-        sampleUser.setTasks(new ArrayList<>());
-        sampleUser.setEmail("user@email.com");
+        String userEmail = fakeUser.getEmail();
+        String taskId = fakeTask.getId();
 
         //when
-        UserTask userTask = userTaskService.assignTask(sampleUser, sampleTask);
+        UserTask userTask = userTaskService.assignTask(userEmail, taskId);
 
         //then
         Assertions.assertNotNull(userTask);
-        Assertions.assertEquals(sampleTask.getId(),userTask.getId());
-        Assertions.assertEquals(sampleTask.getName(),userTask.getName());
-        Assertions.assertEquals(sampleTask.getDescription(),userTask.getDescription());
-        Assertions.assertEquals(sampleUser.getEmail(), userTask.getUserEmail());
+        Assertions.assertEquals(fakeTask.getId(),userTask.getId());
+        Assertions.assertEquals(fakeTask.getName(),userTask.getName());
+        Assertions.assertEquals(fakeTask.getDescription(),userTask.getDescription());
+        Assertions.assertEquals(fakeUser.getEmail(), userTask.getUserEmail());
         Assertions.assertEquals(TEST_DIRECTORY,userTask.getUserTaskFolder());
         Assertions.assertEquals(TaskStatus.NOT_STARTED,userTask.getTaskStatus());
     }

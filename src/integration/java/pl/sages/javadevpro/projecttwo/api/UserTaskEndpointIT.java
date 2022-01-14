@@ -8,16 +8,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import pl.sages.javadevpro.projecttwo.BaseIT;
-import pl.sages.javadevpro.projecttwo.api.task.TaskDto;
 import pl.sages.javadevpro.projecttwo.api.task.TaskDtoMapper;
 import pl.sages.javadevpro.projecttwo.api.usertask.AssignTaskRequest;
-import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskDto;
+import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.domain.TaskService;
 import pl.sages.javadevpro.projecttwo.domain.UserService;
 import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
-import pl.sages.javadevpro.projecttwo.domain.usertask.TaskStatus;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -60,7 +58,7 @@ class UserTaskEndpointIT extends BaseIT {
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
-        ResponseEntity<UserTaskDto> response = callAssignTask(assignTaskRequest, token);
+        ResponseEntity<MessageResponse> response = callAssignTask(assignTaskRequest, token);
 
         //then
         Assertions.assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
@@ -88,15 +86,15 @@ class UserTaskEndpointIT extends BaseIT {
         String token = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserTaskDto> response = callAssignTask(assignTaskRequest, token);
-        UserTaskDto body = response.getBody();
+        ResponseEntity<MessageResponse> response = callAssignTask(assignTaskRequest, token);
+        MessageResponse messageResponse = response.getBody();
 
         //then
-        Assertions.assertNotNull(body);
-        Assertions.assertEquals(task.getId(), body.getId());
-        Assertions.assertEquals(task.getDescription(), body.getDescription());
-        Assertions.assertEquals(TaskStatus.NOT_STARTED, body.getTaskStatus());
-        Assertions.assertEquals(task.getName(), body.getName());
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals("OK", messageResponse.getStatus());
+        Assertions.assertEquals("Task assigned to user", messageResponse.getMessage());
+
+
     }
 
     @Test
@@ -121,8 +119,8 @@ class UserTaskEndpointIT extends BaseIT {
         String token = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserTaskDto> response1 = callAssignTask(assignTaskRequest, token);
-        ResponseEntity<UserTaskDto> response2 = callAssignTask(assignTaskRequest, token);
+        ResponseEntity<MessageResponse> response1 = callAssignTask(assignTaskRequest, token);
+        ResponseEntity<MessageResponse> response2 = callAssignTask(assignTaskRequest, token);
 
         //then
         Assertions.assertEquals(HttpStatus.CONFLICT, response2.getStatusCode());
@@ -141,7 +139,7 @@ class UserTaskEndpointIT extends BaseIT {
         String token = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserTaskDto> response = callAssignTask(assignTaskRequest, token);
+        ResponseEntity<MessageResponse> response = callAssignTask(assignTaskRequest, token);
 
         //then
         Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
@@ -149,7 +147,7 @@ class UserTaskEndpointIT extends BaseIT {
 
 
 
-    private ResponseEntity<UserTaskDto> callAssignTask(AssignTaskRequest body, String accessToken) {
+    private ResponseEntity<MessageResponse> callAssignTask(AssignTaskRequest body, String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
         headers.add(HttpHeaders.AUTHORIZATION, accessToken);
@@ -157,7 +155,7 @@ class UserTaskEndpointIT extends BaseIT {
                 localUrl("/usertask/assign"),
                 HttpMethod.POST,
                 new HttpEntity(body, headers),
-                UserTaskDto.class
+                MessageResponse.class
         );
     }
 

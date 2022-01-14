@@ -3,7 +3,6 @@ package pl.sages.javadevpro.projecttwo.domain;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
-import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.usertask.DirectoryService;
@@ -17,13 +16,17 @@ public class UserTaskService {
     private final GitService gitService;
     private final DirectoryService directoryService;
     private final UserService userService;
+    private final TaskService taskService;
 
-    public UserTask assignTask(User user, Task task) {
+    public UserTask assignTask(String userEmail, String taskId) {
+        User user = userService.getUser(userEmail);
+        Task task = taskService.getTask(taskId);
+
         UserTask userTask;
         try {
             userTask = createFromTask(task, user.getEmail());
         } catch (JGitInternalException e) {
-            throw new DuplicateRecordException("Task " + task.getId() + " ias already assigned to user " + user.getEmail());
+            throw new DuplicateRecordException("Task " + task.getId() + " was already assigned to user " + user.getEmail());
         }
 
         addUserTaskToDB(userTask, user);
@@ -51,10 +54,5 @@ public class UserTaskService {
         gitService.cloneTask(task.getRepositoryPath(), destinationFolderPath);
         return destinationFolderPath;
     }
-
-
-
-
-
 
 }
