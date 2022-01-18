@@ -46,7 +46,7 @@ public class UserEndpoint {
             produces = "application/json",
             consumes = "application/json"
     )
-    @Secured("ROLE_STUDENT")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto dto) {
         User user = userService.updateUser(dtoMapper.toDomain(dto));
         return ResponseEntity

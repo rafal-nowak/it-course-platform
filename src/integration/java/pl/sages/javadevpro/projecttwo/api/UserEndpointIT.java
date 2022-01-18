@@ -99,7 +99,7 @@ class UserEndpointIT extends BaseIT {
         ResponseEntity<UserDto> response = callSaveUser(user, adminToken);
 
         //then
-        assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
     }
 
     @Test
@@ -154,22 +154,23 @@ class UserEndpointIT extends BaseIT {
     void admin_should_be_able_to_update_user() {
         //given
         User user = new User(
-                "email@emal.com",
+                "email@email.com",
                 "Person",
                 "password",
                 List.of("STUDENT")
         );
-        User updatedUser = new User(
-                "newemail@email.com",
+        userService.saveUser(user);
+
+        User userToUpdate = new User(
+                "email@email.com",
                 "newPerson",
                 "newpassword",
                 List.of("STUDENT")
         );
         String adminAccessToken = getTokenForAdmin();
-        userService.saveUser(user);
 
         //when
-        ResponseEntity<UserDto> response = callUpdateUser(updatedUser, adminAccessToken);
+        ResponseEntity<UserDto> response = callUpdateUser(userToUpdate, adminAccessToken);
 
         //then
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -177,9 +178,9 @@ class UserEndpointIT extends BaseIT {
         //and
         UserDto body = response.getBody();
         assertEquals(user.getEmail(), body.getEmail());
-        assertEquals(updatedUser.getName(), body.getName());
-        assertEquals(updatedUser.getPassword(), body.getPassword());
-        assertEquals(updatedUser.getRoles(), body.getRoles());
+        assertEquals(userToUpdate.getName(), body.getName());
+        assertEquals("######", body.getPassword());
+        assertEquals(userToUpdate.getRoles(), body.getRoles());
     }
 
     @Test
@@ -203,17 +204,18 @@ class UserEndpointIT extends BaseIT {
                 "pass",
                 List.of("STUDENT")
         );
-        User otherUser = new User(
+        userService.saveUser(user);
+
+        User userToUpdate = new User(
                 "otherUser@email.com",
                 "Person",
                 "password",
                 List.of("STUDENT")
         );
-        userService.saveUser(user);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
-        ResponseEntity<UserDto> response = callUpdateUser(otherUser, token);
+        ResponseEntity<UserDto> response = callUpdateUser(userToUpdate, token);
 
         //then
         assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
@@ -247,8 +249,7 @@ class UserEndpointIT extends BaseIT {
                 "password",
                 List.of("STUDENT")
         );
-        userService.saveUser(user);
-        String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
+        String token = getTokenForAdmin();
 
         //when
         ResponseEntity<UserDto> response = callDeleteUser(user, token);
