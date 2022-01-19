@@ -18,15 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskRequest;
 import pl.sages.javadevpro.projecttwo.api.usertask.ListOfFilesResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
-import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskDto;
 import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskDtoMapper;
 import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
-
+import pl.sages.javadevpro.projecttwo.domain.usertask.TaskStatus;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -56,9 +51,15 @@ public class UserTaskEndpoint {
     @GetMapping("/sendtask/{taskId}")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public ResponseEntity<String> post(@PathVariable("taskId") final String taskId) {
-       
-        UserTaskDto userTaskDto = new UserTaskDto(taskId, "example@gmail.com", "/home/raggy2k4/Dokumenty/task1", "locked");
-       
+
+
+        UserTaskDto userTaskDto = new UserTaskDto(
+                "12",
+                "Task2",
+                "super fajny task",
+                TaskStatus.STARTED
+        );
+
         String taskStatus = userTaskService
                 .exec(dtoMapper.toDomain(userTaskDto));
         return ResponseEntity.ok(taskStatus);
