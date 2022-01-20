@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.*;
+import pl.sages.javadevpro.projecttwo.api.usertask.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,20 +50,12 @@ public class UserTaskEndpoint {
         return ResponseEntity.ok(new MessageResponse("OK", "Task assigned to user"));
     }
 
-    @GetMapping("/sendtask/{taskId}")
-    @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public ResponseEntity<String> post(@PathVariable("taskId") final String taskId) {
-
-
-        UserTaskDto userTaskDto = new UserTaskDto(
-                "12",
-                "Task2",
-                "super fajny task",
-                TaskStatus.STARTED
-        );
+    @PostMapping("/run")
+    @Secured("ROLE_STUDENT")
+    public ResponseEntity<String> post(@RequestBody RunSolutionRequest runSolutionRequest) {
 
         String taskStatus = userTaskService
-                .exec(dtoMapper.toDomain(userTaskDto));
+                .exec(runSolutionRequest.getUserEmail(), runSolutionRequest.getTaskId());
         return ResponseEntity.ok(taskStatus);
     }
 
