@@ -11,6 +11,11 @@ import pl.sages.javadevpro.projecttwo.domain.usertask.GitService;
 import pl.sages.javadevpro.projecttwo.domain.usertask.TaskStatus;
 import pl.sages.javadevpro.projecttwo.domain.usertask.UserTask;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 public class UserTaskService {
@@ -19,14 +24,6 @@ public class UserTaskService {
     private final DirectoryService directoryService;
     private final UserService userService;
     private final TaskService taskService;
-
-    public UserTask getUserTask(String userEmail,String taskId) {
-        User user =  userService.getUser(userEmail);
-        return user.getTasks().stream()
-                .filter(task -> task.getId().equals(taskId))
-                .findFirst()
-                .orElseThrow(() -> new RecordNotFoundException("Task not found"));
-    }
 
     public UserTask assignTask(String userEmail, String taskId) {
         User user = userService.getUser(userEmail);
@@ -41,6 +38,15 @@ public class UserTaskService {
 
         addUserTaskToDB(userTask, user);
         return userTask;
+    }
+
+    public String getUserTaskStatusSummary(String userEmail, String taskId) {
+        File resultFile = directoryService.getResultFile(userEmail, taskId);
+        try {
+            return Files.readAllLines(resultFile.toPath()).stream().collect(Collectors.joining("\n"));
+        } catch (IOException e) {
+            throw new RecordNotFoundException("Not found");
+        }
     }
 
     private UserTask createFromTask(Task task, String userEmail) {

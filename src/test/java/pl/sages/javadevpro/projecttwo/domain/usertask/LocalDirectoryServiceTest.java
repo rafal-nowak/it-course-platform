@@ -16,7 +16,7 @@ import java.io.File;
 @ExtendWith(MockitoExtension.class)
 class LocalDirectoryServiceTest {
 
-    private final LocalDirectoryService localDirectoryHandler = new LocalDirectoryService();
+    private final LocalDirectoryService localDirectoryService = new LocalDirectoryService();
     private final static String TEST_DIRECTORY = "userTasks/sampleemailcom/1";
     private final static String USER_EMAIL = "sample@email.com";
 
@@ -31,15 +31,13 @@ class LocalDirectoryServiceTest {
     @DisplayName("should create new directory basing on user email and task id")
     @Test
     void shouldCreateNewDirectory() {
-        String directoryPath = localDirectoryHandler.createDirectoryForUserTask(task,USER_EMAIL);
+        String directoryPath = localDirectoryService.createDirectoryForUserTask(task,USER_EMAIL);
 
         File directory = new File(directoryPath);
 
         Assertions.assertEquals(TEST_DIRECTORY, directoryPath);
         Assertions.assertTrue(directory.exists());
         Assertions.assertTrue(directory.isDirectory());
-
     }
-
 
 }

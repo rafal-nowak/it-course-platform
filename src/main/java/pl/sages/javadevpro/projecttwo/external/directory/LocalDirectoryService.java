@@ -3,6 +3,7 @@ package pl.sages.javadevpro.projecttwo.external.directory;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
 import pl.sages.javadevpro.projecttwo.domain.usertask.DirectoryService;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,8 +12,7 @@ public class LocalDirectoryService implements DirectoryService {
 
     @Override
     public String createDirectoryForUserTask(Task task, String userEmail) {
-        String convertedEmail = removeSymbolsFromEmail(userEmail);
-        String path = "userTasks/" + convertedEmail + "/" + task.getId();
+        String path = getLocalPath(userEmail,task.getId());
 
         Path folderPath = Path.of(path);
         if (!Files.isDirectory(folderPath)) {
@@ -25,7 +25,14 @@ public class LocalDirectoryService implements DirectoryService {
         return path;
     }
 
-    private String removeSymbolsFromEmail(String email) {
-        return email.replace("@","").replace(".","");
+    @Override
+    public File getResultFile(String userEmail, String taskId) {
+        String path = getLocalPath(userEmail,taskId);
+        return new File(path + "/test_summary.txt");
+    }
+
+    private String getLocalPath(String userEmail, String taskId) {
+        String convertedEmail = userEmail.replace("@","").replace(".","");
+        return "userTasks/" + convertedEmail + "/" + taskId;
     }
 }
