@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.api.task.TaskDtoMapper;
-import pl.sages.javadevpro.projecttwo.api.usertask.AssignTaskRequest;
+import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskRequest;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.domain.TaskService;
 import pl.sages.javadevpro.projecttwo.domain.UserService;
@@ -54,11 +54,11 @@ class UserTaskEndpointIT extends BaseIT {
                 "https://github.com/Piorrt/projectOne"
         );
         taskService.saveTask(task);
-        AssignTaskRequest assignTaskRequest = new AssignTaskRequest(user.getEmail(), task.getId());
+        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getEmail(), task.getId());
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
-        ResponseEntity<MessageResponse> response = callAssignTask(assignTaskRequest, token);
+        ResponseEntity<MessageResponse> response = callAssignTask(userTaskRequest, token);
 
         //then
         Assertions.assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
@@ -82,11 +82,11 @@ class UserTaskEndpointIT extends BaseIT {
                 "https://github.com/Piorrt/projectOne"
         );
         taskService.saveTask(task);
-        AssignTaskRequest assignTaskRequest = new AssignTaskRequest(user.getEmail(), task.getId());
+        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getEmail(), task.getId());
         String token = getTokenForAdmin();
 
         //when
-        ResponseEntity<MessageResponse> response = callAssignTask(assignTaskRequest, token);
+        ResponseEntity<MessageResponse> response = callAssignTask(userTaskRequest, token);
         MessageResponse messageResponse = response.getBody();
 
         //then
@@ -115,12 +115,12 @@ class UserTaskEndpointIT extends BaseIT {
                 "https://github.com/Piorrt/projectOne"
         );
         taskService.saveTask(task);
-        AssignTaskRequest assignTaskRequest = new AssignTaskRequest(user.getEmail(), task.getId());
+        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getEmail(), task.getId());
         String token = getTokenForAdmin();
 
         //when
-        ResponseEntity<MessageResponse> response1 = callAssignTask(assignTaskRequest, token);
-        ResponseEntity<MessageResponse> response2 = callAssignTask(assignTaskRequest, token);
+        ResponseEntity<MessageResponse> response1 = callAssignTask(userTaskRequest, token);
+        ResponseEntity<MessageResponse> response2 = callAssignTask(userTaskRequest, token);
 
         //then
         Assertions.assertEquals(HttpStatus.CONFLICT, response2.getStatusCode());
@@ -135,19 +135,17 @@ class UserTaskEndpointIT extends BaseIT {
                 "https://github.com/Piorrt/projectOne"
         );
         taskService.saveTask(task);
-        AssignTaskRequest assignTaskRequest = new AssignTaskRequest("notExist@sample.com", task.getId());
+        UserTaskRequest userTaskRequest = new UserTaskRequest("newUser13@example.com", task.getId());
         String token = getTokenForAdmin();
 
         //when
-        ResponseEntity<MessageResponse> response = callAssignTask(assignTaskRequest, token);
+        ResponseEntity<MessageResponse> response = callAssignTask(userTaskRequest, token);
 
         //then
         Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
-
-
-    private ResponseEntity<MessageResponse> callAssignTask(AssignTaskRequest body, String accessToken) {
+    private ResponseEntity<MessageResponse> callAssignTask(UserTaskRequest body, String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
         headers.add(HttpHeaders.AUTHORIZATION, accessToken);
