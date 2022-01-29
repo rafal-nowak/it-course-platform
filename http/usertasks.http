@@ -1,0 +1,25 @@
+### get tasks
+GET http://localhost:8080/usertasks/
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+### get files assigned to user tasks
+GET http://localhost:8080/usertasks/jan@example.com/1/files
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+### get files assigned to user tasks
+GET http://localhost:8080/usertasks/jan@example.com/7/files/123
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+### post files assigned to user tasks
+POST http://localhost:8080/usertasks/jan@example.com/7/files/13
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+
