@@ -1,0 +1,35 @@
+#### get user by email
+#GET http://localhost:8080/users/jan@example.com
+#Accept: application/json
+#Content-Type: application/json
+#Authorization: {{auth_token}}
+
+### add task
+POST http://localhost:8080/tasks
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "id": "1",
+  "name": "Python_1",
+  "description": "Description...",
+  "repositoryPath": "https://github.com/rafal-nowak/task1.git"
+}
+
+### get task
+GET http://localhost:8080/tasks/1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+### assign task to user
+POST http://localhost:8080/usertask/assign
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "userEmail": "jan@example.com",
+  "taskId": "1"
+}

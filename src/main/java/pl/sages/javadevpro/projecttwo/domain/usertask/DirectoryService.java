@@ -1,13 +1,15 @@
 package pl.sages.javadevpro.projecttwo.domain.usertask;
 
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
-import pl.sages.javadevpro.projecttwo.domain.user.User;
 
 import java.io.File;
+import java.util.List;
 
 public interface DirectoryService {
 
     String createDirectoryForUserTask(Task task, String userEmail);
+
+    List<String> readListOfAvailableFilesForUserTask(String userEmail, String taskId);
 
     File getResultFile(String userEmail, String taskId);
 }

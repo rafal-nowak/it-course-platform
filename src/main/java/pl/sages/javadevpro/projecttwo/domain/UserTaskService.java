@@ -11,11 +11,11 @@ import pl.sages.javadevpro.projecttwo.domain.usertask.GitService;
 import pl.sages.javadevpro.projecttwo.domain.usertask.TaskStatus;
 import pl.sages.javadevpro.projecttwo.domain.usertask.UserTask;
 
+import java.util.List;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.stream.Collectors;
-
 
 @RequiredArgsConstructor
 public class UserTaskService {
@@ -69,6 +69,10 @@ public class UserTaskService {
         String destinationFolderPath = directoryService.createDirectoryForUserTask(task, userEmail);
         gitService.cloneTask(task.getRepositoryPath(), destinationFolderPath);
         return destinationFolderPath;
+    }
+
+    public List<String> readListOfAvailableFilesForUserTask (String userEmail, String taskId) {
+        return directoryService.readListOfAvailableFilesForUserTask(userEmail, taskId);
     }
 
 }
