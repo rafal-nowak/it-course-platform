@@ -2,12 +2,14 @@ package pl.sages.javadevpro.projecttwo.external.directory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import org.springframework.web.multipart.MultipartFile;
 import pl.sages.javadevpro.projecttwo.domain.exception.ResourceNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
 import pl.sages.javadevpro.projecttwo.domain.usertask.DirectoryService;
 import pl.sages.javadevpro.projecttwo.external.directory.task.TaskDefinition;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -53,6 +55,31 @@ public class LocalDirectoryService implements DirectoryService {
                 .collect(Collectors.toList());
 
         return strings;
+    }
+
+    @Override
+    public void uploadFileForUserTask(String userEmail, String taskId, String fileId, MultipartFile file) {
+        List<String> listOfAvailableFilesForUserTask = readListOfAvailableFilesForUserTask(userEmail, taskId);
+        String convertedEmail = removeSymbolsFromEmail(userEmail);
+
+        if (Integer.parseInt(fileId) > listOfAvailableFilesForUserTask.size()) {
+            throw new ResourceNotFoundException("File " + fileId + " was not assigned to " + taskId + " user task " + userEmail);
+        }
+
+        String relatedPathToSelectedFile = listOfAvailableFilesForUserTask.get(Integer.parseInt(fileId) - 1);
+
+        String path = "userTasks/" + convertedEmail + "/" + taskId + "/" + relatedPathToSelectedFile;
+
+        File myFile = new File(path);
+        try {
+            myFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(myFile);
+            fos.write(file.getBytes());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
