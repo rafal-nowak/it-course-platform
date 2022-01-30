@@ -1,6 +1,5 @@
 package pl.sages.javadevpro.projecttwo.domain.usertask;
 
-import org.springframework.web.multipart.MultipartFile;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
 
 import java.io.File;
@@ -12,7 +11,7 @@ public interface DirectoryService {
 
     List<String> readListOfAvailableFilesForUserTask(String userEmail, String taskId);
 
-    void uploadFileForUserTask(String userEmail, String taskId, String fileId, MultipartFile file);
+    void uploadFileForUserTask(String userEmail, String taskId, String fileId, byte[] bytes);
 
     File takeFileFromUserTask(String userEmail, String taskId, String fileId);
 

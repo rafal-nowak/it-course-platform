@@ -58,13 +58,13 @@ public class LocalDirectoryService implements DirectoryService {
     }
 
     @Override
-    public void uploadFileForUserTask(String userEmail, String taskId, String fileId, MultipartFile file) {
+    public void uploadFileForUserTask(String userEmail, String taskId, String fileId, byte[] bytes) {
         File myFile = takeFileFromUserTask(userEmail, taskId, fileId);
 
         try {
             myFile.createNewFile();
             FileOutputStream fos = new FileOutputStream(myFile);
-            fos.write(file.getBytes());
+            fos.write(bytes);
 
         } catch (IOException e) {
             e.printStackTrace();

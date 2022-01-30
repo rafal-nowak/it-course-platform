@@ -77,8 +77,8 @@ public class UserTaskService {
         return directoryService.readListOfAvailableFilesForUserTask(userEmail, taskId);
     }
 
-    public void uploadFileForUserTask(String userEmail, String taskId, String fileId, MultipartFile file) {
-        directoryService.uploadFileForUserTask(userEmail, taskId, fileId, file);
+    public void uploadFileForUserTask(String userEmail, String taskId, String fileId, byte[] bytes) {
+        directoryService.uploadFileForUserTask(userEmail, taskId, fileId, bytes);
     }
 
     public File takeFileFromUserTask(String userEmail, String taskId, String fileId) {
