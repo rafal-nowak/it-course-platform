@@ -59,6 +59,21 @@ public class LocalDirectoryService implements DirectoryService {
 
     @Override
     public void uploadFileForUserTask(String userEmail, String taskId, String fileId, MultipartFile file) {
+        File myFile = takeFileFromUserTask(userEmail, taskId, fileId);
+
+        try {
+            myFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(myFile);
+            fos.write(file.getBytes());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public File takeFileFromUserTask(String userEmail, String taskId, String fileId) {
         List<String> listOfAvailableFilesForUserTask = readListOfAvailableFilesForUserTask(userEmail, taskId);
         String convertedEmail = removeSymbolsFromEmail(userEmail);
 
@@ -70,16 +85,7 @@ public class LocalDirectoryService implements DirectoryService {
 
         String path = "userTasks/" + convertedEmail + "/" + taskId + "/" + relatedPathToSelectedFile;
 
-        File myFile = new File(path);
-        try {
-            myFile.createNewFile();
-            FileOutputStream fos = new FileOutputStream(myFile);
-            fos.write(file.getBytes());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        return new File(path);
     }
 
     @Override
