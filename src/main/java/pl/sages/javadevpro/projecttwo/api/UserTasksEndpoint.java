@@ -21,6 +21,7 @@ import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -92,7 +93,18 @@ public class UserTasksEndpoint {
             @PathVariable String fileId
             ) {
 
-        userTaskService.uploadFileForUserTask(userId, taskId, fileId, file);
+        try {
+            byte[] bytes = file.getBytes();
+
+            userTaskService.uploadFileForUserTask(userId, taskId, fileId, bytes);
+
+        } catch (IOException e) {
+            return ResponseEntity.ok(new MessageResponse(
+                    "NOT OK",
+                    "The File Upload Failed"));
+        }
+
+
 
         return ResponseEntity.ok(new MessageResponse(
                 "OK",
