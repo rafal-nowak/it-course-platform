@@ -7,3 +7,19 @@ spring:
       database: projectTwo
       port: 27017
       host: localhost
+
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 1KB
+      max-file-size: 200KB
+      max-request-size: 200KB
+
+## Enable multipart uploads
+#spring.servlet.multipart.enabled=true
+## Threshold after which files are written to disk.
+#spring.servlet.multipart.file-size-threshold=1KB
+## Max file size.
+#spring.servlet.multipart.max-file-size=200KB
+## Max Request Size
+#spring.servlet.multipart.max-request-size=200KB

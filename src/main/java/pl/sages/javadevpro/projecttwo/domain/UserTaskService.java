@@ -2,6 +2,7 @@ package pl.sages.javadevpro.projecttwo.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.springframework.web.multipart.MultipartFile;
 import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
 import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
@@ -73,6 +74,10 @@ public class UserTaskService {
 
     public List<String> readListOfAvailableFilesForUserTask (String userEmail, String taskId) {
         return directoryService.readListOfAvailableFilesForUserTask(userEmail, taskId);
+    }
+
+    public void uploadFileForUserTask(String userEmail, String taskId, String fileId, MultipartFile file) {
+        directoryService.uploadFileForUserTask(userEmail, taskId, fileId, file);
     }
 
 }
