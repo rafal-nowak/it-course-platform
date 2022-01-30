@@ -12,6 +12,7 @@ import pl.sages.javadevpro.projecttwo.domain.usertask.GitService;
 import pl.sages.javadevpro.projecttwo.domain.usertask.TaskStatus;
 import pl.sages.javadevpro.projecttwo.domain.usertask.UserTask;
 
+import java.io.File;
 import java.util.List;
 import java.io.File;
 import java.io.IOException;
@@ -78,6 +79,10 @@ public class UserTaskService {
 
     public void uploadFileForUserTask(String userEmail, String taskId, String fileId, MultipartFile file) {
         directoryService.uploadFileForUserTask(userEmail, taskId, fileId, file);
+    }
+
+    public File takeFileFromUserTask(String userEmail, String taskId, String fileId) {
+        return directoryService.takeFileFromUserTask(userEmail, taskId, fileId);
     }
 
 }

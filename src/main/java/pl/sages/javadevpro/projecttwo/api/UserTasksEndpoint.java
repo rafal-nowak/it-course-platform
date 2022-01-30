@@ -1,24 +1,27 @@
 package pl.sages.javadevpro.projecttwo.api;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import pl.sages.javadevpro.projecttwo.api.usertask.AssignTaskRequest;
 import pl.sages.javadevpro.projecttwo.api.usertask.ListOfFilesResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -46,20 +49,34 @@ public class UserTasksEndpoint {
     }
 
     @GetMapping(
-            produces = "application/json",
-            consumes = "application/json",
             path = "{userId}/{taskId}/files/{fileId}"
     )
     @Secured("ROLE_STUDENT")
-    public ResponseEntity<MessageResponse>  getFileAssignedToUserTask(
+    public ResponseEntity<Object>  getFileAssignedToUserTask(
             @PathVariable String userId,
             @PathVariable String taskId,
             @PathVariable String fileId) {
 
 
-        return ResponseEntity.ok(new MessageResponse(
-                "OK",
-                "Info: GET /usertasks/" + userId + "/" + taskId + "/files/" + fileId));
+        InputStreamResource resource = null;
+        try {
+            File file = userTaskService.takeFileFromUserTask(userId, taskId, fileId);
+
+            resource = new InputStreamResource(new FileInputStream(file));
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
+            headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+            headers.add("Pragma", "no-cache");
+            headers.add("Expires", "0");
+
+            ResponseEntity<Object> responseEntity = ResponseEntity.ok().headers(headers).contentLength(file.length()).contentType(MediaType.parseMediaType("application/txt")).body(resource);
+
+            return responseEntity;
+        } catch (FileNotFoundException e) {
+            return new ResponseEntity<>("error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
 
@@ -82,6 +99,5 @@ public class UserTasksEndpoint {
                 "The File Uploaded Successfully"));
 
     }
-
 
 }

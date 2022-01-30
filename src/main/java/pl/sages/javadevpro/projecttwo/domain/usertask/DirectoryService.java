@@ -14,5 +14,7 @@ public interface DirectoryService {
 
     void uploadFileForUserTask(String userEmail, String taskId, String fileId, MultipartFile file);
 
+    File takeFileFromUserTask(String userEmail, String taskId, String fileId);
+
     File getResultFile(String userEmail, String taskId);
 }
