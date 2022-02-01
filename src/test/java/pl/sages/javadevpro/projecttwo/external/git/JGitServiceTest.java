@@ -41,6 +41,20 @@ class JGitServiceTest {
         check.close();
     }
 
+    @DisplayName("should unlink remotes after cloning repository")
+    @Test
+    void shouldUnlinkRemoteAfterCloning() throws IOException {
+        jGitService.cloneTask(TEST_REPO, TEST_FOLDER);
+
+        FileRepositoryBuilder repositoryBuilder = new FileRepositoryBuilder();
+        repositoryBuilder.setMustExist(true);
+        repositoryBuilder.setGitDir(new File(TEST_FOLDER + "/.git"));
+
+        Repository check = repositoryBuilder.build();
+        Assertions.assertTrue(check.getRemoteNames().isEmpty());
+        check.close();
+    }
+
     @DisplayName("should throw exception if repository path is incorrect")
     @Test
     void shouldThrowExceptionIfRepositoryPathIsIncorrect() {
