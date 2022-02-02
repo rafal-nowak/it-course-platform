@@ -6,4 +6,6 @@ public interface GitService {
 
     File cloneTask(String repositoryPath, String destinationPath);
 
+    void commitTask(String path);
+
 }

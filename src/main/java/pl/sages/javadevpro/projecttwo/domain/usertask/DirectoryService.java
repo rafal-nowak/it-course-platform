@@ -15,5 +15,7 @@ public interface DirectoryService {
 
     File takeFileFromUserTask(String userEmail, String taskId, String fileId);
 
+    String getPathToUserTask(String userEmail, String taskId);
+
     File getResultFile(String userEmail, String taskId);
 }

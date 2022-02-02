@@ -85,4 +85,7 @@ public class UserTaskService {
         return directoryService.takeFileFromUserTask(userEmail, taskId, fileId);
     }
 
+    public void commitTask(String userEmail, String taskId) {
+        gitService.commitTask(directoryService.getPathToUserTask(userEmail, taskId));
+    }
 }
