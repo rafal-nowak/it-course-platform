@@ -2,7 +2,6 @@ package pl.sages.javadevpro.projecttwo.external.directory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.springframework.web.multipart.MultipartFile;
 import pl.sages.javadevpro.projecttwo.domain.exception.ResourceNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
 import pl.sages.javadevpro.projecttwo.domain.usertask.DirectoryService;
@@ -86,6 +85,14 @@ public class LocalDirectoryService implements DirectoryService {
         String path = "userTasks/" + convertedEmail + "/" + taskId + "/" + relatedPathToSelectedFile;
 
         return new File(path);
+    }
+
+    @Override
+    public String getPathToUserTask(String userEmail, String taskId) {
+        String convertedEmail = removeSymbolsFromEmail(userEmail);
+        String path = "userTasks/" + convertedEmail + "/" + taskId;
+
+        return path;
     }
 
     @Override

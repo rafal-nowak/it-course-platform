@@ -98,6 +98,8 @@ public class UserTasksEndpoint {
 
             userTaskService.uploadFileForUserTask(userId, taskId, fileId, bytes);
 
+            userTaskService.commitTask(userId, taskId);
+
         } catch (IOException e) {
             return ResponseEntity.ok(new MessageResponse(
                     "NOT OK",
