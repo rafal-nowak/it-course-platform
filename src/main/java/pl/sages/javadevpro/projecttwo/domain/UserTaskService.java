@@ -42,6 +42,22 @@ public class UserTaskService {
         return userTask;
     }
 
+    public List<String> readListOfAvailableFilesForUserTask (String userEmail, String taskId) {
+        return directoryService.readListOfAvailableFilesForUserTask(userEmail, taskId);
+    }
+
+    public void uploadFileForUserTask(String userEmail, String taskId, String fileId, byte[] bytes) {
+        directoryService.uploadFileForUserTask(userEmail, taskId, fileId, bytes);
+    }
+
+    public File takeFileFromUserTask(String userEmail, String taskId, String fileId) {
+        return directoryService.takeFileFromUserTask(userEmail, taskId, fileId);
+    }
+
+    public void commitTask(String userEmail, String taskId) {
+        gitService.commitTask(directoryService.getPathToUserTask(userEmail, taskId));
+    }
+
     public String getUserTaskStatusSummary(String userEmail, String taskId) {
         File resultFile = directoryService.getResultFile(userEmail, taskId);
         try {
@@ -71,21 +87,5 @@ public class UserTaskService {
         String destinationFolderPath = directoryService.createDirectoryForUserTask(task, userEmail);
         gitService.cloneTask(task.getRepositoryPath(), destinationFolderPath);
         return destinationFolderPath;
-    }
-
-    public List<String> readListOfAvailableFilesForUserTask (String userEmail, String taskId) {
-        return directoryService.readListOfAvailableFilesForUserTask(userEmail, taskId);
-    }
-
-    public void uploadFileForUserTask(String userEmail, String taskId, String fileId, byte[] bytes) {
-        directoryService.uploadFileForUserTask(userEmail, taskId, fileId, bytes);
-    }
-
-    public File takeFileFromUserTask(String userEmail, String taskId, String fileId) {
-        return directoryService.takeFileFromUserTask(userEmail, taskId, fileId);
-    }
-
-    public void commitTask(String userEmail, String taskId) {
-        gitService.commitTask(directoryService.getPathToUserTask(userEmail, taskId));
     }
 }

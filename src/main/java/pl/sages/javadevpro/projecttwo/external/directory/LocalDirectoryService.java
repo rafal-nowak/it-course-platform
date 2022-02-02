@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import pl.sages.javadevpro.projecttwo.domain.exception.ResourceNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
 import pl.sages.javadevpro.projecttwo.domain.usertask.DirectoryService;
+import pl.sages.javadevpro.projecttwo.external.directory.task.FileToBeDeliveredToUser;
 import pl.sages.javadevpro.projecttwo.external.directory.task.TaskDefinition;
 
 import java.io.File;
@@ -40,29 +41,27 @@ public class LocalDirectoryService implements DirectoryService {
         var mapper = new ObjectMapper(new YAMLFactory());
         mapper.findAndRegisterModules();
 
-        TaskDefinition taskDefinition = null;
+        TaskDefinition taskDefinition;
         try {
             taskDefinition = mapper.readValue(new File(path), TaskDefinition.class);
         } catch (IOException e) {
             throw new ResourceNotFoundException("Task " + taskId + " was not assigned to user " + userEmail);
         }
 
-        List<String> strings = taskDefinition
+        return taskDefinition
                 .getFilesToBeDeliveredToUser()
                 .stream()
-                .map(o -> o.getFile())
+                .map(FileToBeDeliveredToUser::getFile)
                 .collect(Collectors.toList());
-
-        return strings;
     }
 
     @Override
     public void uploadFileForUserTask(String userEmail, String taskId, String fileId, byte[] bytes) {
-        File myFile = takeFileFromUserTask(userEmail, taskId, fileId);
+        File file = takeFileFromUserTask(userEmail, taskId, fileId);
 
         try {
-            myFile.createNewFile();
-            FileOutputStream fos = new FileOutputStream(myFile);
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
             fos.write(bytes);
 
         } catch (IOException e) {
@@ -90,9 +89,7 @@ public class LocalDirectoryService implements DirectoryService {
     @Override
     public String getPathToUserTask(String userEmail, String taskId) {
         String convertedEmail = removeSymbolsFromEmail(userEmail);
-        String path = "userTasks/" + convertedEmail + "/" + taskId;
-
-        return path;
+        return  "userTasks/" + convertedEmail + "/" + taskId;
     }
 
     @Override
