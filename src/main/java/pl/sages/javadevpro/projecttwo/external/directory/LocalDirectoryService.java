@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.nio.file.Paths;
 
 public class LocalDirectoryService implements DirectoryService {
 
@@ -23,6 +24,7 @@ public class LocalDirectoryService implements DirectoryService {
         String path = getLocalPath(userEmail,task.getId());
 
         Path folderPath = Path.of(path);
+        Path absolutePath = folderPath.toAbsolutePath();
         if (!Files.isDirectory(folderPath)) {
             try {
                 Files.createDirectories(folderPath);
@@ -30,7 +32,8 @@ public class LocalDirectoryService implements DirectoryService {
                 e.printStackTrace();
             }
         }
-        return path;
+
+        return absolutePath.toString();
     }
 
     @Override
