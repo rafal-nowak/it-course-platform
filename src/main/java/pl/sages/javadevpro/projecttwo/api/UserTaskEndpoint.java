@@ -11,7 +11,7 @@ import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "/usertask")
+@RequestMapping(path = "/usertasks")
 public class UserTaskEndpoint {
 
     private final UserTaskService userTaskService;
