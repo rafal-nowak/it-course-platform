@@ -118,8 +118,9 @@ class UserTaskEndpointIT extends BaseIT {
         UserTaskRequest userTaskRequest = new UserTaskRequest(user.getEmail(), task.getId());
         String token = getTokenForAdmin();
 
+        callAssignTask(userTaskRequest, token);
+
         //when
-        ResponseEntity<MessageResponse> response1 = callAssignTask(userTaskRequest, token);
         ResponseEntity<MessageResponse> response2 = callAssignTask(userTaskRequest, token);
 
         //then
@@ -150,7 +151,7 @@ class UserTaskEndpointIT extends BaseIT {
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
         headers.add(HttpHeaders.AUTHORIZATION, accessToken);
         return restTemplate.exchange(
-                localUrl("/usertask/assign"),
+                localUrl("/usertasks/assign"),
                 HttpMethod.POST,
                 new HttpEntity(body, headers),
                 MessageResponse.class
