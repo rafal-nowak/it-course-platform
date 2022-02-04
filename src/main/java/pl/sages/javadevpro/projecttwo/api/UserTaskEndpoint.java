@@ -37,8 +37,7 @@ public class UserTaskEndpoint {
     @PostMapping(
             path = "/assign",
             produces = "application/json",
-            consumes = "application/json",
-            path = "/assign"
+            consumes = "application/json"
     )
     @Secured("ROLE_ADMIN")
     public ResponseEntity<MessageResponse> assignTaskToUser(@RequestBody UserTaskRequest userTaskRequest) {

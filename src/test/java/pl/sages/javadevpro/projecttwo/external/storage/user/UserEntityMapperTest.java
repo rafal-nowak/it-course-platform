@@ -2,8 +2,6 @@ package pl.sages.javadevpro.projecttwo.external.storage.user;
 
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
-import pl.sages.javadevpro.projecttwo.api.user.UserDto;
-import pl.sages.javadevpro.projecttwo.api.user.UserDtoMapper;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 
 import java.util.List;

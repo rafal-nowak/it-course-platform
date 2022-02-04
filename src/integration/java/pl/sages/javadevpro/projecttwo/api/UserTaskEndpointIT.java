@@ -4,19 +4,18 @@ import lombok.SneakyThrows;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.*;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.api.task.TaskDtoMapper;
-import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskRequest;
 import pl.sages.javadevpro.projecttwo.api.usertask.ListOfFilesResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
+import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskRequest;
 import pl.sages.javadevpro.projecttwo.domain.TaskService;
 import pl.sages.javadevpro.projecttwo.domain.UserService;
 import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
@@ -25,7 +24,6 @@ import pl.sages.javadevpro.projecttwo.domain.user.User;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 class UserTaskEndpointIT extends BaseIT {
@@ -171,7 +169,7 @@ class UserTaskEndpointIT extends BaseIT {
                 "https://github.com/rafal-nowak/task1"
         );
         taskService.saveTask(task);
-        AssignTaskRequest assignTaskRequest = new AssignTaskRequest(user.getEmail(), task.getId());
+        UserTaskRequest assignTaskRequest = new UserTaskRequest(user.getEmail(), task.getId());
         String adminToken = getTokenForAdmin();
         String userToken = getAccessTokenForUser(user.getEmail(), user.getPassword());
 

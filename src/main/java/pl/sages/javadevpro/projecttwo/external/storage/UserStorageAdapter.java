@@ -1,8 +1,8 @@
 package pl.sages.javadevpro.projecttwo.external.storage;
 
-import org.springframework.dao.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.dao.DuplicateKeyException;
 import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
 import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
@@ -11,7 +11,6 @@ import pl.sages.javadevpro.projecttwo.external.storage.user.MongoUserRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntity;
 import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntityMapper;
 
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
