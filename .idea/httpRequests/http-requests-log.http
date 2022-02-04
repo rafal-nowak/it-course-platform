@@ -1,6 +1,40 @@
 POST http://localhost:8080/usertasks/assign
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQ0MDA3NzAxLCJyb2wiOlsiQURNSU4iLCJTVFVERU5UIl19.FFOP1HgA3vNZrP7d3BV2rD3ONITTIDXvvj4Cc7h9fbOyqHJWrIak-3KMdSBYelvxKNVwxzy_9oDzV_t3K_x61A
+
+{
+  "userEmail": "jan@example.com",
+  "taskId": "1"
+}
+
+<> 2022-02-04T211846.200.json
+
+###
+
+GET http://localhost:8080/tasks/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQ0MDA3NzAxLCJyb2wiOlsiQURNSU4iLCJTVFVERU5UIl19.FFOP1HgA3vNZrP7d3BV2rD3ONITTIDXvvj4Cc7h9fbOyqHJWrIak-3KMdSBYelvxKNVwxzy_9oDzV_t3K_x61A
+
+<> 2022-02-04T211842.200.json
+
+###
+
+POST http://localhost:8080/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "jan@example.com",
+  "password": "MyPassword"
+}
+
+###
+
+POST http://localhost:8080/usertasks/assign
+Accept: application/json
+Content-Type: application/json
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQ0MDA2MTkzLCJyb2wiOlsiQURNSU4iLCJTVFVERU5UIl19.-kahy54BIMDEFG3vC1oNj88e03rJQVMaHKjcdIEobC5VHbfCzUyxX30fZz9ZZbM0qQT5d7QdoVTYBGBnW9uw6Q
 
 {
@@ -461,35 +495,6 @@ Content-Type: application/json
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQzNDAyMjg3LCJyb2wiOlsiQURNSU4iLCJTVFVERU5UIl19.O6OsBOFv_kvBwZ5PcNUxhPNvIiNxlxbqhuRY-phDYzaq7E4bRwi11o2Lz0qcpN8tqDUc0GyXXyqtUQDoU12bmw
 
 <> 2022-01-28T210818.200.json
-
-###
-
-GET http://localhost:8080/usertasks/
-Accept: application/json
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQzNDAyMjg3LCJyb2wiOlsiQURNSU4iLCJTVFVERU5UIl19.O6OsBOFv_kvBwZ5PcNUxhPNvIiNxlxbqhuRY-phDYzaq7E4bRwi11o2Lz0qcpN8tqDUc0GyXXyqtUQDoU12bmw
-
-<> 2022-01-28T210812.200.json
-
-###
-
-POST http://localhost:8080/login
-Accept: application/json
-Content-Type: application/json
-
-{
-  "email": "jan@example.com",
-  "password": "MyPassword"
-}
-
-###
-
-GET http://localhost:8080/usertasks/
-Accept: application/json
-Content-Type: application/json
-Authorization: {{auth_token}}
-
-<> 2022-01-28T210751.401.txt
 
 ###
 
