@@ -24,7 +24,7 @@ Content-Type: application/json
 Authorization: {{auth_token}}
 
 ### assign task to user
-POST http://localhost:8080/usertask/assign
+POST http://localhost:8080/usertasks/assign
 Accept: application/json
 Content-Type: application/json
 Authorization: {{auth_token}}

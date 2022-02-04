@@ -4,12 +4,18 @@ import lombok.SneakyThrows;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.api.task.TaskDtoMapper;
 import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskRequest;
+import pl.sages.javadevpro.projecttwo.api.usertask.ListOfFilesResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.domain.TaskService;
 import pl.sages.javadevpro.projecttwo.domain.UserService;
@@ -19,6 +25,7 @@ import pl.sages.javadevpro.projecttwo.domain.user.User;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 class UserTaskEndpointIT extends BaseIT {
@@ -144,6 +151,64 @@ class UserTaskEndpointIT extends BaseIT {
 
         //then
         Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
+
+    @Test
+    void student_should_be_able_to_take_list_of_files_assigned_to_user_task() {
+        User user = new User(
+                "newUser11@example.com",
+                "User Name 11",
+                "pass",
+                List.of("STUDENT"),
+                new ArrayList<>()
+        );
+        userService.saveUser(user);
+
+        Task task = new Task(
+                "2",
+                "Task Name 2",
+                "Task description 2",
+                "https://github.com/rafal-nowak/task1"
+        );
+        taskService.saveTask(task);
+        AssignTaskRequest assignTaskRequest = new AssignTaskRequest(user.getEmail(), task.getId());
+        String adminToken = getTokenForAdmin();
+        String userToken = getAccessTokenForUser(user.getEmail(), user.getPassword());
+
+        //when
+        ResponseEntity<MessageResponse> responseAssignTask = callAssignTask(assignTaskRequest, adminToken);
+        MessageResponse messageResponse = responseAssignTask.getBody();
+
+        //then
+        Assertions.assertEquals(HttpStatus.OK, responseAssignTask.getStatusCode());
+        Assertions.assertEquals("OK", messageResponse.getStatus());
+        Assertions.assertEquals("Task assigned to user", messageResponse.getMessage());
+
+        //when
+        ResponseEntity<ListOfFilesResponse> responseListOfFiles = callGetFilesAssignedToUserTask("newUser11@example.com", "2", userToken);
+        ListOfFilesResponse listOfFilesResponse = responseListOfFiles.getBody();
+
+        //then
+        ArrayList<String> expectedFileList = new ArrayList<String>();
+        expectedFileList.add("src/task.py");
+        Assertions.assertEquals(HttpStatus.OK, responseListOfFiles.getStatusCode());
+        Assertions.assertEquals("OK", listOfFilesResponse.getStatus());
+        Assertions.assertEquals(expectedFileList, listOfFilesResponse.getFiles());
+
+    }
+
+    private ResponseEntity<ListOfFilesResponse> callGetFilesAssignedToUserTask (String userId, String taskId, String accessToken) {
+        String url = "/usertasks/" + userId + "/" + taskId + "/files";
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
+        headers.add(HttpHeaders.AUTHORIZATION, accessToken);
+
+        return restTemplate.exchange(
+                localUrl(url),
+                HttpMethod.GET,
+                new HttpEntity<>("{}",headers),
+                ListOfFilesResponse.class
+        );
     }
 
     private ResponseEntity<MessageResponse> callAssignTask(UserTaskRequest body, String accessToken) {
