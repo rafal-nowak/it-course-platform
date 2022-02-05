@@ -38,13 +38,14 @@ public class UserTaskService {
             .findFirst()
             .orElseThrow(() -> new RecordNotFoundException("Task is not assigned to user"));
             taskToSend.setTaskStatus(TaskStatus.STARTED);
+        updateUserTaskInDB(taskToSend, user);
+        return userTaskExecutor.exec(taskToSend);
+
 /// todo 1. wysylamy prawidlowy folder sciezka bezwzgledna
 /// todo 2. zmiana statusu taska na czas wykonania zadania - status - STARTED
 /// todo 3. zapis resultatow
-    // - commit wyniku   save statusu zadania
-    // - FAIlED/COMPLETE
-
-        return userTaskExecutor.exec(taskToSend);
+        // - commit wyniku   save statusu zadania
+        // - FAIlED/COMPLETE
     }
 
     public UserTask assignTask(String userEmail, String taskId) {
@@ -85,6 +86,17 @@ public class UserTaskService {
         } catch (IOException e) {
             throw new RecordNotFoundException("Not found");
         }
+    }
+
+    public void updateUserTaskInDB(UserTask userTask, User user) {
+        if (user.getTasks() == null) {
+            user.setTasks(new ArrayList<>());
+        }
+        List<UserTask> tasks = user.getTasks();
+        int indexOfUserTaskToUpdate = tasks.indexOf(userTask);
+
+        tasks.set(indexOfUserTaskToUpdate, userTask);
+        userService.updateUser(user);
     }
 
     private UserTask createFromTask(Task task, String userEmail) {
