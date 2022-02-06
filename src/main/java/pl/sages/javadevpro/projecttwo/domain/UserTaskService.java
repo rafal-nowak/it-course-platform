@@ -11,11 +11,9 @@ import pl.sages.javadevpro.projecttwo.domain.usertask.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -40,12 +38,6 @@ public class UserTaskService {
             taskToSend.setTaskStatus(TaskStatus.STARTED);
         updateUserTaskInDB(taskToSend, user);
         return userTaskExecutor.exec(taskToSend);
-
-/// todo 1. wysylamy prawidlowy folder sciezka bezwzgledna
-/// todo 2. zmiana statusu taska na czas wykonania zadania - status - STARTED
-/// todo 3. zapis resultatow
-        // - commit wyniku   save statusu zadania
-        // - FAIlED/COMPLETE
     }
 
     public UserTask assignTask(String userEmail, String taskId) {
@@ -94,7 +86,6 @@ public class UserTaskService {
         }
         List<UserTask> tasks = user.getTasks();
         int indexOfUserTaskToUpdate = tasks.indexOf(userTask);
-
         tasks.set(indexOfUserTaskToUpdate, userTask);
         userService.updateUser(user);
     }

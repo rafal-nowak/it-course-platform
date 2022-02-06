@@ -1,20 +1,20 @@
 package pl.sages.javadevpro.projecttwo.external.env.kafka;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import pl.sages.javadevpro.projecttwo.domain.UserService;
 import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
 import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
-import pl.sages.javadevpro.projecttwo.domain.usertask.TaskStatus;
 import pl.sages.javadevpro.projecttwo.domain.usertask.UserTask;
 import pl.sages.javadevpro.projecttwo.external.env.usertask.UserTaskEnv;
 import pl.sages.javadevpro.projecttwo.external.env.usertask.UserTaskEnvMapper;
-import pl.sages.javadevpro.projecttwo.external.env.usertask.UserTaskStatusEnv;
 
 import java.util.List;
 
+@Log
 @AllArgsConstructor
 @Service
 public class KafkaConsumer {
@@ -26,12 +26,12 @@ public class KafkaConsumer {
     @KafkaListener(topics = "Kafka_Task_Report_json", groupId = "group_json",
             containerFactory = "taskKafkaListenerFactory")
     public void consumeJson(UserTaskEnv userTaskEnv) {
-        System.out.println("Consumed JSON Task: " + userTaskEnv);
+        log.info("Consumed JSON Task: " + userTaskEnv);
         UserTask userTaskFromEnv = userTaskEnvMapper.toDomain(userTaskEnv);
-
         User user = userService.getUser(userTaskEnv.getUserEmail());
         List<UserTask> tasks = user.getTasks();
-        UserTask taskToStatusUpdate = tasks.stream().filter(task -> task.getId().equals(userTaskFromEnv.getId()))
+        UserTask taskToStatusUpdate = tasks.stream()
+                .filter(task -> task.getId().equals(userTaskFromEnv.getId()))
                 .findFirst()
                 .orElseThrow(() -> new RecordNotFoundException("Task is not assigned to user"));
 
