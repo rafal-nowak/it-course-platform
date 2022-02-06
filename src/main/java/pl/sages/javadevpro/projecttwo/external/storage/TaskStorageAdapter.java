@@ -1,8 +1,8 @@
 package pl.sages.javadevpro.projecttwo.external.storage;
 
-import org.springframework.dao.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.dao.DuplicateKeyException;
 import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
 import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;

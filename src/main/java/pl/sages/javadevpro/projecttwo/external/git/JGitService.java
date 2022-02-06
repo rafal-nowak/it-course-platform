@@ -4,12 +4,12 @@ import lombok.SneakyThrows;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.stereotype.Component;
 import pl.sages.javadevpro.projecttwo.domain.usertask.GitService;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import java.util.Set;
 
 import java.io.File;
+import java.util.Set;
 
 @Component
 public class JGitService implements GitService {

@@ -7,9 +7,9 @@ Content-Type: application/json
 Authorization: {{auth_token}}
 
 {
-"id": "2",
-"name": "test 2",
-"description": "Opis zrob cos tam cos tam",
+"id": "5",
+"name": "test 5",
+"description": "Zadanie z TASK2 z gita",
 "repositoryPath": "https://github.com/rafal-nowak/task2"
 }
 
@@ -23,7 +23,7 @@ Authorization: {{auth_token}}
 
 {
 "userEmail": "stefan@example.com",
-"taskId": "2"
+"taskId": "5"
 }
 ### Wyslij task do sprawdzenia
 POST http://localhost:8080/usertask/run
@@ -33,5 +33,5 @@ Authorization: {{auth_token}}
 
 {
   "userEmail": "stefan@example.com",
-  "taskId": "2"
+  "taskId": "5"
 }
