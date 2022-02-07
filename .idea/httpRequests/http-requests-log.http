@@ -1,3 +1,17 @@
+GET http://localhost:8080/usertask/results
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQ0MjYwODgzLCJyb2wiOlsiQURNSU4iXX0._CY2Z3aE_H6YI3h_7vk6FUQi1za6SatByIqh9sNIfAPNg5SICmGVtS3etxoKvLTkDCe2EwdJ0PvRQ5tT2MqHew
+
+{
+  "userEmail": "jan@example.com",
+  "taskId": "1"
+}
+
+<> 2022-02-07T201621.401.txt
+
+###
+
 POST http://localhost:8080/usertasks/assign
 Accept: application/json
 Content-Type: application/json
@@ -645,22 +659,6 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkL
 }
 
 <> 2022-02-03T023206.200.json
-
-###
-
-POST http://localhost:8080/tasks
-Accept: application/json
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQzODUzMzI3LCJyb2wiOlsiQURNSU4iXX0.uR1RVDYfsw-mfyqoRYmkqK2xTMPkdqNEI7RYjTMjsmXhWRacsMJdf0DHoM0ZIsgdDzvCg1lrGfg6sohCxCc1HA
-
-{
-"id": "1",
-"name": "test 1",
-"description": "Opis zrob cos tam cos tam",
-"repositoryPath": "https://github.com/rafal-nowak/task1"
-}
-
-<> 2022-02-03T022549.200.json
 
 ###
 
