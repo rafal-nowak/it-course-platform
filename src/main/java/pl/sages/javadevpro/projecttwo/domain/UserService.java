@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 public class UserService {
 
@@ -25,4 +27,7 @@ public class UserService {
         return userRepository.findByEmail(email).orElse(null);
     }
 
+    public List<User> getUser() {
+        return userRepository.getAllUsers();
+    }
 }
