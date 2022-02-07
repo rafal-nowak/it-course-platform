@@ -97,7 +97,7 @@ public class LocalDirectoryService implements DirectoryService {
     @Override
     public File getResultFile(String userEmail, String taskId) {
         String path = getLocalPath(userEmail,taskId);
-        return new File(path + "/test_summary.txt");
+        return new File(path + "/test_results/test_summary.txt");
     }
 
     private String getLocalPath(String userEmail, String taskId) {

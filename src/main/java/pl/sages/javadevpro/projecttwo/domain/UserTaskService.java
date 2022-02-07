@@ -1,6 +1,7 @@
 package pl.sages.javadevpro.projecttwo.domain;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
 import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Log
 @RequiredArgsConstructor
 public class UserTaskService {
 
@@ -35,7 +36,7 @@ public class UserTaskService {
             .filter(task -> task.getId().equals(taskId))
             .findFirst()
             .orElseThrow(() -> new RecordNotFoundException("Task is not assigned to user"));
-            taskToSend.setTaskStatus(TaskStatus.STARTED);
+            taskToSend.setTaskStatus(TaskStatus.SUBMITTED);
         updateUserTaskInDB(taskToSend, user);
         return userTaskExecutor.exec(taskToSend);
     }
@@ -76,6 +77,7 @@ public class UserTaskService {
         try {
             return Files.readAllLines(resultFile.toPath()).stream().collect(Collectors.joining("\n"));
         } catch (IOException e) {
+            log.warning(e.getMessage());
             throw new RecordNotFoundException("Not found");
         }
     }
