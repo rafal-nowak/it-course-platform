@@ -11,7 +11,9 @@ import pl.sages.javadevpro.projecttwo.external.storage.user.MongoUserRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntity;
 import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntityMapper;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Log
@@ -69,5 +71,12 @@ public class UserStorageAdapter implements UserRepository {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll().stream()
+            .map(mapper::toDomain)
+            .collect(Collectors.toList());
     }
 }

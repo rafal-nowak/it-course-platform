@@ -10,6 +10,9 @@ import pl.sages.javadevpro.projecttwo.api.user.UserDtoMapper;
 import pl.sages.javadevpro.projecttwo.domain.UserService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/users")
@@ -29,6 +32,20 @@ public class UserEndpoint {
 
         return ResponseEntity
             .ok(dtoMapper.toDto(user));
+    }
+
+    @GetMapping(
+        produces = "application/json",
+        consumes = "application/json"
+    )
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity<List<UserDto>> getUsers() {
+        List<UserDto> userList = userService.getUser().stream()
+            .map(dtoMapper::toDto)
+            .collect(Collectors.toList());
+
+        return ResponseEntity
+            .ok(userList);
     }
 
     @PostMapping(
