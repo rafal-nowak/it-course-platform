@@ -7,8 +7,8 @@ Content-Type: application/json
 Authorization: {{auth_token}}
 
 {
-"id": "5",
-"name": "test 5",
+"id": "111",
+"name": "test 111",
 "description": "Zadanie z TASK2 z gita",
 "repositoryPath": "https://github.com/rafal-nowak/task2"
 }
@@ -16,14 +16,14 @@ Authorization: {{auth_token}}
 <> 2022-01-20T203200.200.json
 
 ### przypisz task do usera
-POST http://localhost:8080/usertask/assign
+POST http://localhost:8080/usertasks/assign
 Accept: application/json
 Content-Type: application/json
 Authorization: {{auth_token}}
 
 {
-"userEmail": "stefan@example.com",
-"taskId": "5"
+"userEmail": "rafal@gmail.com",
+"taskId": "1"
 }
 ### Wyslij task do sprawdzenia
 POST http://localhost:8080/usertask/run

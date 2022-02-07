@@ -4,8 +4,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "stefan@example.com",
-  "password": "password"
+  "email": "rafal@gmail.com",
+  "password": "userPass"
 }
 
 > {% client.global.set("auth_token", response.headers.valueOf("Authorization")); %}
