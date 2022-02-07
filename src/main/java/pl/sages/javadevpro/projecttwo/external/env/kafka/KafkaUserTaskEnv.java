@@ -15,6 +15,6 @@ import pl.sages.javadevpro.projecttwo.external.env.usertask.UserTaskEnv;
     public String send(UserTaskEnv userTaskEnv) {
         kafkaTemplate.send(TOPIC, userTaskEnv);
 
-        return "Task Sent Successfully";
+        return "Task Send Successfully";
     }
 }
