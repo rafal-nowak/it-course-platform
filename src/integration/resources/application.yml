@@ -9,3 +9,5 @@ spring:
       database: integrationTests
       port: 27016
       host: localhost
+local:
+  folder: testRepo/

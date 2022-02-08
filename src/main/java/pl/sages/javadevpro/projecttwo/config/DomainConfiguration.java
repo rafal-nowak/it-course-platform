@@ -2,6 +2,7 @@ package pl.sages.javadevpro.projecttwo.config;
 
 
 import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,18 +14,18 @@ import pl.sages.javadevpro.projecttwo.domain.UserService;
 import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskRepository;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
+import pl.sages.javadevpro.projecttwo.domain.usertask.DirectoryService;
+import pl.sages.javadevpro.projecttwo.domain.usertask.GitService;
 import pl.sages.javadevpro.projecttwo.domain.usertask.UserTaskExecutor;
+import pl.sages.javadevpro.projecttwo.external.directory.LocalDirectoryService;
 import pl.sages.javadevpro.projecttwo.external.env.UserTaskEnvAdapter;
 import pl.sages.javadevpro.projecttwo.external.env.kafka.KafkaUserTaskEnv;
 import pl.sages.javadevpro.projecttwo.external.env.usertask.UserTaskEnvMapper;
-import pl.sages.javadevpro.projecttwo.domain.usertask.DirectoryService;
-import pl.sages.javadevpro.projecttwo.domain.usertask.GitService;
-import pl.sages.javadevpro.projecttwo.external.directory.LocalDirectoryService;
 import pl.sages.javadevpro.projecttwo.external.git.JGitService;
-import pl.sages.javadevpro.projecttwo.external.storage.task.MongoTaskRepository;
-import pl.sages.javadevpro.projecttwo.external.storage.task.TaskEntityMapper;
 import pl.sages.javadevpro.projecttwo.external.storage.TaskStorageAdapter;
 import pl.sages.javadevpro.projecttwo.external.storage.UserStorageAdapter;
+import pl.sages.javadevpro.projecttwo.external.storage.task.MongoTaskRepository;
+import pl.sages.javadevpro.projecttwo.external.storage.task.TaskEntityMapper;
 import pl.sages.javadevpro.projecttwo.external.storage.user.MongoUserRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntityMapper;
 import pl.sages.javadevpro.projecttwo.external.storage.usertask.UserTaskEntityMapper;
@@ -32,7 +33,6 @@ import pl.sages.javadevpro.projecttwo.external.storage.usertask.UserTaskEntityMa
 @Configuration
 @ConfigurationProperties("domain.properties")
 public class DomainConfiguration {
-
 
     @Bean
     public UserRepository userRepository(MongoUserRepository mongoUserRepository, UserEntityMapper mapper) {
@@ -114,8 +114,9 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public DirectoryService directoryService(){
-        return new LocalDirectoryService();
+    public DirectoryService directoryService(@Value("${local.folder}") String baseLocalFolder){
+        return new LocalDirectoryService(baseLocalFolder);
     }
+
 
 }
