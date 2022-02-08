@@ -17,8 +17,8 @@ import java.nio.file.Path;
 @ExtendWith(MockitoExtension.class)
 class LocalDirectoryServiceTest {
 
-    private final LocalDirectoryService localDirectoryService = new LocalDirectoryService();
-    private final static String TEST_DIRECTORY = Path.of("userTasks/sampleemailcom/1").toAbsolutePath().toString();
+    private final LocalDirectoryService localDirectoryService = new LocalDirectoryService("testRepo/");
+    private final static String TEST_DIRECTORY = Path.of("testRepo/sampleemailcom/1").toAbsolutePath().toString();
     private final static String USER_EMAIL = "sample@email.com";
 
     @Mock

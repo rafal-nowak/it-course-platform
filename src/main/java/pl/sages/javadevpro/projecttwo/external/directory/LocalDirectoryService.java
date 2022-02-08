@@ -18,9 +18,18 @@ import java.util.stream.Collectors;
 
 public class LocalDirectoryService implements DirectoryService {
 
+    private static final String SUMMARY_RESULT_FILE_PATH = "/test_results/test_summary.txt";
+    private static final String TASK_DEFINITION_FILE_PATH = "/task_definition.yml";
+
+    private final String baseLocalFolder;
+
+    public LocalDirectoryService(String baseLocalFolder) {
+        this.baseLocalFolder = baseLocalFolder;
+    }
+
     @Override
     public String createDirectoryForUserTask(Task task, String userEmail) {
-        String path = getLocalPath(userEmail,task.getId());
+        String path = getPathToUserTask(userEmail,task.getId());
 
         Path folderPath = Path.of(path);
         Path absolutePath = folderPath.toAbsolutePath();
@@ -37,8 +46,7 @@ public class LocalDirectoryService implements DirectoryService {
 
     @Override
     public List<String> readListOfAvailableFilesForUserTask(String userEmail, String taskId) {
-        String convertedEmail = removeSymbolsFromEmail(userEmail);
-        String path = "userTasks/" + convertedEmail + "/" + taskId + "/task_definition.yml";
+        String path = getPathToUserTask(userEmail, taskId) + TASK_DEFINITION_FILE_PATH;
 
         var mapper = new ObjectMapper(new YAMLFactory());
         mapper.findAndRegisterModules();
@@ -75,7 +83,6 @@ public class LocalDirectoryService implements DirectoryService {
     @Override
     public File takeFileFromUserTask(String userEmail, String taskId, String fileId) {
         List<String> listOfAvailableFilesForUserTask = readListOfAvailableFilesForUserTask(userEmail, taskId);
-        String convertedEmail = removeSymbolsFromEmail(userEmail);
 
         if (Integer.parseInt(fileId) > listOfAvailableFilesForUserTask.size()) {
             throw new ResourceNotFoundException("File " + fileId + " was not assigned to " + taskId + " user task " + userEmail);
@@ -83,29 +90,21 @@ public class LocalDirectoryService implements DirectoryService {
 
         String relatedPathToSelectedFile = listOfAvailableFilesForUserTask.get(Integer.parseInt(fileId) - 1);
 
-        String path = "userTasks/" + convertedEmail + "/" + taskId + "/" + relatedPathToSelectedFile;
+        String path = getPathToUserTask(userEmail, taskId) + "/" + relatedPathToSelectedFile;
 
         return new File(path);
     }
 
     @Override
     public String getPathToUserTask(String userEmail, String taskId) {
-        String convertedEmail = removeSymbolsFromEmail(userEmail);
-        return  "userTasks/" + convertedEmail + "/" + taskId;
+        String convertedEmail = userEmail.replace("@","").replace(".","");
+        return  baseLocalFolder + convertedEmail + "/" + taskId;
     }
 
     @Override
     public File getResultFile(String userEmail, String taskId) {
-        String path = getLocalPath(userEmail,taskId);
-        return new File(path + "/test_results/test_summary.txt");
+        String path = getPathToUserTask(userEmail,taskId);
+        return new File(path + SUMMARY_RESULT_FILE_PATH);
     }
 
-    private String getLocalPath(String userEmail, String taskId) {
-        String convertedEmail = userEmail.replace("@","").replace(".","");
-        return "userTasks/" + convertedEmail + "/" + taskId;
-    }
-
-    private String removeSymbolsFromEmail(String email) {
-        return email.replace("@","").replace(".","");
-    }
 }

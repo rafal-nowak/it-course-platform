@@ -187,7 +187,7 @@ class UserTaskEndpointIT extends BaseIT {
         ListOfFilesResponse listOfFilesResponse = responseListOfFiles.getBody();
 
         //then
-        ArrayList<String> expectedFileList = new ArrayList<String>();
+        ArrayList<String> expectedFileList = new ArrayList<>();
         expectedFileList.add("src/task.py");
         Assertions.assertEquals(HttpStatus.OK, responseListOfFiles.getStatusCode());
         Assertions.assertEquals("OK", listOfFilesResponse.getStatus());
@@ -221,11 +221,10 @@ class UserTaskEndpointIT extends BaseIT {
         );
     }
 
-//fixme cleanDirectory should not delete files from business app
     @SneakyThrows
     @AfterAll
     private static void cleanUpFolders(){
-        File file = new File("userTasks");
+        File file = new File("testRepo");
         FileUtils.cleanDirectory(file);
     }
 
