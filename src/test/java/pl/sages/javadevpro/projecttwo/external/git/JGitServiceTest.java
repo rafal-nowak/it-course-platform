@@ -2,10 +2,10 @@ package pl.sages.javadevpro.projecttwo.external.git;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
-import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.junit.jupiter.api.*;
+import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.nio.file.Path;
 
 class JGitServiceTest {
 
-    private JGitService jGitService = new JGitService();
+    private final JGitService jGitService = new JGitService();
 
     private final static String TEST_FOLDER = "testRepo/testProject";
     private final static String TEST_REPO = "https://github.com/Piorrt/projectOne";
@@ -67,7 +67,7 @@ class JGitServiceTest {
     @Test
     void shouldThrowExceptionIfTargetPathIsNotEmpty() {
         Assertions.assertThrows(
-                JGitInternalException.class,
+                DuplicateRecordException.class,
                 () -> {
                     jGitService.cloneTask(TEST_REPO,TEST_FOLDER);
                     jGitService.cloneTask(TEST_REPO,TEST_FOLDER);

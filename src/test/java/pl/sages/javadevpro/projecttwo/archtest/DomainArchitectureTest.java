@@ -12,11 +12,11 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
         importOptions = {ImportOption.DoNotIncludeTests.class})
 public class DomainArchitectureTest {
 
-    // FIXME
 
-//    @ArchTest
-//    public static final ArchRule domain_has_no_external_dependencies = noClasses().that().resideInAPackage("..domain..")
-//            .should().dependOnClassesThat().resideOutsideOfPackages("..domain..", "..java..");
+    @ArchTest
+    public static final ArchRule domain_has_no_external_dependencies = noClasses().that().resideInAPackage("..domain..")
+            .should().dependOnClassesThat().resideOutsideOfPackages("..domain..", "..java..", "");
+    // the package "" is where byte[] resides (=> https://stackoverflow.com/questions/67298013/archunit-base-type-thrown-wrong)
 
     @ArchTest
     public static final ArchRule task_is_not_dependent_on_user = noClasses().that().resideInAPackage("..domain.task..")
