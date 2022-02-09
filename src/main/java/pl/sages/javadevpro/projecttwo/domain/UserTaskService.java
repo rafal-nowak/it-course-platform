@@ -2,8 +2,7 @@ package pl.sages.javadevpro.projecttwo.domain;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
-import org.eclipse.jgit.api.errors.JGitInternalException;
-import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
+
 import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.task.Task;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
@@ -46,11 +45,7 @@ public class UserTaskService {
         Task task = taskService.getTask(taskId);
 
         UserTask userTask;
-        try {
-            userTask = createFromTask(task, user.getEmail());
-        } catch (JGitInternalException e) {
-            throw new DuplicateRecordException("Task " + task.getId() + " was already assigned to user " + user.getEmail());
-        }
+        userTask = createFromTask(task, user.getEmail());
 
         addUserTaskToDB(userTask, user);
         return userTask;
