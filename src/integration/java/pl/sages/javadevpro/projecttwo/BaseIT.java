@@ -11,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.sages.javadevpro.projecttwo.config.CredentialsDTO;
 import pl.sages.javadevpro.projecttwo.domain.UserService;
@@ -19,6 +20,7 @@ import pl.sages.javadevpro.projecttwo.domain.user.User;
 import java.util.ArrayList;
 import java.util.List;
 
+@ActiveProfiles("it")
 @AutoConfigureDataMongo
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
