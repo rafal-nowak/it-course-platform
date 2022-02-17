@@ -25,18 +25,21 @@ public class UserTaskService {
     private final TaskService taskService;
     private final UserTaskExecutor userTaskExecutor;
 
+    public boolean canUserUploadFiles(String userEmail, String taskId) {
+        UserTask taskToCheck = getUserTask(userEmail, taskId);
+
+        if (taskToCheck.getTaskStatus() == TaskStatus.SUBMITTED) {
+            return false;
+        }
+
+        return true;
+    }
+
     public String exec(String userEmail, String taskId) {
         User user = userService.getUser(userEmail);
-        List<UserTask> tasks = user.getTasks();
-        if (tasks == null) {
-            throw new RecordNotFoundException("Task is not assigned to user");
-        }
-        UserTask taskToSend = tasks.stream()
-            .filter(task -> task.getId().equals(taskId))
-            .findFirst()
-            .orElseThrow(() -> new RecordNotFoundException("Task is not assigned to user"));
-            taskToSend.setTaskStatus(TaskStatus.SUBMITTED);
+        UserTask taskToSend = getUserTask(userEmail, taskId);
         updateUserTaskInDB(taskToSend, user);
+
         return userTaskExecutor.exec(taskToSend);
     }
 
@@ -85,6 +88,19 @@ public class UserTaskService {
         int indexOfUserTaskToUpdate = tasks.indexOf(userTask);
         tasks.set(indexOfUserTaskToUpdate, userTask);
         userService.updateUser(user);
+    }
+
+    private UserTask getUserTask(String userEmail, String taskId) {
+        User user = userService.getUser(userEmail);
+        List<UserTask> tasks = user.getTasks();
+        if (tasks == null) {
+            throw new RecordNotFoundException("Task is not assigned to user");
+        }
+        UserTask userTask = tasks.stream()
+                .filter(task -> task.getId().equals(taskId))
+                .findFirst()
+                .orElseThrow(() -> new RecordNotFoundException("Task is not assigned to user"));
+        return userTask;
     }
 
     private UserTask createFromTask(Task task, String userEmail) {

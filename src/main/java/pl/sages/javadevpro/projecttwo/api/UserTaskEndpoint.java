@@ -107,18 +107,22 @@ public class UserTaskEndpoint {
             @PathVariable String fileId
             ) {
 
-        try {
-            byte[] bytes = file.getBytes();
+        if (userTaskService.canUserUploadFiles(userId, taskId)) {
+            try {
+                byte[] bytes = file.getBytes();
 
-            userTaskService.uploadFileForUserTask(userId, taskId, fileId, bytes);
+                userTaskService.uploadFileForUserTask(userId, taskId, fileId, bytes);
 
-            userTaskService.commitTask(userId, taskId);
+                userTaskService.commitTask(userId, taskId);
 
-        } catch (IOException e) {
-            return new ResponseEntity<>("The File Upload Failed", HttpStatus.INTERNAL_SERVER_ERROR);
+            } catch (IOException e) {
+                return new ResponseEntity<>("The File Upload Failed", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            return new ResponseEntity<>("The File Uploaded Successfully", HttpStatus.OK);
         }
 
-        return new ResponseEntity<>("The File Uploaded Successfully", HttpStatus.OK);
+        return new ResponseEntity<>("The File Upload Failed", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping(
