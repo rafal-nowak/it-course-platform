@@ -7,15 +7,15 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import pl.sages.javadevpro.projecttwo.api.task.TaskDto;
 import pl.sages.javadevpro.projecttwo.api.task.TaskDtoMapper;
-import pl.sages.javadevpro.projecttwo.domain.TaskService;
-import pl.sages.javadevpro.projecttwo.domain.task.Task;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/tasks")
 public class TaskEndpoint {
 
-    private final TaskService taskService;
+    private final TaskBlueprintService taskBlueprintService;
     private final TaskDtoMapper dtoMapper;
 
     @GetMapping(
@@ -25,10 +25,10 @@ public class TaskEndpoint {
     )
     @Secured({"ROLE_STUDENT", "ROLE_ADMIN"})
     public ResponseEntity<TaskDto> getTask(@PathVariable(name = "id")String taskId) {
-        Task task = taskService.getTask(taskId);
+        TaskBlueprint taskBlueprint = taskBlueprintService.findBy(taskId);
 
         return ResponseEntity
-                .ok(dtoMapper.toDto(task));
+                .ok(dtoMapper.toDto(taskBlueprint));
     }
 
     @PostMapping(
@@ -37,9 +37,9 @@ public class TaskEndpoint {
     )
     @Secured("ROLE_ADMIN")
     public ResponseEntity<TaskDto> saveTask(@RequestBody TaskDto dto) {
-        Task task = taskService.saveTask(dtoMapper.toDomain(dto));
+        TaskBlueprint taskBlueprint = taskBlueprintService.save(dtoMapper.toDomain(dto));
         return ResponseEntity
-                .ok(dtoMapper.toDto(task));
+                .ok(dtoMapper.toDto(taskBlueprint));
     }
 
     @DeleteMapping(
@@ -48,7 +48,7 @@ public class TaskEndpoint {
     )
     @Secured("ROLE_ADMIN")
     public ResponseEntity removeTask(@RequestBody TaskDto dto){
-        taskService.removeTask(dtoMapper.toDomain(dto));
+        taskBlueprintService.remove(dtoMapper.toDomain(dto));
         return ResponseEntity.ok(dto);
     }
 
@@ -58,8 +58,8 @@ public class TaskEndpoint {
     )
     @Secured("ROLE_ADMIN")
     public ResponseEntity updateTask(@RequestBody TaskDto dto){
-       Task task = taskService.updateTask(dtoMapper.toDomain(dto));
-       return ResponseEntity.ok(dtoMapper.toDto(task));
+       TaskBlueprint taskBlueprint = taskBlueprintService.update(dtoMapper.toDomain(dto));
+       return ResponseEntity.ok(dtoMapper.toDto(taskBlueprint));
     }
 
 }

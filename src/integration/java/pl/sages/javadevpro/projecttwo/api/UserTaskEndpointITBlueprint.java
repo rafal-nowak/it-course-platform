@@ -16,17 +16,17 @@ import pl.sages.javadevpro.projecttwo.api.task.TaskDtoMapper;
 import pl.sages.javadevpro.projecttwo.api.usertask.ListOfFilesResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskRequest;
-import pl.sages.javadevpro.projecttwo.domain.TaskService;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 import pl.sages.javadevpro.projecttwo.domain.UserService;
 import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
-import pl.sages.javadevpro.projecttwo.domain.task.Task;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-class UserTaskEndpointIT extends BaseIT {
+class UserTaskEndpointITBlueprint extends BaseIT {
 
     @Autowired
     UserTaskService userTaskService;
@@ -35,7 +35,7 @@ class UserTaskEndpointIT extends BaseIT {
     UserService userService;
 
     @Autowired
-    TaskService taskService;
+    TaskBlueprintService taskBlueprintService;
 
     @Autowired
     TaskDtoMapper taskDtoMapper;
@@ -52,14 +52,14 @@ class UserTaskEndpointIT extends BaseIT {
         );
         userService.saveUser(user);
 
-        Task task = new Task(
+        TaskBlueprint taskBlueprint = new TaskBlueprint(
                 "1",
                 "Task Name 1",
                 "Task description 1",
                 "https://github.com/Piorrt/projectOne"
         );
-        taskService.saveTask(task);
-        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getEmail(), task.getId());
+        taskBlueprintService.save(taskBlueprint);
+        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getEmail(), taskBlueprint.getId());
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
@@ -80,14 +80,14 @@ class UserTaskEndpointIT extends BaseIT {
         );
         userService.saveUser(user);
 
-        Task task = new Task(
+        TaskBlueprint taskBlueprint = new TaskBlueprint(
                 "1",
                 "Task Name 1",
                 "Task description 1",
                 "https://github.com/Piorrt/projectOne"
         );
-        taskService.saveTask(task);
-        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getEmail(), task.getId());
+        taskBlueprintService.save(taskBlueprint);
+        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getEmail(), taskBlueprint.getId());
         String token = getTokenForAdmin();
 
         //when
@@ -113,14 +113,14 @@ class UserTaskEndpointIT extends BaseIT {
         );
         userService.saveUser(user);
 
-        Task task = new Task(
+        TaskBlueprint taskBlueprint = new TaskBlueprint(
                 "1",
                 "Task Name 1",
                 "Task description 1",
                 "https://github.com/Piorrt/projectOne"
         );
-        taskService.saveTask(task);
-        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getEmail(), task.getId());
+        taskBlueprintService.save(taskBlueprint);
+        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getEmail(), taskBlueprint.getId());
         String token = getTokenForAdmin();
 
         callAssignTask(userTaskRequest, token);
@@ -134,14 +134,14 @@ class UserTaskEndpointIT extends BaseIT {
 
     @Test
     void admin_should_get_204_response_code_when_trying_to_add_task_to_not_existing_user() {
-        Task task = new Task(
+        TaskBlueprint taskBlueprint = new TaskBlueprint(
                 "1",
                 "Task Name 1",
                 "Task description 1",
                 "https://github.com/Piorrt/projectOne"
         );
-        taskService.saveTask(task);
-        UserTaskRequest userTaskRequest = new UserTaskRequest("newUser13@example.com", task.getId());
+        taskBlueprintService.save(taskBlueprint);
+        UserTaskRequest userTaskRequest = new UserTaskRequest("newUser13@example.com", taskBlueprint.getId());
         String token = getTokenForAdmin();
 
         //when
@@ -162,14 +162,14 @@ class UserTaskEndpointIT extends BaseIT {
         );
         userService.saveUser(user);
 
-        Task task = new Task(
+        TaskBlueprint taskBlueprint = new TaskBlueprint(
                 "2",
                 "Task Name 2",
                 "Task description 2",
                 "https://github.com/rafal-nowak/task1"
         );
-        taskService.saveTask(task);
-        UserTaskRequest assignTaskRequest = new UserTaskRequest(user.getEmail(), task.getId());
+        taskBlueprintService.save(taskBlueprint);
+        UserTaskRequest assignTaskRequest = new UserTaskRequest(user.getEmail(), taskBlueprint.getId());
         String adminToken = getTokenForAdmin();
         String userToken = getAccessTokenForUser(user.getEmail(), user.getPassword());
 

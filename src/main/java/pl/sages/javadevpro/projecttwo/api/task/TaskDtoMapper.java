@@ -1,13 +1,13 @@
 package pl.sages.javadevpro.projecttwo.api.task;
 
 import org.mapstruct.Mapper;
-import pl.sages.javadevpro.projecttwo.domain.task.Task;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 
 @Mapper
 public interface TaskDtoMapper {
 
-    TaskDto toDto(Task task);
+    TaskDto toDto(TaskBlueprint taskBlueprint);
 
-    Task toDomain(TaskDto dto);
+    TaskBlueprint toDomain(TaskDto dto);
 
 }

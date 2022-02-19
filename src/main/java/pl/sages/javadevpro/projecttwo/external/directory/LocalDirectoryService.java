@@ -3,7 +3,7 @@ package pl.sages.javadevpro.projecttwo.external.directory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import pl.sages.javadevpro.projecttwo.domain.exception.ResourceNotFoundException;
-import pl.sages.javadevpro.projecttwo.domain.task.Task;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 import pl.sages.javadevpro.projecttwo.domain.usertask.DirectoryService;
 import pl.sages.javadevpro.projecttwo.external.directory.task.FileToBeDeliveredToUser;
 import pl.sages.javadevpro.projecttwo.external.directory.task.TaskDefinition;
@@ -28,8 +28,8 @@ public class LocalDirectoryService implements DirectoryService {
     }
 
     @Override
-    public String createDirectoryForUserTask(Task task, String userEmail) {
-        String path = getPathToUserTask(userEmail,task.getId());
+    public String createDirectoryForUserTask(TaskBlueprint taskBlueprint, String userEmail) {
+        String path = getPathToUserTask(userEmail, taskBlueprint.getId());
 
         Path folderPath = Path.of(path);
         Path absolutePath = folderPath.toAbsolutePath();

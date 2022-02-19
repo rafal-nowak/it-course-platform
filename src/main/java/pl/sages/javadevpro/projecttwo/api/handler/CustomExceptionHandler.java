@@ -20,4 +20,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     public final ResponseEntity handleDuplicateRecordException() {
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
+
+    //TODO - TaskBlueprintNotFoundException - dodać. Jeśli wystąpi to zwracamy 404_NOT_FOUND - default message
 }

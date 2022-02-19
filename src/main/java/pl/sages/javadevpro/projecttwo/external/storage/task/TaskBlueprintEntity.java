@@ -7,14 +7,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 
 @Data
-@TypeAlias("Tasks")
-@Document(value = "TaskEntity")
-public class TaskEntity {
+@TypeAlias("TaskBlueprints")
+@Document(value = "TaskBlueprintEntity")
+public class TaskBlueprintEntity {
 
     @Id
     private String id;
     private String name;
     private String description;
-    private String repositoryPath;
+    private String repositoryUrl;
 
 }
