@@ -8,8 +8,8 @@ import pl.sages.javadevpro.projecttwo.domain.user.User;
 public interface UserDtoMapper {
 
     @Mapping(target="password", constant = "######")
-    UserDto toDto(User user);
+    UserDto toDto(User domain);
 
-    User toDomain(UserDto userDto);
+    User toDomain(UserDto dto);
 
 }

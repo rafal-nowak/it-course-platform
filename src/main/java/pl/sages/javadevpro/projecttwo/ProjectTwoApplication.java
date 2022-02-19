@@ -17,25 +17,25 @@ public class ProjectTwoApplication {
 		final UserRepository userRepository =
 				context.getBean(UserRepository.class);
 
-//		userRepository.save(
-//			new User(
-//				"jan@example.com",
-//				"Jan Kowalski",
-//				"MyPassword",
-//				List.of("ADMIN"),
-//				null
-//			)
-//		);
-//
-//		userRepository.save(
-//			new User(
-//				"stefan@example.com",
-//				"Stefan Burczymucha",
-//				"password",
-//				List.of("STUDENT"),
-//				null
-//			)
-//		);
+		userRepository.save(
+			new User(
+				"jan@example.com",
+				"Jan Kowalski",
+				"MyPassword",
+				List.of("ADMIN")
+			)
+		);
+
+		userRepository.save(
+			new User(
+				"stefan@example.com",
+				"Stefan Burczymucha",
+				"password",
+				List.of("STUDENT")
+			)
+		);
 	}
+
+	// TODO co chcemy zwrocic przy remove i update
 
 }

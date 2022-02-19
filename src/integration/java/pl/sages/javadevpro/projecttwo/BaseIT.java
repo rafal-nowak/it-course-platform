@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.sages.javadevpro.projecttwo.config.CredentialsDTO;
-import pl.sages.javadevpro.projecttwo.domain.UserService;
+import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 
 import java.util.ArrayList;
@@ -52,8 +52,7 @@ public class BaseIT {
             "admin@example.pl",
             "Stefan Burczymucha",
             "password",
-            List.of("ADMIN"),
-            new ArrayList<>()
+            List.of("ADMIN")
         );
 
     protected String localUrl(String endpoint) {
@@ -61,7 +60,7 @@ public class BaseIT {
     }
 
     protected void addTestUsers() {
-        userService.saveUser(adminUser);
+        userService.save(adminUser);
     }
 
     protected String getAccessTokenForUser(String email, String password) {

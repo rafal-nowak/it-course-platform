@@ -11,7 +11,8 @@ public interface UserRepository {
 
     void remove(User user);
 
-    Optional<User> findByEmail(String user);
+    Optional<User> findByEmail(String email);
 
-    List<User> getAllUsers();
+    List<User> findAll();
+
 }

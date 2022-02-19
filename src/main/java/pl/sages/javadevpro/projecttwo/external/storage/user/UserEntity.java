@@ -21,6 +21,6 @@ public class UserEntity {
     private String name;
     private String password;
     private List<String> roles;
-    private List<UserTaskEntity> tasks = new ArrayList<>();
+
 
 }

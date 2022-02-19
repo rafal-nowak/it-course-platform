@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.api.task.TaskBlueprintDto;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
-import pl.sages.javadevpro.projecttwo.domain.UserService;
+import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 
@@ -35,8 +35,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
                 "newUser@example.com",
                 "User Name",
                 "pass",
-                List.of("STUDENT"),
-                new ArrayList<>()
+                List.of("STUDENT")
         );
         TaskBlueprint taskBlueprint = new TaskBlueprint(
                 "1",
@@ -44,7 +43,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
                 "Task description 1",
                 "https://github.com/some-reporitory-1"
         );
-        userService.saveUser(user);
+        userService.save(user);
         taskBlueprintService.save(taskBlueprint);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         //when
@@ -66,8 +65,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
                 "newUser1@example.com",
                 "User Name1",
                 "pass1",
-                List.of("STUDENT"),
-                new ArrayList<>()
+                List.of("STUDENT")
         );
         TaskBlueprint taskBlueprint2 = new TaskBlueprint(
                 "2",
@@ -87,7 +85,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
                 "Task description 4",
                 "https://github.com/some-reporitory-4"
         );
-        userService.saveUser(user);
+        userService.save(user);
         taskBlueprintService.save(taskBlueprint2);
         taskBlueprintService.save(taskBlueprint3);
         taskBlueprintService.save(taskBlueprint4);
@@ -134,8 +132,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
                 "newUser1@example.com",
                 "User Name1",
                 "pass1",
-                List.of("STUDENT"),
-                new ArrayList<>()
+                List.of("STUDENT")
         );
         TaskBlueprint taskBlueprint5 = new TaskBlueprint(
                 "5",
@@ -143,7 +140,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
                 "Task description 5",
                 "/path/xxx"
         );
-        userService.saveUser(user);
+        userService.save(user);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         //when
         ResponseEntity<TaskBlueprintDto> response = callSaveTask(taskBlueprint5, token);
@@ -192,8 +189,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
                 "newUser@example.com",
                 "User Name",
                 "pass",
-                List.of("STUDENT"),
-                new ArrayList<>()
+                List.of("STUDENT")
         );
         TaskBlueprint taskBlueprint6 = new TaskBlueprint(
                 "6",
@@ -201,7 +197,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
                 "Task description 6",
                 "/path/path"
         );
-        userService.saveUser(user);
+        userService.save(user);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         taskBlueprintService.save(taskBlueprint6);
 
@@ -247,10 +243,9 @@ public class TaskBlueprintControllerIT extends BaseIT {
                 "newUser1@example.com",
                 "User Name1",
                 "pass1",
-                List.of("STUDENT"),
-                new ArrayList<>()
+                List.of("STUDENT")
         );
-        userService.saveUser(user);
+        userService.save(user);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         //when
         ResponseEntity<TaskBlueprintDto> response = callGetTask(1,token);

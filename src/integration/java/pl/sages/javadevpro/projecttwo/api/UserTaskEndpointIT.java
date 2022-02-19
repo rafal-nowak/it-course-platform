@@ -17,7 +17,7 @@ import pl.sages.javadevpro.projecttwo.api.usertask.ListOfFilesResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskRequest;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
-import pl.sages.javadevpro.projecttwo.domain.UserService;
+import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
@@ -47,10 +47,9 @@ class UserTaskEndpointIT extends BaseIT {
                 "newUser10@example.com",
                 "User Name",
                 "pass",
-                List.of("STUDENT"),
-                new ArrayList<>()
+                List.of("STUDENT")
         );
-        userService.saveUser(user);
+        userService.save(user);
 
         TaskBlueprint taskBlueprint = new TaskBlueprint(
                 "1",
@@ -75,10 +74,9 @@ class UserTaskEndpointIT extends BaseIT {
                 "newUser11@example.com",
                 "User Name 11",
                 "pass",
-                List.of("STUDENT"),
-                new ArrayList<>()
+                List.of("STUDENT")
         );
-        userService.saveUser(user);
+        userService.save(user);
 
         TaskBlueprint taskBlueprint = new TaskBlueprint(
                 "1",
@@ -108,10 +106,9 @@ class UserTaskEndpointIT extends BaseIT {
                 "newUser13@example.com",
                 "User Name 11",
                 "pass",
-                List.of("STUDENT"),
-                new ArrayList<>()
+                List.of("STUDENT")
         );
-        userService.saveUser(user);
+        userService.save(user);
 
         TaskBlueprint taskBlueprint = new TaskBlueprint(
                 "1",
@@ -157,10 +154,9 @@ class UserTaskEndpointIT extends BaseIT {
                 "newUser11@example.com",
                 "User Name 11",
                 "pass",
-                List.of("STUDENT"),
-                new ArrayList<>()
+                List.of("STUDENT")
         );
-        userService.saveUser(user);
+        userService.save(user);
 
         TaskBlueprint taskBlueprint = new TaskBlueprint(
                 "2",

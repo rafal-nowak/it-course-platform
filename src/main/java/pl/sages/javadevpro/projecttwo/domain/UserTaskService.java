@@ -7,6 +7,7 @@ import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
+import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.domain.usertask.*;
 
 import java.io.File;
@@ -27,22 +28,24 @@ public class UserTaskService {
     private final UserTaskExecutor userTaskExecutor;
 
     public String exec(String userEmail, String taskId) {
-        User user = userService.getUser(userEmail);
-        List<UserTask> tasks = user.getTasks();
-        if (tasks == null) {
-            throw new RecordNotFoundException("Task is not assigned to user");
-        }
-        UserTask taskToSend = tasks.stream()
-            .filter(task -> task.getId().equals(taskId))
-            .findFirst()
-            .orElseThrow(() -> new RecordNotFoundException("Task is not assigned to user"));
-            taskToSend.setTaskStatus(TaskStatus.SUBMITTED);
-        updateUserTaskInDB(taskToSend, user);
-        return userTaskExecutor.exec(taskToSend);
+        // FIXME
+//        User user = userService.findBy(userEmail);
+//        List<UserTask> tasks = user.getTasks();
+//        if (tasks == null) {
+//            throw new RecordNotFoundException("Task is not assigned to user");
+//        }
+//        UserTask taskToSend = tasks.stream()
+//            .filter(task -> task.getId().equals(taskId))
+//            .findFirst()
+//            .orElseThrow(() -> new RecordNotFoundException("Task is not assigned to user"));
+//            taskToSend.setTaskStatus(TaskStatus.SUBMITTED);
+//        updateUserTaskInDB(taskToSend, user);
+//        return userTaskExecutor.exec(taskToSend);
+        return null;
     }
 
     public UserTask assignTask(String userEmail, String taskId) {
-        User user = userService.getUser(userEmail);
+        User user = userService.findBy(userEmail);
         TaskBlueprint taskBlueprint = taskBlueprintService.findBy(taskId);
 
         UserTask userTask;
@@ -79,13 +82,13 @@ public class UserTaskService {
     }
 
     public void updateUserTaskInDB(UserTask userTask, User user) {
-        if (user.getTasks() == null) {
-            user.setTasks(new ArrayList<>());
-        }
-        List<UserTask> tasks = user.getTasks();
-        int indexOfUserTaskToUpdate = tasks.indexOf(userTask);
-        tasks.set(indexOfUserTaskToUpdate, userTask);
-        userService.updateUser(user);
+//        if (user.getTasks() == null) {
+//            user.setTasks(new ArrayList<>());
+//        }
+//        List<UserTask> tasks = user.getTasks();
+//        int indexOfUserTaskToUpdate = tasks.indexOf(userTask);
+//        tasks.set(indexOfUserTaskToUpdate, userTask);
+//        userService.update(user);
     }
 
     private UserTask createFromTask(TaskBlueprint taskBlueprint, String userEmail) {
@@ -100,11 +103,11 @@ public class UserTaskService {
     }
 
     private void addUserTaskToDB(UserTask userTask, User user) {
-        if (user.getTasks() == null) {
-            user.setTasks(new ArrayList<>());
-        }
-        user.getTasks().add(userTask);
-        userService.updateUser(user);
+//        if (user.getTasks() == null) {
+//            user.setTasks(new ArrayList<>());
+//        }
+//        user.getTasks().add(userTask);
+//        userService.update(user);
     }
 
     private String copyRepositoryToUserFolder(TaskBlueprint taskBlueprint, String userEmail) {
