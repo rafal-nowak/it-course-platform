@@ -4,10 +4,10 @@ import org.mapstruct.Mapper;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 
 @Mapper
-public interface TaskDtoMapper {
+public interface TaskBlueprintDtoMapper {
 
-    TaskDto toDto(TaskBlueprint taskBlueprint);
+    TaskBlueprintDto toDto(TaskBlueprint domain);
 
-    TaskBlueprint toDomain(TaskDto dto);
+    TaskBlueprint toDomain(TaskBlueprintDto dto);
 
 }

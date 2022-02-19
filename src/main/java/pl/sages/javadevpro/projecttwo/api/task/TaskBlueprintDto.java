@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TaskDto {
+public class TaskBlueprintDto {
 
     private String id;
     private String name;

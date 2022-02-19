@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.sages.javadevpro.projecttwo.api.task.TaskDtoMapper;
+import pl.sages.javadevpro.projecttwo.api.task.TaskBlueprintDtoMapper;
 import pl.sages.javadevpro.projecttwo.api.user.UserDtoMapper;
 import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskDtoMapper;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
@@ -66,8 +66,8 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public TaskDtoMapper taskDtoMapper() {
-        return Mappers.getMapper(TaskDtoMapper.class);
+    public TaskBlueprintDtoMapper taskDtoMapper() {
+        return Mappers.getMapper(TaskBlueprintDtoMapper.class);
     }
 
     @Bean
