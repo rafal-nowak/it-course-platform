@@ -12,7 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import pl.sages.javadevpro.projecttwo.BaseIT;
-import pl.sages.javadevpro.projecttwo.api.task.TaskDtoMapper;
+import pl.sages.javadevpro.projecttwo.api.task.TaskBlueprintDtoMapper;
 import pl.sages.javadevpro.projecttwo.api.usertask.ListOfFilesResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskRequest;
@@ -26,7 +26,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-class UserTaskEndpointITBlueprint extends BaseIT {
+class UserTaskEndpointIT extends BaseIT {
 
     @Autowired
     UserTaskService userTaskService;
@@ -38,7 +38,7 @@ class UserTaskEndpointITBlueprint extends BaseIT {
     TaskBlueprintService taskBlueprintService;
 
     @Autowired
-    TaskDtoMapper taskDtoMapper;
+    TaskBlueprintDtoMapper taskBlueprintDtoMapper;
 
     @Test
     void user_should_not_be_able_to_assign_task() {
