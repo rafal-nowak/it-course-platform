@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Configuration;
 import pl.sages.javadevpro.projecttwo.api.task.TaskDtoMapper;
 import pl.sages.javadevpro.projecttwo.api.user.UserDtoMapper;
 import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskDtoMapper;
-import pl.sages.javadevpro.projecttwo.domain.TaskService;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 import pl.sages.javadevpro.projecttwo.domain.UserService;
 import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
-import pl.sages.javadevpro.projecttwo.domain.task.TaskRepository;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintRepository;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
 import pl.sages.javadevpro.projecttwo.domain.usertask.DirectoryService;
 import pl.sages.javadevpro.projecttwo.domain.usertask.GitService;
@@ -22,10 +22,10 @@ import pl.sages.javadevpro.projecttwo.external.env.UserTaskEnvAdapter;
 import pl.sages.javadevpro.projecttwo.external.env.kafka.KafkaUserTaskEnv;
 import pl.sages.javadevpro.projecttwo.external.env.usertask.UserTaskEnvMapper;
 import pl.sages.javadevpro.projecttwo.external.git.JGitService;
-import pl.sages.javadevpro.projecttwo.external.storage.TaskStorageAdapter;
+import pl.sages.javadevpro.projecttwo.external.storage.task.TaskBlueprintStorageAdapter;
 import pl.sages.javadevpro.projecttwo.external.storage.UserStorageAdapter;
-import pl.sages.javadevpro.projecttwo.external.storage.task.MongoTaskRepository;
-import pl.sages.javadevpro.projecttwo.external.storage.task.TaskEntityMapper;
+import pl.sages.javadevpro.projecttwo.external.storage.task.TaskBlueprintEntityMapper;
+import pl.sages.javadevpro.projecttwo.external.storage.task.TaskBlueprintMongoRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.user.MongoUserRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntityMapper;
 import pl.sages.javadevpro.projecttwo.external.storage.usertask.UserTaskEntityMapper;
@@ -45,14 +45,14 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public TaskRepository taskRepository( MongoTaskRepository taskRepository, TaskEntityMapper mapper ) {
-        return new TaskStorageAdapter( taskRepository, mapper );
+    public TaskBlueprintRepository taskRepository(TaskBlueprintMongoRepository taskRepository, TaskBlueprintEntityMapper mapper ) {
+        return new TaskBlueprintStorageAdapter( taskRepository, mapper );
     }
 
     @Bean
-    public TaskService taskService( TaskRepository taskRepository) {
+    public TaskBlueprintService taskService(TaskBlueprintRepository taskBlueprintRepository) {
 
-        return new TaskService(taskRepository);
+        return new TaskBlueprintService(taskBlueprintRepository);
     }
 
     @Bean
@@ -71,8 +71,8 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public TaskEntityMapper taskEntityMapper() {
-        return Mappers.getMapper(TaskEntityMapper.class);
+    public TaskBlueprintEntityMapper taskEntityMapper() {
+        return Mappers.getMapper(TaskBlueprintEntityMapper.class);
     }
 
     @Bean
@@ -90,14 +90,14 @@ public class DomainConfiguration {
             GitService gitService,
             DirectoryService directoryService,
             UserService userService,
-            TaskService taskService,
+            TaskBlueprintService taskBlueprintService,
             UserTaskExecutor userTaskExecutor
     ) {
         return new UserTaskService(
                 gitService,
                 directoryService,
                 userService,
-                taskService,
+            taskBlueprintService,
                 userTaskExecutor);
     }
 

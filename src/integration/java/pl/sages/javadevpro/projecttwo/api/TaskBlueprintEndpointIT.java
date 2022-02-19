@@ -10,10 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.api.task.TaskDto;
-import pl.sages.javadevpro.projecttwo.domain.TaskService;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 import pl.sages.javadevpro.projecttwo.domain.UserService;
 import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
-import pl.sages.javadevpro.projecttwo.domain.task.Task;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 
 import java.util.ArrayList;
@@ -22,12 +22,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-public class TaskEndpointIT extends BaseIT {
+public class TaskBlueprintEndpointIT extends BaseIT {
 
     @Autowired
     UserService userService;
     @Autowired
-    TaskService taskService;
+    TaskBlueprintService taskBlueprintService;
 
     @Test
     void should_get_information_about_task() {
@@ -39,14 +39,14 @@ public class TaskEndpointIT extends BaseIT {
                 List.of("STUDENT"),
                 new ArrayList<>()
         );
-        Task task = new Task(
+        TaskBlueprint taskBlueprint = new TaskBlueprint(
                 "1",
                 "Task Name 1",
                 "Task description 1",
                 "https://github.com/some-reporitory-1"
         );
         userService.saveUser(user);
-        taskService.saveTask(task);
+        taskBlueprintService.save(taskBlueprint);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         //when
         ResponseEntity<TaskDto> response = callGetTask(1, token);
@@ -54,10 +54,10 @@ public class TaskEndpointIT extends BaseIT {
         //then
         TaskDto body = response.getBody();
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertEquals(task.getId(), body.getId());
-        Assertions.assertEquals(task.getName(), body.getName());
-        Assertions.assertEquals(task.getDescription(), body.getDescription());
-        Assertions.assertEquals(task.getRepositoryPath(),body.getRepositoryPath());
+        Assertions.assertEquals(taskBlueprint.getId(), body.getId());
+        Assertions.assertEquals(taskBlueprint.getName(), body.getName());
+        Assertions.assertEquals(taskBlueprint.getDescription(), body.getDescription());
+        Assertions.assertEquals(taskBlueprint.getRepositoryUrl(),body.getRepositoryUrl());
     }
 
     @Test
@@ -70,28 +70,28 @@ public class TaskEndpointIT extends BaseIT {
                 List.of("STUDENT"),
                 new ArrayList<>()
         );
-        Task task2 = new Task(
+        TaskBlueprint taskBlueprint2 = new TaskBlueprint(
                 "2",
                 "Task Name 2",
                 "Task description 2",
                 "https://github.com/some-reporitory-2"
         );
-        Task task3 = new Task(
+        TaskBlueprint taskBlueprint3 = new TaskBlueprint(
                 "3",
                 "Task Name 3",
                 "Task description 3",
                 "https://github.com/some-reporitory-3"
         );
-        Task task4 = new Task(
+        TaskBlueprint taskBlueprint4 = new TaskBlueprint(
                 "4",
                 "Task Name 4",
                 "Task description 4",
                 "https://github.com/some-reporitory-4"
         );
         userService.saveUser(user);
-        taskService.saveTask(task2);
-        taskService.saveTask(task3);
-        taskService.saveTask(task4);
+        taskBlueprintService.save(taskBlueprint2);
+        taskBlueprintService.save(taskBlueprint3);
+        taskBlueprintService.save(taskBlueprint4);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
@@ -100,16 +100,16 @@ public class TaskEndpointIT extends BaseIT {
         //then
         TaskDto body = response.getBody();
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertEquals(task3.getId(), body.getId());
-        Assertions.assertEquals(task3.getName(), body.getName());
-        Assertions.assertEquals(task3.getDescription(), body.getDescription());
-        Assertions.assertEquals(task3.getRepositoryPath(), body.getRepositoryPath());
+        Assertions.assertEquals(taskBlueprint3.getId(), body.getId());
+        Assertions.assertEquals(taskBlueprint3.getName(), body.getName());
+        Assertions.assertEquals(taskBlueprint3.getDescription(), body.getDescription());
+        Assertions.assertEquals(taskBlueprint3.getRepositoryUrl(), body.getRepositoryUrl());
     }
 
     @Test
      void admin_should_be_able_to_save_new_task() {
         //given
-        Task task5 = new Task(
+        TaskBlueprint taskBlueprint5 = new TaskBlueprint(
                 "5",
                 "Task Name 5",
                 "Task description 5",
@@ -117,15 +117,15 @@ public class TaskEndpointIT extends BaseIT {
         );
         String adminAccessToken = getTokenForAdmin();
         //when
-        ResponseEntity<TaskDto> response = callSaveTask(task5, adminAccessToken);
+        ResponseEntity<TaskDto> response = callSaveTask(taskBlueprint5, adminAccessToken);
         //then
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         //and
         TaskDto body = response.getBody();
-        Assertions.assertEquals(task5.getId(), body.getId());
-        Assertions.assertEquals(task5.getName(), body.getName());
-        Assertions.assertEquals(task5.getDescription(), body.getDescription());
-        Assertions.assertEquals(task5.getRepositoryPath(), body.getRepositoryPath());
+        Assertions.assertEquals(taskBlueprint5.getId(), body.getId());
+        Assertions.assertEquals(taskBlueprint5.getName(), body.getName());
+        Assertions.assertEquals(taskBlueprint5.getDescription(), body.getDescription());
+        Assertions.assertEquals(taskBlueprint5.getRepositoryUrl(), body.getRepositoryUrl());
     }
 
     @Test
@@ -138,7 +138,7 @@ public class TaskEndpointIT extends BaseIT {
                 List.of("STUDENT"),
                 new ArrayList<>()
         );
-        Task task5 = new Task(
+        TaskBlueprint taskBlueprint5 = new TaskBlueprint(
                 "5",
                 "Task Name 5",
                 "Task description 5",
@@ -147,7 +147,7 @@ public class TaskEndpointIT extends BaseIT {
         userService.saveUser(user);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         //when
-        ResponseEntity<TaskDto> response = callSaveTask(task5, token);
+        ResponseEntity<TaskDto> response = callSaveTask(taskBlueprint5, token);
         //then
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.FORBIDDEN);
     }
@@ -155,16 +155,16 @@ public class TaskEndpointIT extends BaseIT {
     @Test
     void should_return_conflict_about_duplicated_task(){
         //given
-        Task task9 = new Task(
+        TaskBlueprint taskBlueprint9 = new TaskBlueprint(
                 "9",
                 "Task Name 9",
                 "Task description 9",
                 "/repo/path"
         );
         String adminAccessToken = getTokenForAdmin();
-        taskService.saveTask(task9);
+        taskBlueprintService.save(taskBlueprint9);
         //when
-        ResponseEntity<TaskDto> response = callSaveTask(task9,adminAccessToken);
+        ResponseEntity<TaskDto> response = callSaveTask(taskBlueprint9,adminAccessToken);
         //then
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
     }
@@ -172,19 +172,19 @@ public class TaskEndpointIT extends BaseIT {
     @Test
     void admin_should_be_able_to_delete_task() {
         //given
-        Task task6 = new Task(
+        TaskBlueprint taskBlueprint6 = new TaskBlueprint(
                 "6",
                 "Task Name 6",
                 "Task description 6",
                 "/repo/path"
         );
         String adminAccessToken = getTokenForAdmin();
-        taskService.saveTask(task6);
+        taskBlueprintService.save(taskBlueprint6);
         //when
-        callDeleteTask(task6, adminAccessToken);
+        callDeleteTask(taskBlueprint6, adminAccessToken);
         //then
         Exception exception = assertThrows(RecordNotFoundException.class, () -> {
-            taskService.getTask(task6.getId());
+            taskBlueprintService.findBy(taskBlueprint6.getId());
         });
         // fixme
         Assertions.assertEquals("Task not found",exception.getMessage());
@@ -200,7 +200,7 @@ public class TaskEndpointIT extends BaseIT {
                 List.of("STUDENT"),
                 new ArrayList<>()
         );
-        Task task6 = new Task(
+        TaskBlueprint taskBlueprint6 = new TaskBlueprint(
                 "6",
                 "Task Name 6",
                 "Task description 6",
@@ -208,10 +208,10 @@ public class TaskEndpointIT extends BaseIT {
         );
         userService.saveUser(user);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
-        taskService.saveTask(task6);
+        taskBlueprintService.save(taskBlueprint6);
 
         //when
-        ResponseEntity<TaskDto> response = callDeleteTask(task6, token);
+        ResponseEntity<TaskDto> response = callDeleteTask(taskBlueprint6, token);
 
         //then
         Assertions.assertEquals(response.getStatusCode(),HttpStatus.FORBIDDEN);
@@ -220,29 +220,29 @@ public class TaskEndpointIT extends BaseIT {
     @Test
     void admin_should_be_able_to_update_task() {
         //given
-        Task task7 = new Task(
+        TaskBlueprint taskBlueprint7 = new TaskBlueprint(
                 "7",
                 "Task Name 7",
                 "Task description 7",
                 "/new/path"
         );
-        Task updatedTask = new Task(
+        TaskBlueprint updatedTaskBlueprint = new TaskBlueprint(
                 "7",
                 "Task Name 7 is updated",
                 "Task 7 description is updated ",
                 "/no/idea/path"
         );
         String adminAccessToken = getTokenForAdmin();
-        taskService.saveTask(task7);
+        taskBlueprintService.save(taskBlueprint7);
         //when
-        ResponseEntity<TaskDto> response = callUpdateTask(updatedTask, adminAccessToken);
+        ResponseEntity<TaskDto> response = callUpdateTask(updatedTaskBlueprint, adminAccessToken);
         //then
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         //and
         TaskDto body = response.getBody();
-        Assertions.assertEquals(task7.getId(), body.getId());
-        Assertions.assertEquals(updatedTask.getName(), body.getName());
-        Assertions.assertEquals(updatedTask.getDescription(), body.getDescription());
+        Assertions.assertEquals(taskBlueprint7.getId(), body.getId());
+        Assertions.assertEquals(updatedTaskBlueprint.getName(), body.getName());
+        Assertions.assertEquals(updatedTaskBlueprint.getDescription(), body.getDescription());
     }
 
     @Test
@@ -278,7 +278,7 @@ public class TaskEndpointIT extends BaseIT {
         );
     }
 
-    private ResponseEntity<TaskDto> callSaveTask(Task body, String accessToken) {
+    private ResponseEntity<TaskDto> callSaveTask(TaskBlueprint body, String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
         headers.add(HttpHeaders.AUTHORIZATION, accessToken);
@@ -290,7 +290,7 @@ public class TaskEndpointIT extends BaseIT {
         );
     }
 
-    private ResponseEntity<TaskDto> callDeleteTask(Task body, String accessToken) {
+    private ResponseEntity<TaskDto> callDeleteTask(TaskBlueprint body, String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
         headers.add(HttpHeaders.AUTHORIZATION, accessToken);
@@ -302,7 +302,7 @@ public class TaskEndpointIT extends BaseIT {
         );
     }
 
-    private ResponseEntity<TaskDto> callUpdateTask(Task body, String accessToken) {
+    private ResponseEntity<TaskDto> callUpdateTask(TaskBlueprint body, String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
         headers.add(HttpHeaders.AUTHORIZATION, accessToken);

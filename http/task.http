@@ -4,7 +4,7 @@
 #Content-Type: application/json
 #Authorization: {{auth_token}}
 
-### add task
+### add taskBlueprint
 POST http://localhost:8080/tasks
 Accept: application/json
 Content-Type: application/json
@@ -14,16 +14,16 @@ Authorization: {{auth_token}}
   "id": "1",
   "name": "Python_1",
   "description": "Description...",
-  "repositoryPath": "https://github.com/rafal-nowak/task1.git"
+  "repositoryPath": "https://github.com/rafal-nowak/taskBlueprint1.git"
 }
 
-### get task
+### get taskBlueprint
 GET http://localhost:8080/tasks/1
 Accept: application/json
 Content-Type: application/json
 Authorization: {{auth_token}}
 
-### assign task to user
+### assign taskBlueprint to user
 POST http://localhost:8080/usertasks/assign
 Accept: application/json
 Content-Type: application/json

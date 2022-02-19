@@ -1,4 +1,4 @@
-### get task result
+### get taskBlueprint result
 GET http://localhost:8080/usertask/results
 Accept: application/json
 Content-Type: application/json

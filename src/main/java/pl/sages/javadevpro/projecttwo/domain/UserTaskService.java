@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
 import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
-import pl.sages.javadevpro.projecttwo.domain.task.Task;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.usertask.*;
 
@@ -22,7 +23,7 @@ public class UserTaskService {
     private final GitService gitService;
     private final DirectoryService directoryService;
     private final UserService userService;
-    private final TaskService taskService;
+    private final TaskBlueprintService taskBlueprintService;
     private final UserTaskExecutor userTaskExecutor;
 
     public String exec(String userEmail, String taskId) {
@@ -42,10 +43,10 @@ public class UserTaskService {
 
     public UserTask assignTask(String userEmail, String taskId) {
         User user = userService.getUser(userEmail);
-        Task task = taskService.getTask(taskId);
+        TaskBlueprint taskBlueprint = taskBlueprintService.findBy(taskId);
 
         UserTask userTask;
-        userTask = createFromTask(task, user.getEmail());
+        userTask = createFromTask(taskBlueprint, user.getEmail());
 
         addUserTaskToDB(userTask, user);
         return userTask;
@@ -87,12 +88,12 @@ public class UserTaskService {
         userService.updateUser(user);
     }
 
-    private UserTask createFromTask(Task task, String userEmail) {
+    private UserTask createFromTask(TaskBlueprint taskBlueprint, String userEmail) {
         UserTask userTask = new UserTask();
-        userTask.setUserTaskFolder(copyRepositoryToUserFolder(task, userEmail));
-        userTask.setId(task.getId());
-        userTask.setName(task.getName());
-        userTask.setDescription(task.getDescription());
+        userTask.setUserTaskFolder(copyRepositoryToUserFolder(taskBlueprint, userEmail));
+        userTask.setId(taskBlueprint.getId());
+        userTask.setName(taskBlueprint.getName());
+        userTask.setDescription(taskBlueprint.getDescription());
         userTask.setTaskStatus(TaskStatus.NOT_STARTED);
         userTask.setUserEmail(userEmail);
         return userTask;
@@ -106,9 +107,9 @@ public class UserTaskService {
         userService.updateUser(user);
     }
 
-    private String copyRepositoryToUserFolder(Task task, String userEmail) {
-        String destinationFolderPath = directoryService.createDirectoryForUserTask(task, userEmail);
-        gitService.cloneTask(task.getRepositoryPath(), destinationFolderPath);
+    private String copyRepositoryToUserFolder(TaskBlueprint taskBlueprint, String userEmail) {
+        String destinationFolderPath = directoryService.createDirectoryForUserTask(taskBlueprint, userEmail);
+        gitService.cloneTask(taskBlueprint.getRepositoryUrl(), destinationFolderPath);
         return destinationFolderPath;
     }
 

@@ -1,6 +1,6 @@
 
 
-### Zapisz task do bazy
+### Zapisz taskBlueprint do bazy
 POST http://localhost:8080/tasks
 Accept: application/json
 Content-Type: application/json
@@ -10,12 +10,12 @@ Authorization: {{auth_token}}
 "id": "111",
 "name": "test 111",
 "description": "Zadanie z TASK2 z gita",
-"repositoryPath": "https://github.com/rafal-nowak/task2"
+"repositoryPath": "https://github.com/rafal-nowak/taskBlueprint2"
 }
 
 <> 2022-01-20T203200.200.json
 
-### przypisz task do usera
+### przypisz taskBlueprint do usera
 POST http://localhost:8080/usertasks/assign
 Accept: application/json
 Content-Type: application/json
@@ -25,7 +25,7 @@ Authorization: {{auth_token}}
 "userEmail": "rafal@gmail.com",
 "taskId": "1"
 }
-### Wyslij task do sprawdzenia
+### Wyslij taskBlueprint do sprawdzenia
 POST http://localhost:8080/usertask/run
 Accept: application/json
 Content-Type: application/json

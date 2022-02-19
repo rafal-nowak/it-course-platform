@@ -9,7 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.sages.javadevpro.projecttwo.domain.task.Task;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.usertask.DirectoryService;
 import pl.sages.javadevpro.projecttwo.domain.usertask.GitService;
@@ -22,14 +23,14 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class UserTaskServiceTest {
+class UserTaskServiceTestBlueprint {
 
     private final static String TEST_DIRECTORY = "src/test/usertasktest";
 
     @Mock private GitService gitService;
     @Mock private DirectoryService directoryService;
     @Mock private UserService userService;
-    @Mock private TaskService taskService;
+    @Mock private TaskBlueprintService taskBlueprintService;
 
     @InjectMocks
     private UserTaskService userTaskService;
@@ -41,7 +42,7 @@ class UserTaskServiceTest {
             List.of("STUDENT"),
             new ArrayList<>()
     );
-    private final Task fakeTask = new Task(
+    private final TaskBlueprint fakeTaskBlueprint = new TaskBlueprint(
             "1",
             "task name",
             "description",
@@ -51,7 +52,7 @@ class UserTaskServiceTest {
     void prepareMocks() {
         when(directoryService.createDirectoryForUserTask(Mockito.any(),Mockito.anyString())).thenReturn(TEST_DIRECTORY);
         when(userService.getUser(Mockito.anyString())).thenReturn(fakeUser);
-        when(taskService.getTask(Mockito.anyString())).thenReturn(fakeTask);
+        when(taskBlueprintService.findBy(Mockito.anyString())).thenReturn(fakeTaskBlueprint);
         when(userService.updateUser(Mockito.any())).thenReturn(fakeUser);
     }
 
@@ -60,16 +61,16 @@ class UserTaskServiceTest {
     @Test
     void shouldCreateNewUserTask() {
         String userEmail = fakeUser.getEmail();
-        String taskId = fakeTask.getId();
+        String taskId = fakeTaskBlueprint.getId();
 
         //when
         UserTask userTask = userTaskService.assignTask(userEmail, taskId);
 
         //then
         Assertions.assertNotNull(userTask);
-        Assertions.assertEquals(fakeTask.getId(),userTask.getId());
-        Assertions.assertEquals(fakeTask.getName(),userTask.getName());
-        Assertions.assertEquals(fakeTask.getDescription(),userTask.getDescription());
+        Assertions.assertEquals(fakeTaskBlueprint.getId(),userTask.getId());
+        Assertions.assertEquals(fakeTaskBlueprint.getName(),userTask.getName());
+        Assertions.assertEquals(fakeTaskBlueprint.getDescription(),userTask.getDescription());
         Assertions.assertEquals(fakeUser.getEmail(), userTask.getUserEmail());
         Assertions.assertEquals(TEST_DIRECTORY,userTask.getUserTaskFolder());
         Assertions.assertEquals(TaskStatus.NOT_STARTED,userTask.getTaskStatus());

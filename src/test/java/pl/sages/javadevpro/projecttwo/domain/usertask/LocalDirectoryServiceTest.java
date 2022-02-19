@@ -8,7 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.sages.javadevpro.projecttwo.domain.task.Task;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 import pl.sages.javadevpro.projecttwo.external.directory.LocalDirectoryService;
 
 import java.io.File;
@@ -22,17 +22,17 @@ class LocalDirectoryServiceTest {
     private final static String USER_EMAIL = "sample@email.com";
 
     @Mock
-    private Task task;
+    private TaskBlueprint taskBlueprint;
 
     @BeforeEach
     void defineMocks() {
-        Mockito.when(task.getId()).thenReturn("1");
+        Mockito.when(taskBlueprint.getId()).thenReturn("1");
     }
 
     @DisplayName("should create new directory basing on user email and task id")
     @Test
     void shouldCreateNewDirectory() {
-        String directoryPath = localDirectoryService.createDirectoryForUserTask(task,USER_EMAIL);
+        String directoryPath = localDirectoryService.createDirectoryForUserTask(taskBlueprint,USER_EMAIL);
 
         File directory = new File(directoryPath);
 
