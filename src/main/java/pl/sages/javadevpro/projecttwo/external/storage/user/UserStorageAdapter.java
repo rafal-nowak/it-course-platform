@@ -1,4 +1,4 @@
-package pl.sages.javadevpro.projecttwo.external.storage;
+package pl.sages.javadevpro.projecttwo.external.storage.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -74,7 +74,7 @@ public class UserStorageAdapter implements UserRepository {
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<User> findAll() {
         return userRepository.findAll().stream()
             .map(mapper::toDomain)
             .collect(Collectors.toList());

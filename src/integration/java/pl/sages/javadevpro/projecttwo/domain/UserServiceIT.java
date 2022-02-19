@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
+import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +22,18 @@ public class UserServiceIT extends BaseIT {
                 "newUser@example.com",
                 "User Name",
                 "pass",
-                List.of("STUDENT"),
-                new ArrayList<>()
+                List.of("STUDENT")
         );
-        service.saveUser(user);
+        service.save(user);
 
         //when
-        User readUser = service.getUser(user.getEmail());
+        User readUser = service.findBy(user.getEmail());
 
         //then
         Assertions.assertEquals(user.getEmail(), readUser.getEmail());
         Assertions.assertEquals(user.getName(), readUser.getName());
         Assertions.assertEquals(user.getPassword(), readUser.getPassword());
-        Assertions.assertNotEquals(user, readUser);
+
     }
 
     @Test
@@ -43,35 +43,32 @@ public class UserServiceIT extends BaseIT {
                 "newUser1@example.com",
                 "User Name 1",
                 "pass1",
-                List.of("STUDENT"),
-                new ArrayList<>()
+                List.of("STUDENT")
         );
         User user2 = new User(
                 "newUser2@example.com",
                 "User Name 2",
                 "pass2",
-                List.of("STUDENT"),
-                new ArrayList<>()
+                List.of("STUDENT")
         );
         User user3 = new User(
                 "newUser3@example.com",
                 "User Name 3",
                 "pass3",
-                List.of("STUDENT"),
-                new ArrayList<>()
+                List.of("STUDENT")
         );
-        service.saveUser(user1);
-        service.saveUser(user2);
-        service.saveUser(user3);
+        service.save(user1);
+        service.save(user2);
+        service.save(user3);
 
         //when
-        User readUser = service.getUser(user2.getEmail());
+        User readUser = service.findBy(user2.getEmail());
 
         //then
         Assertions.assertEquals(user2.getEmail(), readUser.getEmail());
         Assertions.assertEquals(user2.getName(), readUser.getName());
         Assertions.assertEquals(user2.getPassword(), readUser.getPassword());
-        Assertions.assertNotEquals(user2, readUser);
+
     }
 
 }

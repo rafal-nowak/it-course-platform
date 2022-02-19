@@ -1,46 +1,40 @@
-package pl.sages.javadevpro.projecttwo.api;
+package pl.sages.javadevpro.projecttwo.api.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import pl.sages.javadevpro.projecttwo.api.user.UserDto;
-import pl.sages.javadevpro.projecttwo.api.user.UserDtoMapper;
-import pl.sages.javadevpro.projecttwo.domain.UserService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
+import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "/users")
-public class UserEndpoint {
+@RequestMapping(path = "/users",
+        produces = "application/json",
+        consumes = "application/json"
+)
+public class UserController {
 
     private final UserService userService;
     private final UserDtoMapper dtoMapper;
 
-    @GetMapping(
-        path = "/{email}",
-        produces = "application/json",
-        consumes = "application/json"
-    )
+    @GetMapping( path = "/{email}")
     @Secured("ROLE_ADMIN")
     public ResponseEntity<UserDto> getUser(@PathVariable(name = "email") String email) {
-        User user = userService.getUser(email);
+        User user = userService.findBy(email);
 
         return ResponseEntity
             .ok(dtoMapper.toDto(user));
     }
 
-    @GetMapping(
-        produces = "application/json",
-        consumes = "application/json"
-    )
+    @GetMapping
     @Secured("ROLE_ADMIN")
     public ResponseEntity<List<UserDto>> getUsers() {
-        List<UserDto> userList = userService.getUser().stream()
+        List<UserDto> userList = userService.findAll().stream()  // TODO dadac do mappera
             .map(dtoMapper::toDto)
             .collect(Collectors.toList());
 
@@ -48,46 +42,33 @@ public class UserEndpoint {
             .ok(userList);
     }
 
-    @PostMapping(
-        produces = "application/json",
-        consumes = "application/json"
-    )
+    @PostMapping
     @Secured("ROLE_ADMIN")
     public ResponseEntity<UserDto> saveUser(@RequestBody UserDto dto) {
-        User user = userService.saveUser(dtoMapper.toDomain(dto));
+        User user = userService.save(dtoMapper.toDomain(dto));
         return ResponseEntity
             .ok(dtoMapper.toDto(user));
     }
 
-    @PutMapping(
-            produces = "application/json",
-            consumes = "application/json"
-    )
+    @PutMapping
     @Secured("ROLE_ADMIN")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto dto) {
-        User user = userService.updateUser(dtoMapper.toDomain(dto));
+        User user = userService.update(dtoMapper.toDomain(dto));
         return ResponseEntity
                 .ok(dtoMapper.toDto(user));
     }
 
-    @DeleteMapping(
-            produces = "application/json",
-            consumes = "application/json"
-    )
+    @DeleteMapping
     @Secured("ROLE_ADMIN")
-    public ResponseEntity removeUser(@RequestBody UserDto dto){
-        userService.removeUser(dtoMapper.toDomain(dto));
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<Void> removeUser(@RequestBody UserDto dto){
+        userService.remove(dtoMapper.toDomain(dto));
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(
-        path = "/me",
-        produces = "application/json",
-        consumes = "application/json"
-    )
+    @GetMapping("me")
     @Secured("ROLE_STUDENT")
     public ResponseEntity<UserDto> aboutMe(Authentication authentication) {
-        User user = userService.getUser((String) authentication.getPrincipal());
+        User user = userService.findBy((String) authentication.getPrincipal());
         return ResponseEntity
             .ok(dtoMapper.toDto(user));
     }

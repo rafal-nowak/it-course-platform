@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-import pl.sages.javadevpro.projecttwo.domain.UserService;
+import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
 import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
@@ -26,16 +26,16 @@ public class KafkaConsumer {
     @KafkaListener(topics = "Kafka_Task_Report_json", groupId = "group_json",
             containerFactory = "taskKafkaListenerFactory")
     public void consumeJson(UserTaskEnv userTaskEnv) {
-        log.info("Consumed JSON Task: " + userTaskEnv);
-        UserTask userTaskFromEnv = userTaskEnvMapper.toDomain(userTaskEnv);
-        User user = userService.getUser(userTaskEnv.getUserEmail());
-        List<UserTask> tasks = user.getTasks();
-        UserTask taskToStatusUpdate = tasks.stream()
-                .filter(task -> task.getId().equals(userTaskFromEnv.getId()))
-                .findFirst()
-                .orElseThrow(() -> new RecordNotFoundException("Task is not assigned to user"));
-
-        taskToStatusUpdate.setTaskStatus(userTaskFromEnv.getTaskStatus());
-        userTaskService.updateUserTaskInDB(taskToStatusUpdate, user);
+//        log.info("Consumed JSON Task: " + userTaskEnv);
+//        UserTask userTaskFromEnv = userTaskEnvMapper.toDomain(userTaskEnv);
+//        User user = userService.findBy(userTaskEnv.getUserEmail());
+//        List<UserTask> tasks = user.getTasks();
+//        UserTask taskToStatusUpdate = tasks.stream()
+//                .filter(task -> task.getId().equals(userTaskFromEnv.getId()))
+//                .findFirst()
+//                .orElseThrow(() -> new RecordNotFoundException("Task is not assigned to user"));
+//
+//        taskToStatusUpdate.setTaskStatus(userTaskFromEnv.getTaskStatus());
+//        userTaskService.updateUserTaskInDB(taskToStatusUpdate, user);
     }
 }
