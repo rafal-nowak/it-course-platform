@@ -7,7 +7,6 @@ import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceIT extends BaseIT {
@@ -19,6 +18,7 @@ public class UserServiceIT extends BaseIT {
     public void add_user_test() {
         //given
         User user = new User(
+                "ID24",
                 "newUser@example.com",
                 "User Name",
                 "pass",
@@ -27,7 +27,7 @@ public class UserServiceIT extends BaseIT {
         service.save(user);
 
         //when
-        User readUser = service.findBy(user.getEmail());
+        User readUser = service.findByEmail(user.getEmail());
 
         //then
         Assertions.assertEquals(user.getEmail(), readUser.getEmail());
@@ -40,18 +40,21 @@ public class UserServiceIT extends BaseIT {
     public void get_email_should_return_correct_user() {
         //given
         User user1 = new User(
+                "ID25",
                 "newUser1@example.com",
                 "User Name 1",
                 "pass1",
                 List.of("STUDENT")
         );
         User user2 = new User(
+                "ID26",
                 "newUser2@example.com",
                 "User Name 2",
                 "pass2",
                 List.of("STUDENT")
         );
         User user3 = new User(
+                "ID27",
                 "newUser3@example.com",
                 "User Name 3",
                 "pass3",
@@ -62,7 +65,7 @@ public class UserServiceIT extends BaseIT {
         service.save(user3);
 
         //when
-        User readUser = service.findBy(user2.getEmail());
+        User readUser = service.findByEmail(user2.getEmail());
 
         //then
         Assertions.assertEquals(user2.getEmail(), readUser.getEmail());

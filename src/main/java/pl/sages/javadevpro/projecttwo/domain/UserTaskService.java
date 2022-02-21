@@ -13,7 +13,6 @@ import pl.sages.javadevpro.projecttwo.domain.usertask.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,7 +44,7 @@ public class UserTaskService {
     }
 
     public UserTask assignTask(String userEmail, String taskId) {
-        User user = userService.findBy(userEmail);
+        User user = userService.findByEmail(userEmail);
         TaskBlueprint taskBlueprint = taskBlueprintService.findBy(taskId);
 
         UserTask userTask;

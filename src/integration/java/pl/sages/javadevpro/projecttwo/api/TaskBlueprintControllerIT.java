@@ -3,22 +3,15 @@ package pl.sages.javadevpro.projecttwo.api;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.api.task.TaskBlueprintDto;
-import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
-import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
+import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class TaskBlueprintControllerIT extends BaseIT {
@@ -32,6 +25,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
     void should_get_information_about_task() {
         //given
         User user = new User(
+                "ID4",
                 "newUser@example.com",
                 "User Name",
                 "pass",
@@ -62,6 +56,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
     void should_get_information_about_correct_task() {
         //given
         User user = new User(
+                "ID4",
                 "newUser1@example.com",
                 "User Name1",
                 "pass1",
@@ -129,6 +124,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
     void student_should_not_be_able_to_save_new_task() {
         //given
         User user = new User(
+                "ID5",
                 "newUser1@example.com",
                 "User Name1",
                 "pass1",
@@ -179,13 +175,14 @@ public class TaskBlueprintControllerIT extends BaseIT {
         //when
         ResponseEntity<Void> response = callDeleteTask(taskBlueprint6, adminAccessToken);
         //then
-        Assertions.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);;
+        Assertions.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
     }
 
     @Test
     void student_should_not_be_able_to_delete_task() {
         //given
         User user = new User(
+                "ID6",
                 "newUser@example.com",
                 "User Name",
                 "pass",
@@ -240,6 +237,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
     void should_get_response_code_204_when_task_not_exits() {
         //given
         User user = new User(
+                "ID7",
                 "newUser1@example.com",
                 "User Name1",
                 "pass1",
