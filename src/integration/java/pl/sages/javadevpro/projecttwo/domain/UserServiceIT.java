@@ -27,7 +27,7 @@ public class UserServiceIT extends BaseIT {
         service.save(user);
 
         //when
-        User readUser = service.findByEmail(user.getEmail());
+        User readUser = service.findById(user.getId());
 
         //then
         Assertions.assertEquals(user.getEmail(), readUser.getEmail());
@@ -37,7 +37,7 @@ public class UserServiceIT extends BaseIT {
     }
 
     @Test
-    public void get_email_should_return_correct_user() {
+    public void get_id_should_return_correct_user() {
         //given
         User user1 = new User(
                 "ID25",
@@ -65,7 +65,7 @@ public class UserServiceIT extends BaseIT {
         service.save(user3);
 
         //when
-        User readUser = service.findByEmail(user2.getEmail());
+        User readUser = service.findById(user2.getId());
 
         //then
         Assertions.assertEquals(user2.getEmail(), readUser.getEmail());

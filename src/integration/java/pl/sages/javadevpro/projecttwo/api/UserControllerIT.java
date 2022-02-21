@@ -31,11 +31,12 @@ class UserControllerIT extends BaseIT {
         String token = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserDto> response = callGetUser(user.getEmail(), token);
+        ResponseEntity<UserDto> response = callGetUser(user.getId(), token);
 
         //then
         UserDto body = response.getBody();
         assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(body.getId(), user.getId());
         assertEquals(body.getEmail(), user.getEmail());
         assertEquals(body.getName(), user.getName());
         assertEquals(body.getPassword(), "######");
@@ -48,7 +49,7 @@ class UserControllerIT extends BaseIT {
         String token = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserDto> response = callGetUser("notExits@example.com", token);
+        ResponseEntity<UserDto> response = callGetUser("fakeId", token);
 
         //then
         assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
@@ -76,7 +77,7 @@ class UserControllerIT extends BaseIT {
         String accessToken = getAccessTokenForUser(user1.getEmail(), user1.getPassword());
 
         //when
-        ResponseEntity<UserDto> response = callGetUser(user2.getEmail(), accessToken);
+        ResponseEntity<UserDto> response = callGetUser(user2.getId(), accessToken);
 
         //then
         assertEquals(response.getStatusCode(), HttpStatus.FORBIDDEN);
@@ -147,6 +148,7 @@ class UserControllerIT extends BaseIT {
         //then
         UserDto body = response.getBody();
         assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(body.getId(), user.getId());
         assertEquals(body.getEmail(), user.getEmail());
         assertEquals(body.getName(), user.getName());
         assertEquals(body.getPassword(), "######");
@@ -182,6 +184,7 @@ class UserControllerIT extends BaseIT {
 
         //and
         UserDto body = response.getBody();
+        assertEquals(user.getId(), body.getId());
         assertEquals(user.getEmail(), body.getEmail());
         assertEquals(userToUpdate.getName(), body.getName());
         assertEquals("######", body.getPassword());
@@ -242,7 +245,7 @@ class UserControllerIT extends BaseIT {
         userService.save(user);
 
         //when
-        ResponseEntity<UserDto> response = callDeleteUser(user, adminAccessToken);
+        ResponseEntity<UserDto> response = callDeleteUser(user.getId(), adminAccessToken);
 
         //then
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
@@ -261,7 +264,7 @@ class UserControllerIT extends BaseIT {
         String token = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserDto> response = callDeleteUser(user, token);
+        ResponseEntity<UserDto> response = callDeleteUser(user.getId(), token);
 
         //then
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
@@ -288,19 +291,19 @@ class UserControllerIT extends BaseIT {
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
-        ResponseEntity<UserDto> response = callDeleteUser(otherUser, token);
+        ResponseEntity<UserDto> response = callDeleteUser(otherUser.getId(), token);
 
         //then
         assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
     }
 
-    private ResponseEntity<UserDto> callGetUser(String email, String token) {
+    private ResponseEntity<UserDto> callGetUser(String id, String token) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
         headers.add(HttpHeaders.ACCEPT, "application/json");
         headers.add(HttpHeaders.AUTHORIZATION, token);
         return restTemplate.exchange(
-            localUrl("/users/" + email),
+            localUrl("/users/" + id),
             HttpMethod.GET,
             new HttpEntity(headers),
             UserDto.class
@@ -344,14 +347,14 @@ class UserControllerIT extends BaseIT {
         );
     }
 
-    private ResponseEntity<UserDto> callDeleteUser(User body, String accessToken) {
+    private ResponseEntity<UserDto> callDeleteUser(String userId, String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
         headers.add(HttpHeaders.AUTHORIZATION, accessToken);
         return restTemplate.exchange(
-                localUrl("/users"),
+                localUrl("/users/"+userId),
                 HttpMethod.DELETE,
-                new HttpEntity(body, headers),
+                new HttpEntity(headers),
                 UserDto.class
         );
     }

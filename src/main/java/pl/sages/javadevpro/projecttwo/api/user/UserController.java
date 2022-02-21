@@ -22,13 +22,12 @@ public class UserController {
     private final UserService userService;
     private final UserDtoMapper dtoMapper;
 
-    @GetMapping( path = "/{email}")
+    @GetMapping( path = "/{id}")
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<UserDto> getUser(@PathVariable(name = "email") String email) {
-        User user = userService.findByEmail(email);
-
+    public ResponseEntity<UserDto> getUser(@PathVariable String id) {
+        User user = userService.findById(id);
         return ResponseEntity
-            .ok(dtoMapper.toDto(user));
+                .ok(dtoMapper.toDto(user));
     }
 
     @GetMapping
@@ -58,10 +57,10 @@ public class UserController {
                 .ok(dtoMapper.toDto(user));
     }
 
-    @DeleteMapping
+    @DeleteMapping("{id}")
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<Void> removeUser(@RequestBody UserDto dto){
-        userService.remove(dtoMapper.toDomain(dto));
+    public ResponseEntity<Void> removeUser(@PathVariable String id){
+        userService.removeById(id);
         return ResponseEntity.noContent().build();
     }
 

@@ -59,7 +59,7 @@ class UserTaskEndpointIT extends BaseIT {
                 "https://github.com/Piorrt/projectOne"
         );
         taskBlueprintService.save(taskBlueprint);
-        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getEmail(), taskBlueprint.getId());
+        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getId(), taskBlueprint.getId());
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
@@ -87,7 +87,7 @@ class UserTaskEndpointIT extends BaseIT {
                 "https://github.com/Piorrt/projectOne"
         );
         taskBlueprintService.save(taskBlueprint);
-        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getEmail(), taskBlueprint.getId());
+        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getId(), taskBlueprint.getId());
         String token = getTokenForAdmin();
 
         //when
@@ -120,7 +120,7 @@ class UserTaskEndpointIT extends BaseIT {
                 "https://github.com/Piorrt/projectOne"
         );
         taskBlueprintService.save(taskBlueprint);
-        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getEmail(), taskBlueprint.getId());
+        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getId(), taskBlueprint.getId());
         String token = getTokenForAdmin();
 
         callAssignTask(userTaskRequest, token);
@@ -169,7 +169,7 @@ class UserTaskEndpointIT extends BaseIT {
                 "https://github.com/rafal-nowak/task1"
         );
         taskBlueprintService.save(taskBlueprint);
-        UserTaskRequest assignTaskRequest = new UserTaskRequest(user.getEmail(), taskBlueprint.getId());
+        UserTaskRequest assignTaskRequest = new UserTaskRequest(user.getId(), taskBlueprint.getId());
         String adminToken = getTokenForAdmin();
         String userToken = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
@@ -183,7 +183,7 @@ class UserTaskEndpointIT extends BaseIT {
         Assertions.assertEquals("Task assigned to user", messageResponse.getMessage());
 
         //when
-        ResponseEntity<ListOfFilesResponse> responseListOfFiles = callGetFilesAssignedToUserTask("newUser11@example.com", "2", userToken);
+        ResponseEntity<ListOfFilesResponse> responseListOfFiles = callGetFilesAssignedToUserTask(user.getId(), taskBlueprint.getId(), userToken);
         ListOfFilesResponse listOfFilesResponse = responseListOfFiles.getBody();
 
         //then

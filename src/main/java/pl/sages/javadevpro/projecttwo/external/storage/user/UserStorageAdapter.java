@@ -7,9 +7,6 @@ import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
 import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
-import pl.sages.javadevpro.projecttwo.external.storage.user.MongoUserRepository;
-import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntity;
-import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntityMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +35,7 @@ public class UserStorageAdapter implements UserRepository {
 
     @Override
     public User update(User user) {
-        Optional<UserEntity> entity = userRepository.findByEmail(user.getEmail());
+        Optional<UserEntity> entity = userRepository.findById(user.getId());
         if (entity.isEmpty()) {
             throw new RecordNotFoundException("Task not found");
         }
@@ -48,14 +45,14 @@ public class UserStorageAdapter implements UserRepository {
     }
 
     @Override
-    public void remove(User user) {
-        Optional<UserEntity> entity = userRepository.findByEmail(user.getEmail());
+    public void removeById(String id) {
+        Optional<UserEntity> entity = userRepository.findById(id);
         if(entity.isEmpty()) {
             throw new RecordNotFoundException("User not exist!");
         }
-        UserEntity userEntity = mapper.toEntity(user);
-        log.info("Removing user " + userEntity.toString());
-        userRepository.delete(userEntity);
+        userRepository.deleteById(id);
+        log.info("Removing user " + entity);
+
     }
 
     @Override
@@ -68,6 +65,17 @@ public class UserStorageAdapter implements UserRepository {
         } else {
             log.info("Found entity " + entity.map(Object::toString).orElse("none"));
             return entity.map(mapper::toDomain);
+        }
+    }
+
+    @Override
+    public Optional<User> findById(String id) {
+        Optional<UserEntity> entity = userRepository.findById(id);
+        if (entity.isPresent()) {
+            log.info("Found entity " + entity.map(Object::toString).orElse("none"));
+            return entity.map(mapper::toDomain);
+        } else {
+            return Optional.empty();
         }
     }
 

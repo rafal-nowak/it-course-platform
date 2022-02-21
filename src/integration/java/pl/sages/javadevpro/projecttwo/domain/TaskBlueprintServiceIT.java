@@ -35,7 +35,7 @@ public class TaskBlueprintServiceIT extends BaseIT {
     }
 
     @Test
-    public void get_email_should_return_correct_user() {
+    public void get_id_should_return_correct_user() {
         //given
         TaskBlueprint taskBlueprint1 = new TaskBlueprint(
                 "2",
@@ -67,7 +67,7 @@ public class TaskBlueprintServiceIT extends BaseIT {
         Assertions.assertEquals(taskBlueprint2.getName(), readTaskBlueprint.getName());
         Assertions.assertEquals(taskBlueprint2.getDescription(), readTaskBlueprint.getDescription());
         Assertions.assertEquals(taskBlueprint2.getRepositoryUrl(), readTaskBlueprint.getRepositoryUrl());
-//        Assertions.assertNotEquals(taskBlueprint2, readTaskBlueprint);
+
     }
 
 }

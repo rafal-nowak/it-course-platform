@@ -17,13 +17,18 @@ public class UserService {
         return userRepository.update(user);
     }
 
-    public void remove(User user) {
-        userRepository.remove(user);
+    public void removeById(String id) {
+        userRepository.removeById(id);
     } //TODO dodac exception na poziomie domeny
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
     } //TODO dodac wyjatek "UserNotFoundException" zamiast nulla
+
+    public User findById(String id) {
+        return userRepository.findById(id).orElse(null);
+    } //TODO dodac wyjatek "UserNotFoundException" zamiast nulla
+
 
     public List<User> findAll() {
         return userRepository.findAll();
