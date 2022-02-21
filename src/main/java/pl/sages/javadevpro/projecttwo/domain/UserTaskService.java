@@ -43,19 +43,19 @@ public class UserTaskService {
         return null;
     }
 
-    public UserTask assignTask(String userEmail, String taskId) {
-        User user = userService.findByEmail(userEmail);
+    public UserTask assignTask(String userId, String taskId) {
+        User user = userService.findById(userId);
         TaskBlueprint taskBlueprint = taskBlueprintService.findBy(taskId);
 
         UserTask userTask;
-        userTask = createFromTask(taskBlueprint, user.getEmail());
+        userTask = createFromTask(taskBlueprint, user.getId());
 
         addUserTaskToDB(userTask, user);
         return userTask;
     }
 
-    public List<String> readListOfAvailableFilesForUserTask (String userEmail, String taskId) {
-        return directoryService.readListOfAvailableFilesForUserTask(userEmail, taskId);
+    public List<String> readListOfAvailableFilesForUserTask (String userId, String taskId) {
+        return directoryService.readListOfAvailableFilesForUserTask(userId, taskId);
     }
 
     public void uploadFileForUserTask(String userEmail, String taskId, String fileId, byte[] bytes) {
@@ -90,14 +90,14 @@ public class UserTaskService {
 //        userService.update(user);
     }
 
-    private UserTask createFromTask(TaskBlueprint taskBlueprint, String userEmail) {
+    private UserTask createFromTask(TaskBlueprint taskBlueprint, String userId) {
         UserTask userTask = new UserTask();
-        userTask.setUserTaskFolder(copyRepositoryToUserFolder(taskBlueprint, userEmail));
+        userTask.setUserTaskFolder(copyRepositoryToUserFolder(taskBlueprint, userId));
         userTask.setId(taskBlueprint.getId());
         userTask.setName(taskBlueprint.getName());
         userTask.setDescription(taskBlueprint.getDescription());
         userTask.setTaskStatus(TaskStatus.NOT_STARTED);
-        userTask.setUserEmail(userEmail);
+        userTask.setUserId(userId);
         return userTask;
     }
 
@@ -109,8 +109,8 @@ public class UserTaskService {
 //        userService.update(user);
     }
 
-    private String copyRepositoryToUserFolder(TaskBlueprint taskBlueprint, String userEmail) {
-        String destinationFolderPath = directoryService.createDirectoryForUserTask(taskBlueprint, userEmail);
+    private String copyRepositoryToUserFolder(TaskBlueprint taskBlueprint, String userId) {
+        String destinationFolderPath = directoryService.createDirectoryForUserTask(taskBlueprint, userId);
         gitService.cloneTask(taskBlueprint.getRepositoryUrl(), destinationFolderPath);
         return destinationFolderPath;
     }

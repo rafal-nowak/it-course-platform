@@ -51,7 +51,7 @@ class UserTaskServiceTestBlueprint {
     @BeforeEach
     void prepareMocks() {
         when(directoryService.createDirectoryForUserTask(Mockito.any(),Mockito.anyString())).thenReturn(TEST_DIRECTORY);
-        when(userService.findByEmail(Mockito.anyString())).thenReturn(fakeUser);
+        when(userService.findById(Mockito.anyString())).thenReturn(fakeUser);
         when(taskBlueprintService.findBy(Mockito.anyString())).thenReturn(fakeTaskBlueprint);
     }
 
@@ -70,7 +70,7 @@ class UserTaskServiceTestBlueprint {
         Assertions.assertEquals(fakeTaskBlueprint.getId(),userTask.getId());
         Assertions.assertEquals(fakeTaskBlueprint.getName(),userTask.getName());
         Assertions.assertEquals(fakeTaskBlueprint.getDescription(),userTask.getDescription());
-        Assertions.assertEquals(fakeUser.getEmail(), userTask.getUserEmail());
+        Assertions.assertEquals(fakeUser.getId(), userTask.getUserId());
         Assertions.assertEquals(TEST_DIRECTORY,userTask.getUserTaskFolder());
         Assertions.assertEquals(TaskStatus.NOT_STARTED,userTask.getTaskStatus());
     }

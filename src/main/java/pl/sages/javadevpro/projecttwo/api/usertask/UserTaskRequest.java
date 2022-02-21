@@ -8,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UserTaskRequest {
 
-    private final String userEmail;
+    private final String userId;
     private final String taskId;
 
 }

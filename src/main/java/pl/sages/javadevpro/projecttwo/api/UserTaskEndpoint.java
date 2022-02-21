@@ -24,7 +24,6 @@ import java.util.List;
 public class UserTaskEndpoint {
 
     private final UserTaskService userTaskService;
-    private final UserTaskDtoMapper dtoMapper;
 
 
     @PostMapping(
@@ -34,7 +33,7 @@ public class UserTaskEndpoint {
     )
     @Secured("ROLE_ADMIN")
     public ResponseEntity<MessageResponse> assignTaskToUser(@RequestBody UserTaskRequest userTaskRequest) {
-        userTaskService.assignTask(userTaskRequest.getUserEmail(), userTaskRequest.getTaskId());
+        userTaskService.assignTask(userTaskRequest.getUserId(), userTaskRequest.getTaskId());
         return ResponseEntity.ok(new MessageResponse("OK", "Task assigned to user"));
     }
 
@@ -74,7 +73,7 @@ public class UserTaskEndpoint {
             @PathVariable String fileId) {
 
 
-        InputStreamResource resource = null;
+        InputStreamResource resource;
         try {
             File file = userTaskService.takeFileFromUserTask(userId, taskId, fileId);
 
@@ -86,9 +85,8 @@ public class UserTaskEndpoint {
             headers.add("Pragma", "no-cache");
             headers.add("Expires", "0");
 
-            ResponseEntity<Object> responseEntity = ResponseEntity.ok().headers(headers).contentLength(file.length()).contentType(MediaType.parseMediaType("application/txt")).body(resource);
+            return ResponseEntity.ok().headers(headers).contentLength(file.length()).contentType(MediaType.parseMediaType("application/txt")).body(resource);
 
-            return responseEntity;
         } catch (FileNotFoundException e) {
             return new ResponseEntity<>("error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -128,7 +126,7 @@ public class UserTaskEndpoint {
     )
     @Secured("ROLE_STUDENT")
     public ResponseEntity<String> getUserTaskResult(@RequestBody UserTaskRequest userTaskRequest){
-        String resultSummary = userTaskService.getUserTaskStatusSummary(userTaskRequest.getUserEmail(), userTaskRequest.getTaskId());
+        String resultSummary = userTaskService.getUserTaskStatusSummary(userTaskRequest.getUserId(), userTaskRequest.getTaskId());
         return ResponseEntity.ok(resultSummary);
     }
 
