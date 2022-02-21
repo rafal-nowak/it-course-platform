@@ -9,5 +9,6 @@ spring:
       database: integrationTests
       port: 27016
       host: localhost
+      auto-index-creation: true
 local:
   folder: testRepo/

@@ -12,12 +12,12 @@ import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RecordNotFoundException.class)
-    public final ResponseEntity<Object> handleUserNotFoundException() {
+    public final ResponseEntity<Void> handleUserNotFoundException() {
         return ResponseEntity.noContent().build();
     }
 
     @ExceptionHandler(DuplicateRecordException.class)
-    public final ResponseEntity handleDuplicateRecordException() {
+    public final ResponseEntity<Void> handleDuplicateRecordException() {
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 

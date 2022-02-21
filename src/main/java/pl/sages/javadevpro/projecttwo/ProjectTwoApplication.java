@@ -19,7 +19,7 @@ public class ProjectTwoApplication {
 
 		userRepository.save(
 			new User(
-				"ID1",
+				null,
 				"jan@example.com",
 				"Jan Kowalski",
 				"MyPassword",
@@ -29,7 +29,7 @@ public class ProjectTwoApplication {
 
 		userRepository.save(
 			new User(
-				"ID2",
+				null,
 				"stefan@example.com",
 				"Stefan Burczymucha",
 				"password",

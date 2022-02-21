@@ -18,16 +18,16 @@ public class UserServiceIT extends BaseIT {
     public void add_user_test() {
         //given
         User user = new User(
-                "ID24",
+                null,
                 "newUser@example.com",
                 "User Name",
                 "pass",
                 List.of("STUDENT")
         );
-        service.save(user);
+        User saved = service.save(user);
 
         //when
-        User readUser = service.findById(user.getId());
+        User readUser = service.findById(saved.getId());
 
         //then
         Assertions.assertEquals(user.getEmail(), readUser.getEmail());
@@ -40,32 +40,32 @@ public class UserServiceIT extends BaseIT {
     public void get_id_should_return_correct_user() {
         //given
         User user1 = new User(
-                "ID25",
+                null,
                 "newUser1@example.com",
                 "User Name 1",
                 "pass1",
                 List.of("STUDENT")
         );
         User user2 = new User(
-                "ID26",
+                null,
                 "newUser2@example.com",
                 "User Name 2",
                 "pass2",
                 List.of("STUDENT")
         );
         User user3 = new User(
-                "ID27",
+                null,
                 "newUser3@example.com",
                 "User Name 3",
                 "pass3",
                 List.of("STUDENT")
         );
         service.save(user1);
-        service.save(user2);
+        User saved = service.save(user2);
         service.save(user3);
 
         //when
-        User readUser = service.findById(user2.getId());
+        User readUser = service.findById(saved.getId());
 
         //then
         Assertions.assertEquals(user2.getEmail(), readUser.getEmail());

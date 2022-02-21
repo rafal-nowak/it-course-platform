@@ -72,13 +72,13 @@ class UserTaskEndpointIT extends BaseIT {
     @Test
     void admin_should_be_able_to_assign_task_to_user() {
         User user = new User(
-                "ID22",
+                null,
                 "newUser11@example.com",
                 "User Name 11",
                 "pass",
                 List.of("STUDENT")
         );
-        userService.save(user);
+        User savedUser = userService.save(user);
 
         TaskBlueprint taskBlueprint = new TaskBlueprint(
                 "1",
@@ -87,7 +87,7 @@ class UserTaskEndpointIT extends BaseIT {
                 "https://github.com/Piorrt/projectOne"
         );
         taskBlueprintService.save(taskBlueprint);
-        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getId(), taskBlueprint.getId());
+        UserTaskRequest userTaskRequest = new UserTaskRequest(savedUser.getId(), taskBlueprint.getId());
         String token = getTokenForAdmin();
 
         //when
@@ -105,13 +105,13 @@ class UserTaskEndpointIT extends BaseIT {
     @Test
     void admin_should_get_conflict_response_when_trying_to_assign_the_same_task_twice(){
         User user = new User(
-                "ID23",
+                null,
                 "newUser13@example.com",
                 "User Name 11",
                 "pass",
                 List.of("STUDENT")
         );
-        userService.save(user);
+        User savedUser = userService.save(user);
 
         TaskBlueprint taskBlueprint = new TaskBlueprint(
                 "1",
@@ -120,7 +120,7 @@ class UserTaskEndpointIT extends BaseIT {
                 "https://github.com/Piorrt/projectOne"
         );
         taskBlueprintService.save(taskBlueprint);
-        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getId(), taskBlueprint.getId());
+        UserTaskRequest userTaskRequest = new UserTaskRequest(savedUser.getId(), taskBlueprint.getId());
         String token = getTokenForAdmin();
 
         callAssignTask(userTaskRequest, token);
@@ -154,13 +154,13 @@ class UserTaskEndpointIT extends BaseIT {
     @Test
     void student_should_be_able_to_take_list_of_files_assigned_to_user_task() {
         User user = new User(
-                "ID24",
+                null,
                 "newUser11@example.com",
                 "User Name 11",
                 "pass",
                 List.of("STUDENT")
         );
-        userService.save(user);
+        User savedUser = userService.save(user);
 
         TaskBlueprint taskBlueprint = new TaskBlueprint(
                 "2",
@@ -169,9 +169,9 @@ class UserTaskEndpointIT extends BaseIT {
                 "https://github.com/rafal-nowak/task1"
         );
         taskBlueprintService.save(taskBlueprint);
-        UserTaskRequest assignTaskRequest = new UserTaskRequest(user.getId(), taskBlueprint.getId());
+        UserTaskRequest assignTaskRequest = new UserTaskRequest(savedUser.getId(), taskBlueprint.getId());
         String adminToken = getTokenForAdmin();
-        String userToken = getAccessTokenForUser(user.getEmail(), user.getPassword());
+        String userToken = getAccessTokenForUser(savedUser.getEmail(), savedUser.getPassword());
 
         //when
         ResponseEntity<MessageResponse> responseAssignTask = callAssignTask(assignTaskRequest, adminToken);
@@ -183,7 +183,7 @@ class UserTaskEndpointIT extends BaseIT {
         Assertions.assertEquals("Task assigned to user", messageResponse.getMessage());
 
         //when
-        ResponseEntity<ListOfFilesResponse> responseListOfFiles = callGetFilesAssignedToUserTask(user.getId(), taskBlueprint.getId(), userToken);
+        ResponseEntity<ListOfFilesResponse> responseListOfFiles = callGetFilesAssignedToUserTask(savedUser.getId(), taskBlueprint.getId(), userToken);
         ListOfFilesResponse listOfFilesResponse = responseListOfFiles.getBody();
 
         //then
