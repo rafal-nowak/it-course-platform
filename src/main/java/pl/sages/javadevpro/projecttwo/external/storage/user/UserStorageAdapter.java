@@ -38,7 +38,7 @@ public class UserStorageAdapter implements UserRepository {
 
     @Override
     public User update(User user) {
-        Optional<UserEntity> entity = userRepository.findById(user.getEmail());
+        Optional<UserEntity> entity = userRepository.findByEmail(user.getEmail());
         if (entity.isEmpty()) {
             throw new RecordNotFoundException("Task not found");
         }
@@ -49,7 +49,7 @@ public class UserStorageAdapter implements UserRepository {
 
     @Override
     public void remove(User user) {
-        Optional<UserEntity> entity = userRepository.findById(user.getEmail());
+        Optional<UserEntity> entity = userRepository.findByEmail(user.getEmail());
         if(entity.isEmpty()) {
             throw new RecordNotFoundException("User not exist!");
         }
@@ -60,17 +60,15 @@ public class UserStorageAdapter implements UserRepository {
 
     @Override
     public Optional<User> findByEmail(String email) {
-        Optional<UserEntity> entity = userRepository.findById(email);
+        Optional<UserEntity> entity = userRepository.findByEmail(email);
         if (entity.isEmpty()) {
+//            return Optional.empty();
+            //TODO przenieść exception na wyższy poziom, tu zwrócić Optional.empty()
             throw new RecordNotFoundException("User not found");
+        } else {
+            log.info("Found entity " + entity.map(Object::toString).orElse("none"));
+            return entity.map(mapper::toDomain);
         }
-        log.info("Found entity " + entity.map(Object::toString).orElse("none"));
-        if (entity.isPresent()) {
-            return entity
-                .map(mapper::toDomain);
-        }
-
-        return Optional.empty();
     }
 
     @Override

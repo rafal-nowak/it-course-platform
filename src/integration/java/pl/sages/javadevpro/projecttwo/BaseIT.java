@@ -49,6 +49,7 @@ public class BaseIT {
     }
 
     private static User adminUser = new User(
+            "ID3",
             "admin@example.pl",
             "Stefan Burczymucha",
             "password",

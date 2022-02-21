@@ -7,6 +7,7 @@ import java.util.List;
 @Value
 public class UserDto {
 
+    String id;
     String email;
     String name;
     String password;

@@ -21,6 +21,7 @@ class UserControllerIT extends BaseIT {
     void admin_should_get_information_about_any_user() {
         //given
         User user = new User(
+            "ID10",
             "newUser1@example.com",
             "User Name",
             "pass",
@@ -57,12 +58,14 @@ class UserControllerIT extends BaseIT {
     void student_should_not_get_information_about_other_student() {
         //given
         User user1 = new User(
+                "ID11",
                 "newUser4@example.com",
                 "User Name",
                 "pass",
                 List.of("STUDENT")
         );
         User user2 = new User(
+                "ID12",
                 "oldUser5@example.com",
                 "Old User Name",
                 "pass",
@@ -73,7 +76,7 @@ class UserControllerIT extends BaseIT {
         String accessToken = getAccessTokenForUser(user1.getEmail(), user1.getPassword());
 
         //when
-        ResponseEntity response = callGetUser(user2.getEmail(), accessToken);
+        ResponseEntity<UserDto> response = callGetUser(user2.getEmail(), accessToken);
 
         //then
         assertEquals(response.getStatusCode(), HttpStatus.FORBIDDEN);
@@ -83,6 +86,7 @@ class UserControllerIT extends BaseIT {
     void admin_should_get_response_code_conflict_when_user_is_in_db() {
         //given
         User user = new User(
+                "ID13",
             "newUser1@example.com",
             "User Name",
             "pass",
@@ -103,6 +107,7 @@ class UserControllerIT extends BaseIT {
     void admin_should_be_able_to_save_new_user() {
         //given
         User user = new User(
+                "ID14",
             "newUser2@example.com",
             "User Name",
             "pass",
@@ -127,6 +132,7 @@ class UserControllerIT extends BaseIT {
     void student_should_get_information_about_himself() {
         //given
         User user = new User(
+                "ID15",
                 "newUser3@example.com",
                 "User Name",
                 "pass",
@@ -151,6 +157,7 @@ class UserControllerIT extends BaseIT {
     void admin_should_be_able_to_update_user() {
         //given
         User user = new User(
+                "ID15",
                 "email@email.com",
                 "Person",
                 "password",
@@ -159,6 +166,7 @@ class UserControllerIT extends BaseIT {
         userService.save(user);
 
         User userToUpdate = new User(
+                "ID15",
                 "email@email.com",
                 "newPerson",
                 "newpassword",
@@ -196,6 +204,7 @@ class UserControllerIT extends BaseIT {
     void student_should_be_not_able_to_update_user() {
         //given
         User user = new User(
+                "ID17",
                 "newUser@example.com",
                 "Person",
                 "pass",
@@ -204,6 +213,7 @@ class UserControllerIT extends BaseIT {
         userService.save(user);
 
         User userToUpdate = new User(
+                "ID17",
                 "otherUser@email.com",
                 "Person",
                 "password",
@@ -222,6 +232,7 @@ class UserControllerIT extends BaseIT {
     void admin_should_be_able_to_delete_user() {
         //given
         User user = new User(
+                "ID16",
                 "newUser@email.com",
                 "Person",
                 "pass",
@@ -241,6 +252,7 @@ class UserControllerIT extends BaseIT {
     void admin_should_get_response_code_204_when_user_not_exits() {
         //given
         User user = new User(
+                "ID18",
                 "otherUser@email.com",
                 "Person",
                 "password",
@@ -259,12 +271,14 @@ class UserControllerIT extends BaseIT {
     void student_should_not_be_able_to_delete_user() {
         //given
         User user = new User(
+                "ID19",
                 "newUser@example.com",
                 "Person",
                 "pass",
                 List.of("STUDENT")
         );
         User otherUser = new User(
+                "ID20",
                 "otherUser@email.com",
                 "Person",
                 "password",

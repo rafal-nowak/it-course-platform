@@ -21,7 +21,7 @@ public class UserService {
         userRepository.remove(user);
     } //TODO dodac exception na poziomie domeny
 
-    public User findBy(String email) {
+    public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
     } //TODO dodac wyjatek "UserNotFoundException" zamiast nulla
 

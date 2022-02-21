@@ -25,7 +25,7 @@ public class UserController {
     @GetMapping( path = "/{email}")
     @Secured("ROLE_ADMIN")
     public ResponseEntity<UserDto> getUser(@PathVariable(name = "email") String email) {
-        User user = userService.findBy(email);
+        User user = userService.findByEmail(email);
 
         return ResponseEntity
             .ok(dtoMapper.toDto(user));
@@ -68,7 +68,7 @@ public class UserController {
     @GetMapping("me")
     @Secured("ROLE_STUDENT")
     public ResponseEntity<UserDto> aboutMe(Authentication authentication) {
-        User user = userService.findBy((String) authentication.getPrincipal());
+        User user = userService.findByEmail((String) authentication.getPrincipal());
         return ResponseEntity
             .ok(dtoMapper.toDto(user));
     }

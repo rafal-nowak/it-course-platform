@@ -5,9 +5,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
-import pl.sages.javadevpro.projecttwo.external.storage.usertask.UserTaskEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -17,6 +15,7 @@ import java.util.List;
 public class UserEntity {
 
     @Id
+    private String id;
     private String email;
     private String name;
     private String password;

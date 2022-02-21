@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface UserEntityMapper {
+
     UserEntity toEntity(User domain);
 
     User toDomain(UserEntity entity);

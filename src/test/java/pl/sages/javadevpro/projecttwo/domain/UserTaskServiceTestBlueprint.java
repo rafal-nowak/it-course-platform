@@ -18,7 +18,6 @@ import pl.sages.javadevpro.projecttwo.domain.usertask.GitService;
 import pl.sages.javadevpro.projecttwo.domain.usertask.TaskStatus;
 import pl.sages.javadevpro.projecttwo.domain.usertask.UserTask;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -37,6 +36,7 @@ class UserTaskServiceTestBlueprint {
     private UserTaskService userTaskService;
 
     private final User fakeUser = new User(
+            "ID28",
             "email@email.any",
             "user name",
             "pass",
@@ -51,9 +51,8 @@ class UserTaskServiceTestBlueprint {
     @BeforeEach
     void prepareMocks() {
         when(directoryService.createDirectoryForUserTask(Mockito.any(),Mockito.anyString())).thenReturn(TEST_DIRECTORY);
-        when(userService.findBy(Mockito.anyString())).thenReturn(fakeUser);
+        when(userService.findByEmail(Mockito.anyString())).thenReturn(fakeUser);
         when(taskBlueprintService.findBy(Mockito.anyString())).thenReturn(fakeTaskBlueprint);
-        when(userService.update(Mockito.any())).thenReturn(fakeUser);
     }
 
 
