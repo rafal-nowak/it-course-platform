@@ -25,7 +25,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
     void should_get_information_about_task() {
         //given
         User user = new User(
-                "ID4",
+                null,
                 "newUser@example.com",
                 "User Name",
                 "pass",

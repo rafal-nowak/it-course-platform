@@ -18,7 +18,7 @@ public class UserService {
     }
 
     public void removeById(String id) {
-        userRepository.removeById(id);
+        userRepository.remove(id);
     } //TODO dodac exception na poziomie domeny
 
     public User findByEmail(String email) {

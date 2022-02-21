@@ -17,8 +17,8 @@ Authorization: {{auth_token}}
   "roles": ["STUDENT"]
 }
 
-### get user by email
-GET http://localhost:8080/users/2zdenek@gmail.com
+### get user by id
+GET http://localhost:8080/users/62153e676b1e1d4a83869468
 Accept: application/json
 Content-Type: application/json
 Authorization: {{auth_token}}

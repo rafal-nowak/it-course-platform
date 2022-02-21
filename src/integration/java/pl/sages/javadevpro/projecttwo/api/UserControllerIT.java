@@ -21,26 +21,27 @@ class UserControllerIT extends BaseIT {
     void admin_should_get_information_about_any_user() {
         //given
         User user = new User(
-            "ID10",
+            null,
             "newUser1@example.com",
             "User Name",
             "pass",
             List.of("STUDENT")
         );
-        service.save(user);
+        User savedUser = service.save(user);
         String token = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserDto> response = callGetUser(user.getId(), token);
+        ResponseEntity<UserDto> response = callGetUser(savedUser.getId(), token);
 
         //then
         UserDto body = response.getBody();
+        System.out.println(body);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
-        assertEquals(body.getId(), user.getId());
-        assertEquals(body.getEmail(), user.getEmail());
-        assertEquals(body.getName(), user.getName());
-        assertEquals(body.getPassword(), "######");
-        assertEquals(body.getRoles().toString(), user.getRoles().toString());
+        assertEquals(savedUser.getId(), body.getId());
+        assertEquals(savedUser.getEmail(), body.getEmail());
+        assertEquals(savedUser.getName(), body.getName());
+        assertEquals("######", body.getPassword());
+        assertEquals(savedUser.getRoles().toString(), body.getRoles().toString());
     }
 
     @Test
@@ -87,17 +88,17 @@ class UserControllerIT extends BaseIT {
     void admin_should_get_response_code_conflict_when_user_is_in_db() {
         //given
         User user = new User(
-                "ID13",
+            null,
             "newUser1@example.com",
             "User Name",
             "pass",
             List.of("STUDENT")
         );
-        service.save(user);
+        User saved = service.save(user);
         String adminToken = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserDto> response = callSaveUser(user, adminToken);
+        ResponseEntity<UserDto> response = callSaveUser(saved, adminToken);
 
         //then
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
@@ -108,7 +109,7 @@ class UserControllerIT extends BaseIT {
     void admin_should_be_able_to_save_new_user() {
         //given
         User user = new User(
-                "ID14",
+            null,
             "newUser2@example.com",
             "User Name",
             "pass",
@@ -133,14 +134,14 @@ class UserControllerIT extends BaseIT {
     void student_should_get_information_about_himself() {
         //given
         User user = new User(
-                "ID15",
+                null,
                 "newUser3@example.com",
                 "User Name",
                 "pass",
                 List.of("STUDENT")
         );
-        service.save(user);
-        String accessToken = getAccessTokenForUser(user.getEmail(), user.getPassword());
+        User saved = service.save(user);
+        String accessToken = getAccessTokenForUser(saved.getEmail(), user.getPassword());
 
         //when
         ResponseEntity<UserDto> response = callAboutMe(accessToken);
@@ -148,7 +149,7 @@ class UserControllerIT extends BaseIT {
         //then
         UserDto body = response.getBody();
         assertEquals(response.getStatusCode(), HttpStatus.OK);
-        assertEquals(body.getId(), user.getId());
+        assertEquals(body.getId(), saved.getId());
         assertEquals(body.getEmail(), user.getEmail());
         assertEquals(body.getName(), user.getName());
         assertEquals(body.getPassword(), "######");
@@ -159,16 +160,16 @@ class UserControllerIT extends BaseIT {
     void admin_should_be_able_to_update_user() {
         //given
         User user = new User(
-                "ID15",
+                null,
                 "email@email.com",
                 "Person",
                 "password",
                 List.of("STUDENT")
         );
-        userService.save(user);
+        User beforeUpdate = userService.save(user);
 
-        User userToUpdate = new User(
-                "ID15",
+        User toUpdate = new User(
+                beforeUpdate.getId(),
                 "email@email.com",
                 "newPerson",
                 "newpassword",
@@ -177,18 +178,18 @@ class UserControllerIT extends BaseIT {
         String adminAccessToken = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserDto> response = callUpdateUser(userToUpdate, adminAccessToken);
+        ResponseEntity<UserDto> response = callUpdateUser(toUpdate, adminAccessToken);
 
         //then
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         //and
         UserDto body = response.getBody();
-        assertEquals(user.getId(), body.getId());
-        assertEquals(user.getEmail(), body.getEmail());
-        assertEquals(userToUpdate.getName(), body.getName());
+        assertEquals(beforeUpdate.getId(), body.getId());
+        assertEquals(toUpdate.getEmail(), body.getEmail());
+        assertEquals(toUpdate.getName(), body.getName());
         assertEquals("######", body.getPassword());
-        assertEquals(userToUpdate.getRoles(), body.getRoles());
+        assertEquals(toUpdate.getRoles(), body.getRoles());
     }
 
     @Test
@@ -207,16 +208,16 @@ class UserControllerIT extends BaseIT {
     void student_should_be_not_able_to_update_user() {
         //given
         User user = new User(
-                "ID17",
+                null,
                 "newUser@example.com",
                 "Person",
                 "pass",
                 List.of("STUDENT")
         );
-        userService.save(user);
+        User beforeUpdate = userService.save(user);
 
         User userToUpdate = new User(
-                "ID17",
+                beforeUpdate.getId(),
                 "otherUser@email.com",
                 "Person",
                 "password",
@@ -235,17 +236,17 @@ class UserControllerIT extends BaseIT {
     void admin_should_be_able_to_delete_user() {
         //given
         User user = new User(
-                "ID16",
+                null,
                 "newUser@email.com",
                 "Person",
                 "pass",
                 List.of("STUDENT")
         );
         String adminAccessToken = getTokenForAdmin();
-        userService.save(user);
+        User savedUser = userService.save(user);
 
         //when
-        ResponseEntity<UserDto> response = callDeleteUser(user.getId(), adminAccessToken);
+        ResponseEntity<UserDto> response = callDeleteUser(savedUser.getId(), adminAccessToken);
 
         //then
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
@@ -274,7 +275,7 @@ class UserControllerIT extends BaseIT {
     void student_should_not_be_able_to_delete_user() {
         //given
         User user = new User(
-                "ID19",
+                null,
                 "newUser@example.com",
                 "Person",
                 "pass",
