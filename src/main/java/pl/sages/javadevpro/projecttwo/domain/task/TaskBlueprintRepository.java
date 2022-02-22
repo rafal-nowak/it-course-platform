@@ -8,7 +8,7 @@ public interface TaskBlueprintRepository {
 
     Optional<TaskBlueprint> findById(String id);
 
-    void remove(TaskBlueprint taskBlueprint);
+    Optional<TaskBlueprint> remove(TaskBlueprint taskBlueprint);
 
     TaskBlueprint update(TaskBlueprint taskBlueprint);
 }
