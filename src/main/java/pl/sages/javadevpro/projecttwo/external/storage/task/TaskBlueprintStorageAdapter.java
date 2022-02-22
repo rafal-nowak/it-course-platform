@@ -17,26 +17,23 @@ public class TaskBlueprintStorageAdapter implements TaskBlueprintRepository {
     private final TaskBlueprintEntityMapper mapper;
 
     @Override
-    public TaskBlueprint save(TaskBlueprint taskBlueprint) {
+    public Optional<TaskBlueprint> save(TaskBlueprint taskBlueprint) {
         try{
             TaskBlueprintEntity saved = taskRepository.insert(mapper.toEntity(taskBlueprint));
             log.info("Saved task " + saved.toString());
-            return mapper.toDomain(saved);
+            return Optional.of(mapper.toDomain(saved));
         }catch (DuplicateKeyException ex){
             log.warning("Task " +  taskBlueprint.getName() + " already exits");
-            throw new DuplicateRecordException("Task already exits");
+            return Optional.empty();
         }
     }
 
     @Override
     public Optional<TaskBlueprint> findById(String id) {
         Optional<TaskBlueprintEntity> entity = taskRepository.findById(id);
-        if (entity.isEmpty()) {
-            throw new RecordNotFoundException("Task not found");
-        }
-        log.info("Found task " + entity.map(Object::toString));
-        return entity
-                .map(mapper::toDomain);
+        return Optional.ofNullable(entity
+                .map(mapper::toDomain)
+                .orElse(null));
     }
 
     @Override

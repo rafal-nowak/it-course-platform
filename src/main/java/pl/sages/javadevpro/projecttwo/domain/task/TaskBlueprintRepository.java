@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public interface TaskBlueprintRepository {
 
-    TaskBlueprint save(TaskBlueprint taskBlueprint);
+    Optional<TaskBlueprint> save(TaskBlueprint taskBlueprint);
 
     Optional<TaskBlueprint> findById(String id);
 

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
 import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintAlreadyExist;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintNotFound;
 
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
@@ -22,4 +24,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     //TODO - TaskBlueprintNotFoundException - dodać. Jeśli wystąpi to zwracamy 404_NOT_FOUND - default message
+    @ExceptionHandler(TaskBlueprintNotFound.class)
+    public final ResponseEntity<Void> handleTaskBlueprintNotFoundException() {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @ExceptionHandler(TaskBlueprintAlreadyExist.class)
+    public final ResponseEntity<Void> handleTaskBlueprintAlreadyExistException() {
+        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    }
 }
