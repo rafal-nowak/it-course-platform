@@ -29,7 +29,10 @@ public class TaskBlueprintService {
     }
 
     public void remove(TaskBlueprint taskBlueprint) {
-        taskBlueprintRepository.remove(taskBlueprint);
+        Optional<TaskBlueprint> removed = taskBlueprintRepository.remove(taskBlueprint);
+        if (removed.isEmpty()) {
+            throw new TaskBlueprintNotFound("Task blueprint not found");
+        }
     } //TODO dodac exception na poziomie domeny
 
     public TaskBlueprint update(TaskBlueprint taskBlueprint) {
