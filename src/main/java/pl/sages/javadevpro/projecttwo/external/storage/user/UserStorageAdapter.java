@@ -22,46 +22,45 @@ public class UserStorageAdapter implements UserRepository {
 
 
     @Override
-    public User save(User user) {
+    public Optional<User> save(User user) {
         try {
             UserEntity saved = userRepository.insert(mapper.toEntity(user));
             log.info("Saved entity " + saved);
-            return mapper.toDomain(saved);
+            return Optional.of(mapper.toDomain(saved));
         } catch (DuplicateKeyException ex) {
             log.warning("User " +  user.getEmail() + " already exits in db");
-            throw new DuplicateRecordException("User already exits");
+            return Optional.empty();
         }
     }
 
     @Override
-    public User update(User user) {
+    public Optional<User> update(User user) {
         Optional<UserEntity> entity = userRepository.findById(user.getId());
         if (entity.isEmpty()) {
-            throw new RecordNotFoundException("Task not found");
+            return Optional.empty();
         }
         UserEntity updated = userRepository.save(mapper.toEntity(user));
         log.info("Updating task "+ updated);
-        return mapper.toDomain(updated);
+        return Optional.of(mapper.toDomain(updated));
     }
 
     @Override
-    public void remove(String id) {
+    public Optional<User> remove(String id) {
         Optional<UserEntity> entity = userRepository.findById(id);
         if(entity.isEmpty()) {
-            throw new RecordNotFoundException("User not exist!");
+            return Optional.empty();
         }
         userRepository.deleteById(id);
         log.info("Removing user " + entity);
-
+        return Optional.of(mapper.toDomain(entity.get()));
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
         Optional<UserEntity> entity = userRepository.findByEmail(email);
         if (entity.isEmpty()) {
-//            return Optional.empty();
+            return Optional.empty();
             //TODO przenieść exception na wyższy poziom, tu zwrócić Optional.empty()
-            throw new RecordNotFoundException("User not found");
         } else {
             log.info("Found entity " + entity.map(Object::toString).orElse("none"));
             return entity.map(mapper::toDomain);
