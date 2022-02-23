@@ -57,25 +57,12 @@ public class UserStorageAdapter implements UserRepository {
 
     @Override
     public Optional<User> findByEmail(String email) {
-        Optional<UserEntity> entity = userRepository.findByEmail(email);
-        if (entity.isEmpty()) {
-            return Optional.empty();
-            //TODO przenieść exception na wyższy poziom, tu zwrócić Optional.empty()
-        } else {
-            log.info("Found entity " + entity.map(Object::toString).orElse("none"));
-            return entity.map(mapper::toDomain);
-        }
+        return userRepository.findByEmail(email).map(mapper::toDomain);
     }
 
     @Override
     public Optional<User> findById(String id) {
-        Optional<UserEntity> entity = userRepository.findById(id);
-        if (entity.isPresent()) {
-            log.info("Found entity " + entity.map(Object::toString).orElse("none"));
-            return entity.map(mapper::toDomain);
-        } else {
-            return Optional.empty();
-        }
+        return userRepository.findById(id).map(mapper::toDomain);
     }
 
     @Override

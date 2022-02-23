@@ -30,10 +30,7 @@ public class TaskBlueprintStorageAdapter implements TaskBlueprintRepository {
 
     @Override
     public Optional<TaskBlueprint> findById(String id) {
-        Optional<TaskBlueprintEntity> entity = taskRepository.findById(id);
-        return Optional.ofNullable(entity
-                .map(mapper::toDomain)
-                .orElse(null));
+        return taskRepository.findById(id).map(mapper::toDomain);
     }
 
     @Override
