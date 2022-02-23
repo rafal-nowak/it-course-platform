@@ -133,7 +133,7 @@ class UserTaskEndpointIT extends BaseIT {
     }
 
     @Test
-    void admin_should_get_204_response_code_when_trying_to_add_task_to_not_existing_user() {
+    void admin_should_get_404_response_code_when_trying_to_add_task_to_not_existing_user() {
         TaskBlueprint taskBlueprint = new TaskBlueprint(
                 "1",
                 "Task Name 1",
@@ -148,7 +148,7 @@ class UserTaskEndpointIT extends BaseIT {
         ResponseEntity<MessageResponse> response = callAssignTask(userTaskRequest, token);
 
         //then
-        Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test
