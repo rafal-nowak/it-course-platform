@@ -33,7 +33,7 @@ public class UserService {
         if (removed.isEmpty()) {
             throw new UserNotFound("User not found");
         }
-    } //TODO dodac exception na poziomie domeny
+    }
 
     public User findByEmail(String email) {
         Optional<User> founded = userRepository.findByEmail(email);
@@ -41,7 +41,7 @@ public class UserService {
             throw new UserNotFound("User not found");
         }
         return founded.get();
-    } //TODO dodac wyjatek "UserNotFoundException" zamiast nulla
+    }
 
     public User findById(String id) {
         Optional<User> founded = userRepository.findById(id);
@@ -49,11 +49,11 @@ public class UserService {
             throw new UserNotFound("User not found");
         }
         return founded.get();
-    } //TODO dodac wyjatek "UserNotFoundException" zamiast nulla
+    }
 
 
     public List<User> findAll() {
         return userRepository.findAll();
-    } //TODO dodac pagowanie
+    }
 
 }

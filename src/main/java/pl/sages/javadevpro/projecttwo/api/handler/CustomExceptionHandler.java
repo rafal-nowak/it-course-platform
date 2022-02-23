@@ -25,7 +25,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
-    //TODO - TaskBlueprintNotFoundException - dodać. Jeśli wystąpi to zwracamy 404_NOT_FOUND - default message
     @ExceptionHandler(TaskBlueprintNotFound.class)
     public final ResponseEntity<Void> handleTaskBlueprintNotFoundException() {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
