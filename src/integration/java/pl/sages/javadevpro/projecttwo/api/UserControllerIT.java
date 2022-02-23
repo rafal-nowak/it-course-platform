@@ -45,7 +45,7 @@ class UserControllerIT extends BaseIT {
     }
 
     @Test
-    void admin_should_get_response_code_204_when_user_not_exits_in_db() {
+    void admin_should_get_response_code_404_when_user_not_exits_in_db() {
         //given
         String token = getTokenForAdmin();
 
@@ -53,7 +53,7 @@ class UserControllerIT extends BaseIT {
         ResponseEntity<UserDto> response = callGetUser("fakeId", token);
 
         //then
-        assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+        assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
     }
 
     @Test
@@ -193,7 +193,7 @@ class UserControllerIT extends BaseIT {
     }
 
     @Test
-    void admin_should_be_get_response_code_204_when_update_user_not_exits() {
+    void admin_should_be_get_response_code_404_when_update_user_not_exits() {
         //given
         String token = getTokenForAdmin();
 
@@ -201,7 +201,7 @@ class UserControllerIT extends BaseIT {
         ResponseEntity<UserDto> response = callGetUser("notUser@email.com", token);
 
         //then
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test
@@ -253,7 +253,7 @@ class UserControllerIT extends BaseIT {
     }
 
     @Test
-    void admin_should_get_response_code_204_when_user_not_exits() {
+    void admin_should_get_response_code_404_when_user_not_exits() {
         //given
         User user = new User(
                 "ID18",
@@ -268,7 +268,7 @@ class UserControllerIT extends BaseIT {
         ResponseEntity<UserDto> response = callDeleteUser(user.getId(), token);
 
         //then
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test

@@ -234,7 +234,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
     }
 
     @Test
-    void should_get_response_code_204_when_task_not_exits() {
+    void should_get_response_code_404_when_task_not_exits() {
         //given
         User user = new User(
                 "ID7",
@@ -248,7 +248,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
         //when
         ResponseEntity<TaskBlueprintDto> response = callGetTask(1,token);
         //then
-        Assertions.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+        Assertions.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
     }
 
 
