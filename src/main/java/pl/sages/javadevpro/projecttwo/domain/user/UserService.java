@@ -28,11 +28,12 @@ public class UserService {
         return updated.get();
     }
 
-    public void removeById(String id) {
+    public User removeById(String id) {
         Optional<User> removed = userRepository.remove(id);
         if (removed.isEmpty()) {
             throw new UserNotFound("User not found");
         }
+        return removed.get();
     }
 
     public User findByEmail(String email) {
