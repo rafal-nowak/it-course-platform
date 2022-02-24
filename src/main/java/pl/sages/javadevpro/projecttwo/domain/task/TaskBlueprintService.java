@@ -12,7 +12,7 @@ public class TaskBlueprintService {
     public TaskBlueprint save(TaskBlueprint taskBlueprint) {
         Optional<TaskBlueprint> saved = taskBlueprintRepository.save(taskBlueprint);
         if (saved.isEmpty()) {
-            throw new TaskBlueprintAlreadyExist("Task blueprint already exist");
+            throw new TaskBlueprintAlreadyExistsException("Task blueprint already exists");
         }
         return saved.get();
     }
@@ -20,7 +20,7 @@ public class TaskBlueprintService {
     public TaskBlueprint findBy(String id) {
         Optional<TaskBlueprint> founded = taskBlueprintRepository.findById(id);
         if (founded.isEmpty()) {
-            throw new TaskBlueprintNotFound("Task blueprint not found");
+            throw new TaskBlueprintNotFoundException("Task blueprint not found");
         }
         return founded.get();
     }
@@ -28,7 +28,7 @@ public class TaskBlueprintService {
     public TaskBlueprint remove(TaskBlueprint taskBlueprint) {
         Optional<TaskBlueprint> removed = taskBlueprintRepository.remove(taskBlueprint);
         if (removed.isEmpty()) {
-            throw new TaskBlueprintNotFound("Task blueprint not found");
+            throw new TaskBlueprintNotFoundException("Task blueprint not found");
         }
         return removed.get();
     }

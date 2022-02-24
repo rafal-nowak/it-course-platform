@@ -7,13 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.sages.javadevpro.projecttwo.domain.user.User;
-import pl.sages.javadevpro.projecttwo.domain.user.UserAlreadyExist;
-import pl.sages.javadevpro.projecttwo.domain.user.UserNotFound;
-import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
-import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,7 +49,7 @@ class TaskBlueprintServiceTest {
 
         //when
         //then
-        Assertions.assertThrows(TaskBlueprintAlreadyExist.class,
+        Assertions.assertThrows(TaskBlueprintAlreadyExistsException.class,
                 ()->{
                     taskBlueprintService.save(fakeTaskBlueprint);
                 });
@@ -82,7 +76,7 @@ class TaskBlueprintServiceTest {
 
         //when
         //then
-        Assertions.assertThrows(TaskBlueprintNotFound.class,
+        Assertions.assertThrows(TaskBlueprintNotFoundException.class,
                 ()->{
                     taskBlueprintService.findBy(fakeTaskBlueprint.getId());
                 });
@@ -109,7 +103,7 @@ class TaskBlueprintServiceTest {
 
         //when
         //then
-        Assertions.assertThrows(TaskBlueprintNotFound.class,
+        Assertions.assertThrows(TaskBlueprintNotFoundException.class,
                 ()->{
                     taskBlueprintService.remove(fakeTaskBlueprint);
                 });
