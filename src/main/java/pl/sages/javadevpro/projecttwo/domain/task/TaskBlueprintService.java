@@ -25,11 +25,12 @@ public class TaskBlueprintService {
         return founded.get();
     }
 
-    public void remove(TaskBlueprint taskBlueprint) {
+    public TaskBlueprint remove(TaskBlueprint taskBlueprint) {
         Optional<TaskBlueprint> removed = taskBlueprintRepository.remove(taskBlueprint);
         if (removed.isEmpty()) {
             throw new TaskBlueprintNotFound("Task blueprint not found");
         }
+        return removed.get();
     }
 
     public TaskBlueprint update(TaskBlueprint taskBlueprint) {
