@@ -11,8 +11,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
@@ -51,7 +49,7 @@ class UserServiceTest {
 
         //when
         //then
-        Assertions.assertThrows(UserAlreadyExist.class,
+        Assertions.assertThrows(UserAlreadyExistsException.class,
                 ()->{
                     userService.save(fakeUser);
                 });
@@ -78,7 +76,7 @@ class UserServiceTest {
 
         //when
         //then
-        Assertions.assertThrows(UserNotFound.class,
+        Assertions.assertThrows(UserNotFoundException.class,
                 ()->{
                     userService.update(fakeUser);
                 });
@@ -105,7 +103,7 @@ class UserServiceTest {
 
         //when
         //then
-        Assertions.assertThrows(UserNotFound.class,
+        Assertions.assertThrows(UserNotFoundException.class,
                 ()->{
                     userService.removeById(fakeUser.getId());
                 });
@@ -132,7 +130,7 @@ class UserServiceTest {
 
         //when
         //then
-        Assertions.assertThrows(UserNotFound.class,
+        Assertions.assertThrows(UserNotFoundException.class,
                 ()->{
                     userService.findByEmail(fakeUser.getEmail());
                 });
@@ -159,7 +157,7 @@ class UserServiceTest {
 
         //when
         //then
-        Assertions.assertThrows(UserNotFound.class,
+        Assertions.assertThrows(UserNotFoundException.class,
                 ()->{
                     userService.findById(fakeUser.getId());
                 });

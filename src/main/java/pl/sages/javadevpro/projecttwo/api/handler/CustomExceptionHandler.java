@@ -5,12 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
 import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
-import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintAlreadyExist;
-import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintNotFound;
-import pl.sages.javadevpro.projecttwo.domain.user.UserAlreadyExist;
-import pl.sages.javadevpro.projecttwo.domain.user.UserNotFound;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintAlreadyExistsException;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintNotFoundException;
+import pl.sages.javadevpro.projecttwo.domain.user.UserAlreadyExistsException;
+import pl.sages.javadevpro.projecttwo.domain.user.UserNotFoundException;
 
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
@@ -25,23 +26,31 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
-    @ExceptionHandler(TaskBlueprintNotFound.class)
-    public final ResponseEntity<Void> handleTaskBlueprintNotFoundException() {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    @ExceptionHandler(TaskBlueprintNotFoundException.class)
+    public final ResponseEntity<MessageResponse> handleTaskBlueprintNotFoundException(TaskBlueprintNotFoundException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new MessageResponse("ERROR", ex.getMessage()));
     }
 
-    @ExceptionHandler(TaskBlueprintAlreadyExist.class)
-    public final ResponseEntity<Void> handleTaskBlueprintAlreadyExistException() {
-        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    @ExceptionHandler(TaskBlueprintAlreadyExistsException.class)
+    public final ResponseEntity<MessageResponse> handleTaskBlueprintAlreadyExistsException(TaskBlueprintAlreadyExistsException ex) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new MessageResponse("ERROR", ex.getMessage()));
     }
 
-    @ExceptionHandler(UserNotFound.class)
-    public final ResponseEntity<Void> handleUserNotFoundException() {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    @ExceptionHandler(UserNotFoundException.class)
+    public final ResponseEntity<MessageResponse> handleUserNotFoundException(UserNotFoundException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new MessageResponse("ERROR", ex.getMessage()));
     }
 
-    @ExceptionHandler(UserAlreadyExist.class)
-    public final ResponseEntity<Void> handleUserAlreadyExistException() {
-        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public final ResponseEntity<MessageResponse> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new MessageResponse("ERROR", ex.getMessage()));
     }
 }
