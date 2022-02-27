@@ -21,7 +21,6 @@ public class TaskBlueprintController {
     private final TaskBlueprintDtoMapper dtoMapper;
 
     @GetMapping(path = "/{id}")
-    @Secured({"ROLE_STUDENT", "ROLE_ADMIN"})
     public ResponseEntity<TaskBlueprintDto> getTask(@PathVariable(name = "id") String taskId) {
         TaskBlueprint taskBlueprint = taskBlueprintService.findBy(taskId);
 
@@ -30,7 +29,6 @@ public class TaskBlueprintController {
     }
 
     @PostMapping
-    @Secured("ROLE_ADMIN")
     public ResponseEntity<TaskBlueprintDto> saveTask(@RequestBody TaskBlueprintDto dto) {
         TaskBlueprint taskBlueprint = taskBlueprintService.save(dtoMapper.toDomain(dto));
         return ResponseEntity
@@ -38,14 +36,12 @@ public class TaskBlueprintController {
     }
 
     @DeleteMapping
-    @Secured("ROLE_ADMIN")
     public ResponseEntity<Void> removeTask(@RequestBody TaskBlueprintDto dto){
         taskBlueprintService.remove(dtoMapper.toDomain(dto));
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping
-    @Secured("ROLE_ADMIN")
     public ResponseEntity<TaskBlueprintDto> updateTask(@RequestBody TaskBlueprintDto dto){
        TaskBlueprint taskBlueprint = taskBlueprintService.update(dtoMapper.toDomain(dto));
        return ResponseEntity.ok(dtoMapper.toDto(taskBlueprint));

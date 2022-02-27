@@ -197,6 +197,232 @@ Content-Type: application/json
 
 ###
 
+GET http://localhost:8080/users/jan@example.com
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+<> f-14.txt
+
+###
+
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk=
+
+<> 2022-02-21T204727.401.json
+
+###
+
+GET http://localhost:8080/users/jan@example.com
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+<> f-13.txt
+
+###
+
+POST http://localhost:8080/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "email": "rafal@gmail.com",
+  "name": "Rafal Nowak",
+  "password": "userPass",
+  "roles": ["STUDENT"]
+}
+
+###
+
+GET http://localhost:8080/users/jan@example.com
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+<> f-12.txt
+
+###
+
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk=
+
+<> 2022-02-21T204515.401.json
+
+###
+
+GET http://localhost:8080/users/stefan@example.com
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic U3RlZmFuIEJ1cmN6eW11Y2hhOnBhc3N3b3Jk
+
+<> f-11.txt
+
+###
+
+GET http://localhost:8080/users/jan@example.com
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+<> f-10.txt
+
+###
+
+GET http://localhost:8080/users/jan@example.com
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic U3RlZmFuIEJ1cmN6eW11Y2hhOnBhc3N3b3Jk
+
+<> f-9.txt
+
+###
+
+GET http://localhost:8080/users/jan@example.com
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic U3RlZmFuIEJ1cmN6eW11Y2hhOnBhc3N3b3Jk
+
+<> f-8.txt
+
+###
+
+GET http://localhost:8080/users/jan@example.com
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic U3RlZmFuIEJ1cmN6eW11Y2hhOnBhc3N3b3Jk
+
+###
+
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk=
+
+<> 2022-02-21T202319.401.json
+
+###
+
+GET http://localhost:8080/users/jan@example.com
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+<> f-7.txt
+
+###
+
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk=
+
+<> 2022-02-21T202032.401.json
+
+###
+
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk=
+
+<> 2022-02-21T201517.401.json
+
+###
+
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+<> 2022-02-21T201304.401.json
+
+###
+
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+<> 2022-02-21T201255.401.json
+
+###
+
+GET http://localhost:8080/users/2zdenek@gmail.com
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+<> f-6.txt
+
+###
+
+GET http://localhost:8080/users/jan@example.com
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+<> f-5.txt
+
+###
+
+GET http://localhost:8080/users/jan@example.com
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+<> f-4.txt
+
+###
+
+GET http://localhost:8080/users/jan@example.com
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+<> f-3.txt
+
+###
+
+GET http://localhost:8080/users/jan@example.com
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+<> f-2.txt
+
+###
+
+GET http://localhost:8080/users/jan@example.com
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+<> f-1.txt
+
+###
+
+POST http://localhost:8080/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "email": "rafal@gmail.com",
+  "name": "Rafal Nowak",
+  "password": "userPass",
+  "roles": ["STUDENT"]
+}
+
+<> 2022-02-21T194156.403.json
+
+###
+
 GET http://localhost:8080/usertask/results
 Accept: application/json
 Content-Type: application/json

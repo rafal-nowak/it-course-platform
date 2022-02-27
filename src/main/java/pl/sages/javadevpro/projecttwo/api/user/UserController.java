@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
+import pl.sages.javadevpro.projecttwo.security.UserPrincipal;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +24,6 @@ public class UserController {
     private final UserDtoMapper dtoMapper;
 
     @GetMapping( path = "/{id}")
-    @Secured("ROLE_ADMIN")
     public ResponseEntity<UserDto> getUser(@PathVariable String id) {
         User user = userService.findById(id);
         return ResponseEntity
@@ -31,7 +31,6 @@ public class UserController {
     }
 
     @GetMapping
-    @Secured("ROLE_ADMIN")
     public ResponseEntity<List<UserDto>> getUsers() {
         List<UserDto> userList = userService.findAll().stream()  // TODO dadac do mappera
             .map(dtoMapper::toDto)
@@ -42,7 +41,6 @@ public class UserController {
     }
 
     @PostMapping
-    @Secured("ROLE_ADMIN")
     public ResponseEntity<UserDto> saveUser(@RequestBody UserDto dto) {
         User user = userService.save(dtoMapper.toDomain(dto));
         return ResponseEntity
@@ -50,7 +48,6 @@ public class UserController {
     }
 
     @PutMapping
-    @Secured("ROLE_ADMIN")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto dto) {
         User user = userService.update(dtoMapper.toDomain(dto));
         return ResponseEntity
@@ -58,16 +55,15 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    @Secured("ROLE_ADMIN")
     public ResponseEntity<Void> removeUser(@PathVariable String id){
         userService.removeById(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("me")
-    @Secured("ROLE_STUDENT")
     public ResponseEntity<UserDto> aboutMe(Authentication authentication) {
-        User user = userService.findByEmail((String) authentication.getPrincipal());
+        System.out.println(authentication.getPrincipal().getClass());
+        User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
         return ResponseEntity
             .ok(dtoMapper.toDto(user));
     }

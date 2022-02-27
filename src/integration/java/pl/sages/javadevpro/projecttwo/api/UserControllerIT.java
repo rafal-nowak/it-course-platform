@@ -352,9 +352,12 @@ class UserControllerIT extends BaseIT {
     private ResponseEntity<UserDto> callDeleteUser(String userId, String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
+        System.out.println("AUTHORIZATION " + accessToken);
         headers.add(HttpHeaders.AUTHORIZATION, accessToken);
+
+        System.out.println(headers.getFirst("AUTHORIZATION"));
         return restTemplate.exchange(
-                localUrl("/users/"+userId),
+                localUrl("/users/" + userId),
                 HttpMethod.DELETE,
                 new HttpEntity(headers),
                 UserDto.class

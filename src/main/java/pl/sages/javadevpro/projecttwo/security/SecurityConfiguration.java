@@ -1,13 +1,14 @@
-package pl.sages.javadevpro.projecttwo.config;
+package pl.sages.javadevpro.projecttwo.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,29 +26,24 @@ import java.util.stream.Collectors;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private UserRepository userRepository;
+    private UserPrincipalDetailsService userPrincipalDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
             .csrf().disable()
             .authorizeRequests()
-            .anyRequest().authenticated()
+            .antMatchers(HttpMethod.GET, "/users/me").hasRole("STUDENT")
+            .antMatchers("/users/**").hasRole("ADMIN")
+            .mvcMatchers("/task-blueprints").hasRole("ADMIN")
+            .mvcMatchers("/task-blueprints/*").hasAnyRole("ADMIN", "STUDENT")
             .and()
-            .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-            .addFilterAfter(new JwtAuthorizationFilter(), JwtAuthenticationFilter.class)
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            .httpBasic();
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(username -> {
-            final Optional<User> user = userRepository.findByEmail(username);
-            return user.isPresent()
-                ? new org.springframework.security.core.userdetails.User(user.get().getEmail(), user.get().getPassword(), user.get().getRoles().stream().map(role -> new SimpleGrantedAuthority(role)).collect(Collectors.toList()))
-                : null;
-        });
+        auth.userDetailsService(userPrincipalDetailsService);
     }
 
     @Bean
