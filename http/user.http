@@ -2,13 +2,19 @@
 GET http://localhost:8080/users/jan@example.com
 Accept: application/json
 Content-Type: application/json
-Authorization: {{auth_token}}
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+### get user by email
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk=
 
 ###
 POST http://localhost:8080/users
 Accept: application/json
 Content-Type: application/json
-Authorization: {{auth_token}}
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
 {
   "email": "rafal@gmail.com",

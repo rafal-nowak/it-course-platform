@@ -1,5 +1,6 @@
 package pl.sages.javadevpro.projecttwo;
 
+import io.netty.handler.codec.base64.Base64Encoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,10 @@ import pl.sages.javadevpro.projecttwo.config.CredentialsDTO;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 @ActiveProfiles("it")
@@ -65,29 +69,28 @@ public class BaseIT {
     }
 
     protected String getAccessTokenForUser(String email, String password) {
-        CredentialsDTO body = new CredentialsDTO();
-        body.setEmail(email);
-        body.setPassword(password);
-        return singIn(body);
+        String token = "Basic ";
+        try {
+            token = token + Base64.getEncoder()
+                .encodeToString((email + ":" + password)
+                    .getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return token;
     }
 
     protected String getTokenForAdmin() {
-        CredentialsDTO body = new CredentialsDTO();
-        body.setEmail(adminUser.getEmail());
-        body.setPassword(adminUser.getPassword());
-        return singIn(body);
-    }
+        String adminToken = "Basic ";
+        try {
+            adminToken = adminToken + Base64.getEncoder()
+                .encodeToString((adminUser.getEmail() + ":" + adminUser.getPassword())
+                .getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
-    private String singIn(CredentialsDTO body) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
-        ResponseEntity<Void> response = restTemplate.exchange(
-            localUrl("/login"),
-            HttpMethod.POST,
-            new HttpEntity(body, headers),
-            void.class
-        );
-        return response.getHeaders().getFirst("Authorization");
+        return adminToken;
     }
-
 }
