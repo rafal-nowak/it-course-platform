@@ -1,6 +1,7 @@
 package pl.sages.javadevpro.projecttwo.domain.task;
 
 import lombok.RequiredArgsConstructor;
+import pl.sages.javadevpro.projecttwo.external.storage.task.TaskBlueprintAlreadyExistsException;
 
 import java.util.Optional;
 
@@ -10,8 +11,9 @@ public class TaskBlueprintService {
     private final TaskBlueprintRepository taskBlueprintRepository;
 
     public TaskBlueprint save(TaskBlueprint taskBlueprint) {
-        Optional<TaskBlueprint> saved = taskBlueprintRepository.save(taskBlueprint);
-        return saved.orElseThrow(() -> new TaskBlueprintAlreadyExistsException("Task blueprint already exists"));
+        return taskBlueprintRepository.save(taskBlueprint);
+//        Optional<TaskBlueprint> saved = taskBlueprintRepository.save(taskBlueprint);
+//        return saved.orElseThrow(() -> new TaskBlueprintAlreadyExistsException("Task blueprint already exists"));
     }
 
     public TaskBlueprint findBy(String id) {

@@ -1,4 +1,4 @@
-package pl.sages.javadevpro.projecttwo.domain.task;
+package pl.sages.javadevpro.projecttwo.external.storage.task;
 
 public class TaskBlueprintAlreadyExistsException extends RuntimeException {
 
