@@ -12,42 +12,27 @@ public class UserService {
 
     public User save(User user) {
         Optional<User> saved = userRepository.save(user);
-        if(saved.isEmpty()){
-            throw new UserAlreadyExistsException("User already exists");
-        }
-        return saved.get();
+        return saved.orElseThrow(() -> new UserAlreadyExistsException("User already exists"));
     }
 
     public User update(User user) {
         Optional<User> updated = userRepository.update(user);
-        if(updated.isEmpty()){
-            throw new UserNotFoundException("User not found");
-        }
-        return updated.get();
+        return updated.orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     public User removeById(String id) {
         Optional<User> removed = userRepository.remove(id);
-        if (removed.isEmpty()) {
-            throw new UserNotFoundException("User not found");
-        }
-        return removed.get();
+        return removed.orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     public User findByEmail(String email) {
         Optional<User> founded = userRepository.findByEmail(email);
-        if (founded.isEmpty()) {
-            throw new UserNotFoundException("User not found");
-        }
-        return founded.get();
+        return founded.orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     public User findById(String id) {
         Optional<User> founded = userRepository.findById(id);
-        if (founded.isEmpty()) {
-            throw new UserNotFoundException("User not found");
-        }
-        return founded.get();
+        return founded.orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
 
