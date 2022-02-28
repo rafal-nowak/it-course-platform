@@ -2,10 +2,7 @@ package pl.sages.javadevpro.projecttwo.external.storage.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
-import org.bson.types.ObjectId;
 import org.springframework.dao.DuplicateKeyException;
-import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
-import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
 
@@ -22,14 +19,14 @@ public class UserStorageAdapter implements UserRepository {
 
 
     @Override
-    public Optional<User> save(User user) {
+    public User save(User user) {
         try {
             UserEntity saved = userRepository.insert(mapper.toEntity(user));
             log.info("Saved entity " + saved);
-            return Optional.of(mapper.toDomain(saved));
+            return mapper.toDomain(saved);
         } catch (DuplicateKeyException ex) {
             log.warning("User " +  user.getEmail() + " already exits in db");
-            return Optional.empty();
+            throw new UserAlreadyExistsException("User already exists");
         }
     }
 

@@ -11,8 +11,9 @@ public class UserService {
     private final UserRepository userRepository;
 
     public User save(User user) {
-        Optional<User> saved = userRepository.save(user);
-        return saved.orElseThrow(() -> new UserAlreadyExistsException("User already exists"));
+        return userRepository.save(user);
+//        Optional<User> saved = userRepository.save(user);
+//        return saved.orElseThrow(() -> new UserAlreadyExistsException("User already exists"));
     }
 
     public User update(User user) {

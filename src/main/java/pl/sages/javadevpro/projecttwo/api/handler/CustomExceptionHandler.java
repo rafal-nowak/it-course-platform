@@ -8,9 +8,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
 import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
-import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintAlreadyExistsException;
+import pl.sages.javadevpro.projecttwo.external.storage.task.TaskBlueprintAlreadyExistsException;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintNotFoundException;
-import pl.sages.javadevpro.projecttwo.domain.user.UserAlreadyExistsException;
+import pl.sages.javadevpro.projecttwo.external.storage.user.UserAlreadyExistsException;
 import pl.sages.javadevpro.projecttwo.domain.user.UserNotFoundException;
 
 @ControllerAdvice
