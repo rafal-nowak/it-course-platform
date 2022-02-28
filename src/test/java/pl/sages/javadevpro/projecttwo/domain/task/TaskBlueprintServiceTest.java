@@ -29,32 +29,32 @@ class TaskBlueprintServiceTest {
             "github.com"
     );
 
-//    @Test
-//    void save_method_should_return_saved_task_blueprint_when_task_blueprint_does_not_exist() {
-//        Mockito.when(taskBlueprintRepository.save(fakeTaskBlueprint)).thenReturn(Optional.of(fakeTaskBlueprint));
-//
-//        //when
-//        TaskBlueprint savedTaskBlueprint = taskBlueprintService.save(fakeTaskBlueprint);
-//
-//        //then
-//        assertNotNull(savedTaskBlueprint);
-//        assertEquals(fakeTaskBlueprint.getId(), savedTaskBlueprint.getId());
-//        Assertions.assertEquals(fakeTaskBlueprint.getName(), savedTaskBlueprint.getName());
-//        assertEquals(fakeTaskBlueprint.getDescription(), savedTaskBlueprint.getDescription());
-//        Assertions.assertEquals(fakeTaskBlueprint.getRepositoryUrl(), savedTaskBlueprint.getRepositoryUrl());
-//    }
-//
-//    @Test
-//    void save_method_should_throw_task_blueprint_already_exist_exception_when_task_blueprint_exist() {
-//        Mockito.when(taskBlueprintRepository.save(fakeTaskBlueprint)).thenReturn(Optional.empty());
-//
-//        //when
-//        //then
-//        Assertions.assertThrows(TaskBlueprintAlreadyExistsException.class,
-//                ()->{
-//                    taskBlueprintService.save(fakeTaskBlueprint);
-//                });
-//    }
+    @Test
+    void save_method_should_return_saved_task_blueprint_when_task_blueprint_does_not_exist() {
+        Mockito.when(taskBlueprintRepository.save(fakeTaskBlueprint)).thenReturn(fakeTaskBlueprint);
+
+        //when
+        TaskBlueprint savedTaskBlueprint = taskBlueprintService.save(fakeTaskBlueprint);
+
+        //then
+        assertNotNull(savedTaskBlueprint);
+        assertEquals(fakeTaskBlueprint.getId(), savedTaskBlueprint.getId());
+        Assertions.assertEquals(fakeTaskBlueprint.getName(), savedTaskBlueprint.getName());
+        assertEquals(fakeTaskBlueprint.getDescription(), savedTaskBlueprint.getDescription());
+        Assertions.assertEquals(fakeTaskBlueprint.getRepositoryUrl(), savedTaskBlueprint.getRepositoryUrl());
+    }
+
+    @Test
+    void save_method_should_throw_task_blueprint_already_exist_exception_when_task_blueprint_exist() {
+        Mockito.when(taskBlueprintRepository.save(fakeTaskBlueprint)).thenThrow(new TaskBlueprintAlreadyExistsException("Task blueprint already exists"));
+
+        //when
+        //then
+        Assertions.assertThrows(TaskBlueprintAlreadyExistsException.class,
+                ()->{
+                    taskBlueprintService.save(fakeTaskBlueprint);
+                });
+    }
 
     @Test
     void find_by_method_should_return_founded_task_blueprint_when_task_blueprint_exist() {

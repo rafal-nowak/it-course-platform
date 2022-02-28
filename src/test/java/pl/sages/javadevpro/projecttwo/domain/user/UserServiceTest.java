@@ -29,32 +29,32 @@ class UserServiceTest {
             List.of("STUDENT")
     );
 
-//    @Test
-//    void save_method_should_return_saved_user_when_user_does_not_exist() {
-//        Mockito.when(userRepository.save(fakeUser)).thenReturn(Optional.of(fakeUser));
-//
-//        //when
-//        User savedUser = userService.save(fakeUser);
-//
-//        //then
-//        Assertions.assertNotNull(savedUser);
-//        Assertions.assertEquals(fakeUser.getId(), savedUser.getId());
-//        Assertions.assertEquals(fakeUser.getEmail(), savedUser.getEmail());
-//        Assertions.assertEquals(fakeUser.getName(), savedUser.getName());
-//        Assertions.assertEquals(fakeUser.getPassword(), savedUser.getPassword());
-//    }
-//
-//    @Test
-//    void save_method_should_throw_user_already_exist_exception_when_user_exist() {
-//        Mockito.when(userRepository.save(fakeUser)).thenReturn(Optional.empty());
-//
-//        //when
-//        //then
-//        Assertions.assertThrows(UserAlreadyExistsException.class,
-//                ()->{
-//                    userService.save(fakeUser);
-//                });
-//    }
+    @Test
+    void save_method_should_return_saved_user_when_user_does_not_exist() {
+        Mockito.when(userRepository.save(fakeUser)).thenReturn(fakeUser);
+
+        //when
+        User savedUser = userService.save(fakeUser);
+
+        //then
+        Assertions.assertNotNull(savedUser);
+        Assertions.assertEquals(fakeUser.getId(), savedUser.getId());
+        Assertions.assertEquals(fakeUser.getEmail(), savedUser.getEmail());
+        Assertions.assertEquals(fakeUser.getName(), savedUser.getName());
+        Assertions.assertEquals(fakeUser.getPassword(), savedUser.getPassword());
+    }
+
+    @Test
+    void save_method_should_throw_user_already_exist_exception_when_user_exist() {
+        Mockito.when(userRepository.save(fakeUser)).thenThrow(new UserAlreadyExistsException("User already exists"));
+
+        //when
+        //then
+        Assertions.assertThrows(UserAlreadyExistsException.class,
+                ()->{
+                    userService.save(fakeUser);
+                });
+    }
 
     @Test
     void update_method_should_return_updates_user_when_user_exist() {
