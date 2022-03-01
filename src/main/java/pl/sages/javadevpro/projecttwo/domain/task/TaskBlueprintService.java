@@ -12,8 +12,6 @@ public class TaskBlueprintService {
 
     public TaskBlueprint save(TaskBlueprint taskBlueprint) {
         return taskBlueprintRepository.save(taskBlueprint);
-//        Optional<TaskBlueprint> saved = taskBlueprintRepository.save(taskBlueprint);
-//        return saved.orElseThrow(() -> new TaskBlueprintAlreadyExistsException("Task blueprint already exists"));
     }
 
     public TaskBlueprint findBy(String id) {
