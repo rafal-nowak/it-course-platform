@@ -3,8 +3,6 @@ package pl.sages.javadevpro.projecttwo.external.storage.task;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.dao.DuplicateKeyException;
-import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
-import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintRepository;
 
@@ -20,7 +18,7 @@ public class TaskBlueprintStorageAdapter implements TaskBlueprintRepository {
     public TaskBlueprint save(TaskBlueprint taskBlueprint) {
         try{
             TaskBlueprintEntity saved = taskRepository.insert(mapper.toEntity(taskBlueprint));
-            log.info("Saved task " + saved.toString());
+            log.info("Saved task " + saved);
             return mapper.toDomain(saved);
         }catch (DuplicateKeyException ex){
             log.warning("Task " +  taskBlueprint.getName() + " already exits");
