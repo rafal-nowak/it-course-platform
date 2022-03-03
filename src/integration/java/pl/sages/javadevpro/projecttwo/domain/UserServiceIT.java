@@ -72,7 +72,6 @@ public class UserServiceIT extends BaseIT {
         Assertions.assertEquals(user2.getEmail(), readUser.getEmail());
         Assertions.assertEquals(user2.getName(), readUser.getName());
         Assertions.assertEquals(user2.getPassword(), readUser.getPassword());
-
     }
 
 }

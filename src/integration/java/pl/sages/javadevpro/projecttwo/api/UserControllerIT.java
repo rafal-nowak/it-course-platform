@@ -9,6 +9,7 @@ import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRole;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,10 +34,14 @@ class UserControllerIT extends BaseIT {
         String token = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserDto> response = callGetUser(savedUser.getId(), token);
+        var response = callHttpMethod(HttpMethod.GET,
+                "/users/" + savedUser.getId(),
+                token,
+                null,
+                UserDto.class);
 
         //then
-        UserDto body = response.getBody();
+        UserDto body = (UserDto) response.getBody();
         System.out.println(body);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertEquals(savedUser.getId(), body.getId());
@@ -52,7 +57,11 @@ class UserControllerIT extends BaseIT {
         String token = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserDto> response = callGetUser("fakeId", token);
+        var response = callHttpMethod(HttpMethod.GET,
+                "/users/fakeId",
+                token,
+                null,
+                MessageResponse.class);
 
         //then
         assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
@@ -80,7 +89,11 @@ class UserControllerIT extends BaseIT {
         String accessToken = getAccessTokenForUser(user1.getEmail(), user1.getPassword());
 
         //when
-        ResponseEntity<UserDto> response = callGetUser(user2.getId(), accessToken);
+        var response = callHttpMethod(HttpMethod.GET,
+                "/users/" + user2.getId(),
+                accessToken,
+                null,
+                MessageResponse.class);
 
         //then
         assertEquals(response.getStatusCode(), HttpStatus.FORBIDDEN);
@@ -100,7 +113,11 @@ class UserControllerIT extends BaseIT {
         String adminToken = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserDto> response = callSaveUser(saved, adminToken);
+        var response = callHttpMethod(HttpMethod.POST,
+                "/users",
+                adminToken,
+                saved,
+                MessageResponse.class);
 
         //then
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
@@ -120,12 +137,16 @@ class UserControllerIT extends BaseIT {
         String adminAccessToken = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserDto> response = callSaveUser(user, adminAccessToken);
+        var response = callHttpMethod(HttpMethod.POST,
+                "/users",
+                adminAccessToken,
+                user,
+                UserDto.class);
 
         //then
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         //and
-        UserDto body = response.getBody();
+        UserDto body = (UserDto) response.getBody();
         assertEquals(body.getEmail(), user.getEmail());
         assertEquals(body.getName(), user.getName());
         assertEquals(body.getPassword(), "######");
@@ -146,10 +167,14 @@ class UserControllerIT extends BaseIT {
         String accessToken = getAccessTokenForUser(saved.getEmail(), user.getPassword());
 
         //when
-        ResponseEntity<UserDto> response = callAboutMe(accessToken);
+        var response = callHttpMethod(HttpMethod.GET,
+                "/users/me",
+                accessToken,
+                null,
+                UserDto.class);
 
         //then
-        UserDto body = response.getBody();
+        UserDto body = (UserDto) response.getBody();
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertEquals(body.getId(), saved.getId());
         assertEquals(body.getEmail(), user.getEmail());
@@ -180,13 +205,18 @@ class UserControllerIT extends BaseIT {
         String adminAccessToken = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserDto> response = callUpdateUser(toUpdate, adminAccessToken);
+        var response = callHttpMethod(HttpMethod.PUT,
+                "/users",
+                adminAccessToken,
+                toUpdate,
+                UserDto.class);
+
 
         //then
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         //and
-        UserDto body = response.getBody();
+        UserDto body = (UserDto) response.getBody();
         assertEquals(beforeUpdate.getId(), body.getId());
         assertEquals(toUpdate.getEmail(), body.getEmail());
         assertEquals(toUpdate.getName(), body.getName());
@@ -198,9 +228,15 @@ class UserControllerIT extends BaseIT {
     void admin_should_be_get_response_code_404_when_update_user_not_exits() {
         //given
         String token = getTokenForAdmin();
+        User fakeUser = new User("XX","notexist@email.com", "fake user", "",new ArrayList<>());
+
 
         //when
-        ResponseEntity<UserDto> response = callGetUser("notUser@email.com", token);
+        var response = callHttpMethod(HttpMethod.PUT,
+                "/users",
+                token,
+                fakeUser,
+                MessageResponse.class);
 
         //then
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -228,7 +264,11 @@ class UserControllerIT extends BaseIT {
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
-        ResponseEntity<UserDto> response = callUpdateUser(userToUpdate, token);
+        var response = callHttpMethod(HttpMethod.PUT,
+                "/users",
+                token,
+                userToUpdate,
+                MessageResponse.class);
 
         //then
         assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
@@ -248,7 +288,12 @@ class UserControllerIT extends BaseIT {
         User savedUser = userService.save(user);
 
         //when
-        ResponseEntity<UserDto> response = callDeleteUser(savedUser.getId(), adminAccessToken);
+        var response = callHttpMethod(
+                HttpMethod.DELETE,
+                "/users/" + savedUser.getId(),
+                adminAccessToken,
+                null,
+                UserDto.class);
 
         //then
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
@@ -267,7 +312,12 @@ class UserControllerIT extends BaseIT {
         String token = getTokenForAdmin();
 
         //when
-        ResponseEntity<UserDto> response = callDeleteUser(user.getId(), token);
+        var response = callHttpMethod(
+                HttpMethod.DELETE,
+                "/users/" + user.getId(),
+                token,
+                null,
+                MessageResponse.class);
 
         //then
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -294,74 +344,16 @@ class UserControllerIT extends BaseIT {
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
-        ResponseEntity<UserDto> response = callDeleteUser(otherUser.getId(), token);
+        var response = callHttpMethod(
+                HttpMethod.DELETE,
+                "/users/" + otherUser.getId(),
+                token,
+                null,
+                MessageResponse.class);
 
         //then
         assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
     }
 
-    private ResponseEntity<UserDto> callGetUser(String id, String token) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
-        headers.add(HttpHeaders.ACCEPT, "application/json");
-        headers.add(HttpHeaders.AUTHORIZATION, token);
-        return restTemplate.exchange(
-            localUrl("/users/" + id),
-            HttpMethod.GET,
-            new HttpEntity(headers),
-            UserDto.class
-        );
-    }
 
-    private ResponseEntity<UserDto> callAboutMe(String accessToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
-        headers.add(HttpHeaders.ACCEPT, "application/json");
-        headers.add(HttpHeaders.AUTHORIZATION, accessToken);
-        return restTemplate.exchange(
-                localUrl("/users/me"),
-                HttpMethod.GET,
-                new HttpEntity(headers),
-                UserDto.class
-        );
-    }
-
-    private ResponseEntity<UserDto> callSaveUser(User body, String accessToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
-        headers.add(HttpHeaders.AUTHORIZATION, accessToken);
-        return restTemplate.exchange(
-            localUrl("/users"),
-            HttpMethod.POST,
-            new HttpEntity(body, headers),
-            UserDto.class
-        );
-    }
-
-    private ResponseEntity<UserDto> callUpdateUser(User body, String accessToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
-        headers.add(HttpHeaders.AUTHORIZATION, accessToken);
-        return restTemplate.exchange(
-                localUrl("/users"),
-                HttpMethod.PUT,
-                new HttpEntity(body, headers),
-                UserDto.class
-        );
-    }
-
-    private ResponseEntity<UserDto> callDeleteUser(String userId, String accessToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
-        System.out.println("AUTHORIZATION " + accessToken);
-        headers.add(HttpHeaders.AUTHORIZATION, accessToken);
-
-        System.out.println(headers.getFirst("AUTHORIZATION"));
-        return restTemplate.exchange(
-                localUrl("/users/" + userId),
-                HttpMethod.DELETE,
-                new HttpEntity(headers),
-                UserDto.class
-        );
-    }
 }

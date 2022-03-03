@@ -18,10 +18,9 @@ import pl.sages.javadevpro.projecttwo.config.CredentialsDTO;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRole;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
+import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -53,7 +52,7 @@ public class BaseIT {
         mongoTemplate.getDb().drop();
     }
 
-    private static User adminUser = new User(
+    private static final User adminUser = new User(
             "ID3",
             "admin@example.pl",
             "Stefan Burczymucha",
@@ -94,4 +93,23 @@ public class BaseIT {
 
         return adminToken;
     }
+
+    protected <T, U> ResponseEntity<U> callHttpMethod(HttpMethod httpMethod,
+                                                      String url,
+                                                      String accessToken,
+                                                      T body,
+                                                      Class<U> mapToObject)
+    {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
+        headers.add(HttpHeaders.AUTHORIZATION, accessToken);
+        headers.add(HttpHeaders.ACCEPT, "application/json");
+        return restTemplate.exchange(
+                localUrl(url),
+                httpMethod,
+                new HttpEntity<>(body, headers),
+                mapToObject
+        );
+    }
+
 }

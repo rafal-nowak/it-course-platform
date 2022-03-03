@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import pl.sages.javadevpro.projecttwo.BaseIT;
+import pl.sages.javadevpro.projecttwo.api.task.TaskBlueprintDto;
+import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.api.task.blueprint.TaskBlueprintDto;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
@@ -42,7 +44,11 @@ public class TaskBlueprintControllerIT extends BaseIT {
         taskBlueprintService.save(taskBlueprint);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         //when
-        ResponseEntity<TaskBlueprintDto> response = callGetTask(1, token);
+        var response = callHttpMethod(HttpMethod.GET,
+                "/task-blueprints/1",
+                token,
+                null,
+                TaskBlueprintDto.class);
 
         //then
         TaskBlueprintDto body = response.getBody();
@@ -88,7 +94,11 @@ public class TaskBlueprintControllerIT extends BaseIT {
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
-        ResponseEntity<TaskBlueprintDto> response = callGetTask(3, token);
+        var response = callHttpMethod(HttpMethod.GET,
+                "/task-blueprints/3",
+                token,
+                null,
+                TaskBlueprintDto.class);
 
         //then
         TaskBlueprintDto body = response.getBody();
@@ -110,7 +120,12 @@ public class TaskBlueprintControllerIT extends BaseIT {
         );
         String adminAccessToken = getTokenForAdmin();
         //when
-        ResponseEntity<TaskBlueprintDto> response = callSaveTask(taskBlueprint5, adminAccessToken);
+        var response = callHttpMethod(HttpMethod.POST,
+                "/task-blueprints",
+                adminAccessToken,
+                taskBlueprint5,
+                TaskBlueprintDto.class);
+
         //then
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         //and
@@ -140,7 +155,11 @@ public class TaskBlueprintControllerIT extends BaseIT {
         userService.save(user);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         //when
-        ResponseEntity<TaskBlueprintDto> response = callSaveTask(taskBlueprint5, token);
+        var response = callHttpMethod(HttpMethod.POST,
+                "/task-blueprints",
+                token,
+                taskBlueprint5,
+                MessageResponse.class);
         //then
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.FORBIDDEN);
     }
@@ -157,7 +176,11 @@ public class TaskBlueprintControllerIT extends BaseIT {
         String adminAccessToken = getTokenForAdmin();
         taskBlueprintService.save(taskBlueprint9);
         //when
-        ResponseEntity<TaskBlueprintDto> response = callSaveTask(taskBlueprint9,adminAccessToken);
+        var response = callHttpMethod(HttpMethod.POST,
+                "/task-blueprints",
+                adminAccessToken,
+                taskBlueprint9,
+                MessageResponse.class);
         //then
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
     }
@@ -174,7 +197,11 @@ public class TaskBlueprintControllerIT extends BaseIT {
         String adminAccessToken = getTokenForAdmin();
         taskBlueprintService.save(taskBlueprint6);
         //when
-        ResponseEntity<Void> response = callDeleteTask(taskBlueprint6, adminAccessToken);
+        var response = callHttpMethod(HttpMethod.DELETE,
+                "/task-blueprints",
+                adminAccessToken,
+                null,
+                Void.class);
         //then
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
     }
@@ -200,7 +227,12 @@ public class TaskBlueprintControllerIT extends BaseIT {
         taskBlueprintService.save(taskBlueprint6);
 
         //when
-        ResponseEntity<Void> response = callDeleteTask(taskBlueprint6, token);
+        var response = callHttpMethod(HttpMethod.DELETE,
+                "/task-blueprints",
+                token,
+                taskBlueprint6,
+                MessageResponse.class
+                );
 
         //then
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.FORBIDDEN);
@@ -224,7 +256,12 @@ public class TaskBlueprintControllerIT extends BaseIT {
         String adminAccessToken = getTokenForAdmin();
         taskBlueprintService.save(taskBlueprint7);
         //when
-        ResponseEntity<TaskBlueprintDto> response = callUpdateTask(updatedTaskBlueprint, adminAccessToken);
+        var response = callHttpMethod(HttpMethod.PUT,
+                "/task-blueprints",
+                adminAccessToken,
+                updatedTaskBlueprint,
+                TaskBlueprintDto.class);
+
         //then
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         //and
@@ -247,59 +284,14 @@ public class TaskBlueprintControllerIT extends BaseIT {
         userService.save(user);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         //when
-        ResponseEntity<TaskBlueprintDto> response = callGetTask(1,token);
+        var response = callHttpMethod(HttpMethod.GET,
+                "/task-blueprints/1",
+                token,
+                null,
+                MessageResponse.class);
+
         //then
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
     }
 
-
-
-    private ResponseEntity<TaskBlueprintDto> callGetTask(int id, String token) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
-        headers.add(HttpHeaders.ACCEPT, "application/json");
-        headers.add(HttpHeaders.AUTHORIZATION, token);
-        return restTemplate.exchange(
-                localUrl("/task-blueprints/" + id),
-                HttpMethod.GET,
-                new HttpEntity(headers),
-                TaskBlueprintDto.class
-        );
-    }
-
-    private ResponseEntity<TaskBlueprintDto> callSaveTask(TaskBlueprint body, String accessToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
-        headers.add(HttpHeaders.AUTHORIZATION, accessToken);
-        return restTemplate.exchange(
-                localUrl("/task-blueprints"),
-                HttpMethod.POST,
-                new HttpEntity(body, headers),
-                TaskBlueprintDto.class
-        );
-    }
-
-    private ResponseEntity<Void> callDeleteTask(TaskBlueprint body, String accessToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
-        headers.add(HttpHeaders.AUTHORIZATION, accessToken);
-        return restTemplate.exchange(
-                localUrl("/task-blueprints"),
-                HttpMethod.DELETE,
-                new HttpEntity(body, headers),
-                Void.class
-        );
-    }
-
-    private ResponseEntity<TaskBlueprintDto> callUpdateTask(TaskBlueprint body, String accessToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
-        headers.add(HttpHeaders.AUTHORIZATION, accessToken);
-        return restTemplate.exchange(
-                localUrl("/task-blueprints"),
-                HttpMethod.PUT,
-                new HttpEntity(body, headers),
-                TaskBlueprintDto.class
-        );
-    }
 }
