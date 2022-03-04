@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.sages.javadevpro.projecttwo.BaseIT;
+import pl.sages.javadevpro.projecttwo.TestTaskBlueprintFactory;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 
@@ -15,12 +16,7 @@ public class TaskBlueprintServiceIT extends BaseIT {
     @Test
     public void add_task_test() {
         //given
-        TaskBlueprint taskBlueprint = new TaskBlueprint(
-                "1",
-                "Task Name 1",
-                "Task Description 1",
-                "https://github.com/some-reporitory-1"
-        );
+        TaskBlueprint taskBlueprint = TestTaskBlueprintFactory.createRandom();
         service.save(taskBlueprint);
 
         //when
@@ -37,24 +33,9 @@ public class TaskBlueprintServiceIT extends BaseIT {
     @Test
     public void get_id_should_return_correct_user() {
         //given
-        TaskBlueprint taskBlueprint1 = new TaskBlueprint(
-                "2",
-                "Task Name 2",
-                "Task Description 2",
-                "https://github.com/some-reporitory-2"
-        );
-        TaskBlueprint taskBlueprint2 = new TaskBlueprint(
-                "3",
-                "Task Name 3",
-                "Task Description 3",
-                "https://github.com/some-reporitory-3"
-        );
-        TaskBlueprint taskBlueprint3 = new TaskBlueprint(
-                "4",
-                "Task Name 4",
-                "Task Description 4",
-                "https://github.com/some-reporitory-4"
-        );
+        TaskBlueprint taskBlueprint1 = TestTaskBlueprintFactory.createRandom();
+        TaskBlueprint taskBlueprint2 = TestTaskBlueprintFactory.createRandom();
+        TaskBlueprint taskBlueprint3 = TestTaskBlueprintFactory.createRandom();
         service.save(taskBlueprint1);
         service.save(taskBlueprint2);
         service.save(taskBlueprint3);
