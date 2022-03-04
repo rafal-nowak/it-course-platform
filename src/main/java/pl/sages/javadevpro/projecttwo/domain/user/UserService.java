@@ -19,9 +19,8 @@ public class UserService {
         return updated.orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
-    public User removeById(String id) {
-        Optional<User> removed = userRepository.remove(id);
-        return removed.orElseThrow(() -> new UserNotFoundException("User not found"));
+    public void removeById(String id) {
+        userRepository.remove(id);
     }
 
     public User findByEmail(String email) {

@@ -19,9 +19,8 @@ public class TaskBlueprintService {
         return founded.orElseThrow(() -> new TaskBlueprintNotFoundException("Task blueprint not found"));
     }
 
-    public TaskBlueprint remove(TaskBlueprint taskBlueprint) {
-        Optional<TaskBlueprint> removed = taskBlueprintRepository.remove(taskBlueprint);
-        return removed.orElseThrow(() -> new TaskBlueprintNotFoundException("Task blueprint not found"));
+    public void remove(TaskBlueprint taskBlueprint) {
+        taskBlueprintRepository.remove(taskBlueprint);
     }
 
     public TaskBlueprint update(TaskBlueprint taskBlueprint) {

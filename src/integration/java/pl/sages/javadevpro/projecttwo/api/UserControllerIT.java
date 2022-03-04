@@ -254,7 +254,7 @@ class UserControllerIT extends BaseIT {
     }
 
     @Test
-    void admin_should_get_response_code_404_when_user_not_exits() {
+    void admin_should_get_response_code_204_when_user_not_exits() {
         //given
         User user = new User(
                 "ID18",
@@ -269,7 +269,7 @@ class UserControllerIT extends BaseIT {
         ResponseEntity<UserDto> response = callDeleteUser(user.getId(), token);
 
         //then
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
     @Test

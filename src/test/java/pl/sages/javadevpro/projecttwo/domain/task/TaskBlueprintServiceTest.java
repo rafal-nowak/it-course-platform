@@ -83,31 +83,4 @@ class TaskBlueprintServiceTest {
                 });
     }
 
-    @Test
-    void remove_method_should_return_removed_task_blueprint_when_task_blueprint_exist() {
-        Mockito.when(taskBlueprintRepository.remove(fakeTaskBlueprint)).thenReturn(Optional.of(fakeTaskBlueprint));
-
-        //when
-        TaskBlueprint removedTaskBlueprint = taskBlueprintService.remove(fakeTaskBlueprint);
-
-        //then
-        assertNotNull(removedTaskBlueprint);
-        assertEquals(fakeTaskBlueprint.getId(), removedTaskBlueprint.getId());
-        Assertions.assertEquals(fakeTaskBlueprint.getName(), removedTaskBlueprint.getName());
-        assertEquals(fakeTaskBlueprint.getDescription(), removedTaskBlueprint.getDescription());
-        Assertions.assertEquals(fakeTaskBlueprint.getRepositoryUrl(), removedTaskBlueprint.getRepositoryUrl());
-    }
-
-    @Test
-    void remove_method_should_throw_task_blueprint_not_found_exception_when_task_blueprint_does_not_exist() {
-        Mockito.when(taskBlueprintRepository.remove(fakeTaskBlueprint)).thenReturn(Optional.empty());
-
-        //when
-        //then
-        Assertions.assertThrows(TaskBlueprintNotFoundException.class,
-                ()->{
-                    taskBlueprintService.remove(fakeTaskBlueprint);
-                });
-    }
-
 }
