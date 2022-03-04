@@ -10,22 +10,20 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import pl.sages.javadevpro.projecttwo.BaseIT;
-//import pl.sages.javadevpro.projecttwo.api.task.TaskBlueprintDtoMapper;
+import pl.sages.javadevpro.projecttwo.TestTaskBlueprintFactory;
+import pl.sages.javadevpro.projecttwo.TestUserFactory;
+import pl.sages.javadevpro.projecttwo.api.task.TaskBlueprintDtoMapper;
 import pl.sages.javadevpro.projecttwo.api.usertask.ListOfFilesResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
-//import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskRequest;
-import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
-import pl.sages.javadevpro.projecttwo.domain.user.UserRole;
-import pl.sages.javadevpro.projecttwo.domain.user.UserService;
+import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskRequest;
+import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
-//import pl.sages.javadevpro.projecttwo.domain.usertask.UserTaskService;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 class UserTaskEndpointIT extends BaseIT {
 
@@ -44,21 +42,9 @@ class UserTaskEndpointIT extends BaseIT {
     @Test
     void user_should_not_be_able_to_assign_task() {
         //given
-        User user = new User(
-                "ID21",
-                "newUser10@example.com",
-                "User Name",
-                "pass",
-                List.of(UserRole.STUDENT)
-        );
+        User user = TestUserFactory.createStudent();
         userService.save(user);
-
-        TaskBlueprint taskBlueprint = new TaskBlueprint(
-                "1",
-                "Task Name 1",
-                "Task description 1",
-                "https://github.com/Piorrt/projectOne"
-        );
+        TaskBlueprint taskBlueprint = TestTaskBlueprintFactory.createWithValidUrl("https://github.com/Piorrt/projectOne");
         taskBlueprintService.save(taskBlueprint);
         UserTaskRequest userTaskRequest = new UserTaskRequest(user.getId(), taskBlueprint.getId());
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
@@ -72,23 +58,11 @@ class UserTaskEndpointIT extends BaseIT {
 
     @Test
     void admin_should_be_able_to_assign_task_to_user() {
-        User user = new User(
-                null,
-                "newUser11@example.com",
-                "User Name 11",
-                "pass",
-                List.of(UserRole.STUDENT)
-        );
-        User savedUser = userService.save(user);
-
-        TaskBlueprint taskBlueprint = new TaskBlueprint(
-                "1",
-                "Task Name 1",
-                "Task description 1",
-                "https://github.com/Piorrt/projectOne"
-        );
+        User user = TestUserFactory.createStudent();
+        userService.save(user);
+        TaskBlueprint taskBlueprint = TestTaskBlueprintFactory.createWithValidUrl("https://github.com/Piorrt/projectOne");
         taskBlueprintService.save(taskBlueprint);
-        UserTaskRequest userTaskRequest = new UserTaskRequest(savedUser.getId(), taskBlueprint.getId());
+        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getId(), taskBlueprint.getId());
         String token = getTokenForAdmin();
 
         //when
@@ -105,23 +79,11 @@ class UserTaskEndpointIT extends BaseIT {
 
     @Test
     void admin_should_get_conflict_response_when_trying_to_assign_the_same_task_twice(){
-        User user = new User(
-                null,
-                "newUser13@example.com",
-                "User Name 11",
-                "pass",
-                List.of(UserRole.STUDENT)
-        );
-        User savedUser = userService.save(user);
-
-        TaskBlueprint taskBlueprint = new TaskBlueprint(
-                "1",
-                "Task Name 1",
-                "Task description 1",
-                "https://github.com/Piorrt/projectOne"
-        );
+        User user = TestUserFactory.createStudent();
+        userService.save(user);
+        TaskBlueprint taskBlueprint = TestTaskBlueprintFactory.createWithValidUrl("https://github.com/Piorrt/projectOne");
         taskBlueprintService.save(taskBlueprint);
-        UserTaskRequest userTaskRequest = new UserTaskRequest(savedUser.getId(), taskBlueprint.getId());
+        UserTaskRequest userTaskRequest = new UserTaskRequest(user.getId(), taskBlueprint.getId());
         String token = getTokenForAdmin();
 
         callAssignTask(userTaskRequest, token);
@@ -135,14 +97,9 @@ class UserTaskEndpointIT extends BaseIT {
 
     @Test
     void admin_should_get_404_response_code_when_trying_to_add_task_to_not_existing_user() {
-        TaskBlueprint taskBlueprint = new TaskBlueprint(
-                "1",
-                "Task Name 1",
-                "Task description 1",
-                "https://github.com/Piorrt/projectOne"
-        );
+        TaskBlueprint taskBlueprint = TestTaskBlueprintFactory.createWithValidUrl("https://github.com/Piorrt/projectOne");
         taskBlueprintService.save(taskBlueprint);
-        UserTaskRequest userTaskRequest = new UserTaskRequest("newUser13@example.com", taskBlueprint.getId());
+        UserTaskRequest userTaskRequest = new UserTaskRequest("fakeId", taskBlueprint.getId());
         String token = getTokenForAdmin();
 
         //when
@@ -154,21 +111,9 @@ class UserTaskEndpointIT extends BaseIT {
 
     @Test
     void student_should_be_able_to_take_list_of_files_assigned_to_user_task() {
-        User user = new User(
-                null,
-                "newUser11@example.com",
-                "User Name 11",
-                "pass",
-                List.of(UserRole.STUDENT)
-        );
+        User user = TestUserFactory.createStudent();
         User savedUser = userService.save(user);
-
-        TaskBlueprint taskBlueprint = new TaskBlueprint(
-                "2",
-                "Task Name 2",
-                "Task description 2",
-                "https://github.com/rafal-nowak/task1"
-        );
+        TaskBlueprint taskBlueprint = TestTaskBlueprintFactory.createWithValidUrl("https://github.com/rafal-nowak/task1");
         taskBlueprintService.save(taskBlueprint);
         UserTaskRequest assignTaskRequest = new UserTaskRequest(savedUser.getId(), taskBlueprint.getId());
         String adminToken = getTokenForAdmin();

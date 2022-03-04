@@ -2,18 +2,18 @@ package pl.sages.javadevpro.projecttwo.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import pl.sages.javadevpro.projecttwo.BaseIT;
+import pl.sages.javadevpro.projecttwo.TestUserFactory;
 import pl.sages.javadevpro.projecttwo.api.user.UserDto;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
-import pl.sages.javadevpro.projecttwo.domain.user.UserRole;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class UserControllerIT extends BaseIT {
 
@@ -23,32 +23,27 @@ class UserControllerIT extends BaseIT {
     @Test
     void admin_should_get_information_about_any_user() {
         //given
-        User user = new User(
-            null,
-            "newUser1@example.com",
-            "User Name",
-            "pass",
-            List.of(UserRole.STUDENT)
-        );
-        User savedUser = service.save(user);
+        User user = TestUserFactory.createStudent();
+        service.save(user);
         String token = getTokenForAdmin();
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
-                "/users/" + savedUser.getId(),
+                "/users/" + user.getId(),
                 token,
                 null,
                 UserDto.class);
 
         //then
-        UserDto body = (UserDto) response.getBody();
+        UserDto body = response.getBody();
         System.out.println(body);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
-        assertEquals(savedUser.getId(), body.getId());
-        assertEquals(savedUser.getEmail(), body.getEmail());
-        assertEquals(savedUser.getName(), body.getName());
+        assertNotNull(body);
+        assertEquals(user.getId(), body.getId());
+        assertEquals(user.getEmail(), body.getEmail());
+        assertEquals(user.getName(), body.getName());
         assertEquals("######", body.getPassword());
-        assertEquals(savedUser.getRoles().toString(), body.getRoles().toString());
+        assertEquals(user.getRoles().toString(), body.getRoles().toString());
     }
 
     @Test
@@ -70,20 +65,8 @@ class UserControllerIT extends BaseIT {
     @Test
     void student_should_not_get_information_about_other_student() {
         //given
-        User user1 = new User(
-                "ID11",
-                "newUser4@example.com",
-                "User Name",
-                "pass",
-                List.of(UserRole.STUDENT)
-        );
-        User user2 = new User(
-                "ID12",
-                "oldUser5@example.com",
-                "Old User Name",
-                "pass",
-                List.of(UserRole.STUDENT)
-        );
+        User user1 = TestUserFactory.createStudent();
+        User user2 = TestUserFactory.createStudent();
         service.save(user1);
         service.save(user2);
         String accessToken = getAccessTokenForUser(user1.getEmail(), user1.getPassword());
@@ -102,21 +85,15 @@ class UserControllerIT extends BaseIT {
     @Test
     void admin_should_get_response_code_conflict_when_user_is_in_db() {
         //given
-        User user = new User(
-            null,
-            "newUser1@example.com",
-            "User Name",
-            "pass",
-            List.of(UserRole.STUDENT)
-        );
-        User saved = service.save(user);
+        User user = TestUserFactory.createStudent();
+        service.save(user);
         String adminToken = getTokenForAdmin();
 
         //when
         var response = callHttpMethod(HttpMethod.POST,
                 "/users",
                 adminToken,
-                saved,
+                user,
                 MessageResponse.class);
 
         //then
@@ -127,13 +104,7 @@ class UserControllerIT extends BaseIT {
     @Test
     void admin_should_be_able_to_save_new_user() {
         //given
-        User user = new User(
-            null,
-            "newUser2@example.com",
-            "User Name",
-            "pass",
-            List.of(UserRole.STUDENT)
-        );
+        User user = TestUserFactory.createStudent();
         String adminAccessToken = getTokenForAdmin();
 
         //when
@@ -146,7 +117,8 @@ class UserControllerIT extends BaseIT {
         //then
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         //and
-        UserDto body = (UserDto) response.getBody();
+        UserDto body = response.getBody();
+        assertNotNull(body);
         assertEquals(body.getEmail(), user.getEmail());
         assertEquals(body.getName(), user.getName());
         assertEquals(body.getPassword(), "######");
@@ -156,15 +128,9 @@ class UserControllerIT extends BaseIT {
     @Test
     void student_should_get_information_about_himself() {
         //given
-        User user = new User(
-                null,
-                "newUser3@example.com",
-                "User Name",
-                "pass",
-                List.of(UserRole.STUDENT)
-        );
-        User saved = service.save(user);
-        String accessToken = getAccessTokenForUser(saved.getEmail(), user.getPassword());
+        User user = TestUserFactory.createStudent();
+        service.save(user);
+        String accessToken = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
@@ -174,9 +140,11 @@ class UserControllerIT extends BaseIT {
                 UserDto.class);
 
         //then
-        UserDto body = (UserDto) response.getBody();
+        UserDto body = response.getBody();
         assertEquals(response.getStatusCode(), HttpStatus.OK);
-        assertEquals(body.getId(), saved.getId());
+        //and
+        assertNotNull(body);
+        assertEquals(body.getId(), user.getId());
         assertEquals(body.getEmail(), user.getEmail());
         assertEquals(body.getName(), user.getName());
         assertEquals(body.getPassword(), "######");
@@ -186,21 +154,14 @@ class UserControllerIT extends BaseIT {
     @Test
     void admin_should_be_able_to_update_user() {
         //given
-        User user = new User(
-                null,
-                "email@email.com",
-                "Person",
-                "password",
-                List.of(UserRole.STUDENT)
-        );
-        User beforeUpdate = userService.save(user);
-
+        User user = TestUserFactory.createStudent();
+        userService.save(user);
         User toUpdate = new User(
-                beforeUpdate.getId(),
+                user.getId(),
                 "email@email.com",
                 "newPerson",
                 "newpassword",
-                List.of(UserRole.STUDENT)
+                List.of("STUDENT")
         );
         String adminAccessToken = getTokenForAdmin();
 
@@ -211,25 +172,23 @@ class UserControllerIT extends BaseIT {
                 toUpdate,
                 UserDto.class);
 
-
         //then
         assertEquals(HttpStatus.OK, response.getStatusCode());
-
         //and
-        UserDto body = (UserDto) response.getBody();
-        assertEquals(beforeUpdate.getId(), body.getId());
+        UserDto body = response.getBody();
+        assertNotNull(body);
+        assertEquals(user.getId(), body.getId());
         assertEquals(toUpdate.getEmail(), body.getEmail());
         assertEquals(toUpdate.getName(), body.getName());
         assertEquals("######", body.getPassword());
-        assertEquals(toUpdate.getRoles(), body.getRoles().stream().map(UserRole::valueOf).collect(Collectors.toList()));
+        assertEquals(toUpdate.getRoles(), body.getRoles());
     }
 
     @Test
     void admin_should_be_get_response_code_404_when_update_user_not_exits() {
         //given
         String token = getTokenForAdmin();
-        User fakeUser = new User("XX","notexist@email.com", "fake user", "",new ArrayList<>());
-
+        User fakeUser = TestUserFactory.createStudent();
 
         //when
         var response = callHttpMethod(HttpMethod.PUT,
@@ -245,21 +204,14 @@ class UserControllerIT extends BaseIT {
     @Test
     void student_should_be_not_able_to_update_user() {
         //given
-        User user = new User(
-                null,
-                "newUser@example.com",
-                "Person",
-                "pass",
-                List.of(UserRole.STUDENT)
-        );
-        User beforeUpdate = userService.save(user);
-
+        User user = TestUserFactory.createStudent();
+        userService.save(user);
         User userToUpdate = new User(
-                beforeUpdate.getId(),
+                user.getId(),
                 "otherUser@email.com",
                 "Person",
                 "password",
-                List.of(UserRole.STUDENT)
+                List.of("STUDENT")
         );
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
@@ -277,20 +229,14 @@ class UserControllerIT extends BaseIT {
     @Test
     void admin_should_be_able_to_delete_user() {
         //given
-        User user = new User(
-                null,
-                "newUser@email.com",
-                "Person",
-                "pass",
-                List.of(UserRole.STUDENT)
-        );
+        User user = TestUserFactory.createStudent();
         String adminAccessToken = getTokenForAdmin();
-        User savedUser = userService.save(user);
+        userService.save(user);
 
         //when
         var response = callHttpMethod(
                 HttpMethod.DELETE,
-                "/users/" + savedUser.getId(),
+                "/users/" + user.getId(),
                 adminAccessToken,
                 null,
                 UserDto.class);
@@ -302,13 +248,7 @@ class UserControllerIT extends BaseIT {
     @Test
     void admin_should_get_response_code_404_when_user_not_exits() {
         //given
-        User user = new User(
-                "ID18",
-                "otherUser@email.com",
-                "Person",
-                "password",
-                List.of(UserRole.STUDENT)
-        );
+        User user = TestUserFactory.createStudent();
         String token = getTokenForAdmin();
 
         //when
@@ -326,27 +266,16 @@ class UserControllerIT extends BaseIT {
     @Test
     void student_should_not_be_able_to_delete_user() {
         //given
-        User user = new User(
-                null,
-                "newUser@example.com",
-                "Person",
-                "pass",
-                List.of(UserRole.STUDENT)
-        );
-        User otherUser = new User(
-                "ID20",
-                "otherUser@email.com",
-                "Person",
-                "password",
-                List.of(UserRole.STUDENT)
-        );
-        userService.save(user);
-        String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
+        User firstUser = TestUserFactory.createStudent();
+        User secondUser = TestUserFactory.createStudent();
+        userService.save(firstUser);
+        userService.save(secondUser);
+        String token = getAccessTokenForUser(firstUser.getEmail(), firstUser.getPassword());
 
         //when
         var response = callHttpMethod(
                 HttpMethod.DELETE,
-                "/users/" + otherUser.getId(),
+                "/users/" + secondUser.getId(),
                 token,
                 null,
                 MessageResponse.class);

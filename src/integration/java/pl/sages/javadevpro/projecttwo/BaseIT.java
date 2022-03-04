@@ -94,12 +94,13 @@ public class BaseIT {
         return adminToken;
     }
 
-    protected <T, U> ResponseEntity<U> callHttpMethod(HttpMethod httpMethod,
-                                                      String url,
-                                                      String accessToken,
-                                                      T body,
-                                                      Class<U> mapToObject)
-    {
+    protected <T, U> ResponseEntity<U> callHttpMethod(
+            HttpMethod httpMethod,
+            String url,
+            String accessToken,
+            T body,
+            Class<U> mapToObject
+    ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
         headers.add(HttpHeaders.AUTHORIZATION, accessToken);
