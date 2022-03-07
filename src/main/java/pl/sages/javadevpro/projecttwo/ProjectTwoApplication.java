@@ -13,29 +13,6 @@ public class ProjectTwoApplication {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(ProjectTwoApplication.class, args);
-
-		final UserRepository userRepository =
-				context.getBean(UserRepository.class);
-
-		userRepository.save(
-			new User(
-				null,
-				"jan@example.com",
-				"Jan Kowalski",
-				"MyPassword",
-				List.of("ADMIN")
-			)
-		);
-
-		userRepository.save(
-			new User(
-				null,
-				"stefan@example.com",
-				"Stefan Burczymucha",
-				"password",
-				List.of("STUDENT")
-			)
-		);
 	}
 
 	// TODO co chcemy zwrocic przy remove i update

@@ -26,7 +26,7 @@ class UserServiceTest {
             "email@email.any",
             "user name",
             "pass",
-            List.of("STUDENT")
+            List.of(UserRole.STUDENT)
     );
 
     @Test

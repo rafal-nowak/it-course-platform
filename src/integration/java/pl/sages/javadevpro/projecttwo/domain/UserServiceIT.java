@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
+import pl.sages.javadevpro.projecttwo.domain.user.UserRole;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class UserServiceIT extends BaseIT {
                 "newUser@example.com",
                 "User Name",
                 "pass",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         User saved = service.save(user);
 
@@ -44,21 +45,21 @@ public class UserServiceIT extends BaseIT {
                 "newUser1@example.com",
                 "User Name 1",
                 "pass1",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         User user2 = new User(
                 null,
                 "newUser2@example.com",
                 "User Name 2",
                 "pass2",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         User user3 = new User(
                 null,
                 "newUser3@example.com",
                 "User Name 3",
                 "pass3",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         service.save(user1);
         User saved = service.save(user2);

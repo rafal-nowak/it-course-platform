@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
+import pl.sages.javadevpro.projecttwo.domain.user.UserRole;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.domain.usertask.DirectoryService;
 import pl.sages.javadevpro.projecttwo.domain.usertask.GitService;
@@ -40,7 +41,7 @@ class UserTaskServiceTestBlueprint {
             "email@email.any",
             "user name",
             "pass",
-            List.of("STUDENT")
+            List.of(UserRole.STUDENT)
     );
     private final TaskBlueprint fakeTaskBlueprint = new TaskBlueprint(
             "1",
