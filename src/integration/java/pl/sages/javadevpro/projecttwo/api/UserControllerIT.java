@@ -7,9 +7,11 @@ import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.api.user.UserDto;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
+import pl.sages.javadevpro.projecttwo.domain.user.UserRole;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,7 +28,7 @@ class UserControllerIT extends BaseIT {
             "newUser1@example.com",
             "User Name",
             "pass",
-            List.of("STUDENT")
+            List.of(UserRole.STUDENT)
         );
         User savedUser = service.save(user);
         String token = getTokenForAdmin();
@@ -65,14 +67,14 @@ class UserControllerIT extends BaseIT {
                 "newUser4@example.com",
                 "User Name",
                 "pass",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         User user2 = new User(
                 "ID12",
                 "oldUser5@example.com",
                 "Old User Name",
                 "pass",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         service.save(user1);
         service.save(user2);
@@ -93,7 +95,7 @@ class UserControllerIT extends BaseIT {
             "newUser1@example.com",
             "User Name",
             "pass",
-            List.of("STUDENT")
+            List.of(UserRole.STUDENT)
         );
         User saved = service.save(user);
         String adminToken = getTokenForAdmin();
@@ -114,7 +116,7 @@ class UserControllerIT extends BaseIT {
             "newUser2@example.com",
             "User Name",
             "pass",
-            List.of("STUDENT")
+            List.of(UserRole.STUDENT)
         );
         String adminAccessToken = getTokenForAdmin();
 
@@ -139,7 +141,7 @@ class UserControllerIT extends BaseIT {
                 "newUser3@example.com",
                 "User Name",
                 "pass",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         User saved = service.save(user);
         String accessToken = getAccessTokenForUser(saved.getEmail(), user.getPassword());
@@ -165,7 +167,7 @@ class UserControllerIT extends BaseIT {
                 "email@email.com",
                 "Person",
                 "password",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         User beforeUpdate = userService.save(user);
 
@@ -174,7 +176,7 @@ class UserControllerIT extends BaseIT {
                 "email@email.com",
                 "newPerson",
                 "newpassword",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         String adminAccessToken = getTokenForAdmin();
 
@@ -190,7 +192,7 @@ class UserControllerIT extends BaseIT {
         assertEquals(toUpdate.getEmail(), body.getEmail());
         assertEquals(toUpdate.getName(), body.getName());
         assertEquals("######", body.getPassword());
-        assertEquals(toUpdate.getRoles(), body.getRoles());
+        assertEquals(toUpdate.getRoles(), body.getRoles().stream().map(UserRole::valueOf).collect(Collectors.toList()));
     }
 
     @Test
@@ -213,7 +215,7 @@ class UserControllerIT extends BaseIT {
                 "newUser@example.com",
                 "Person",
                 "pass",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         User beforeUpdate = userService.save(user);
 
@@ -222,7 +224,7 @@ class UserControllerIT extends BaseIT {
                 "otherUser@email.com",
                 "Person",
                 "password",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
@@ -241,7 +243,7 @@ class UserControllerIT extends BaseIT {
                 "newUser@email.com",
                 "Person",
                 "pass",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         String adminAccessToken = getTokenForAdmin();
         User savedUser = userService.save(user);
@@ -261,7 +263,7 @@ class UserControllerIT extends BaseIT {
                 "otherUser@email.com",
                 "Person",
                 "password",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         String token = getTokenForAdmin();
 
@@ -280,14 +282,14 @@ class UserControllerIT extends BaseIT {
                 "newUser@example.com",
                 "Person",
                 "pass",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         User otherUser = new User(
                 "ID20",
                 "otherUser@email.com",
                 "Person",
                 "password",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         userService.save(user);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());

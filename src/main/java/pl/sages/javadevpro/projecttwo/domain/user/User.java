@@ -11,6 +11,6 @@ public class User {
     String email;
     String name;
     String password;
-    List<String> roles; // TODO <string> to <UserRole>
+    List<UserRole> roles;
 
 }

@@ -17,6 +17,7 @@ import pl.sages.javadevpro.projecttwo.api.usertask.ListOfFilesResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskRequest;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
+import pl.sages.javadevpro.projecttwo.domain.user.UserRole;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
@@ -48,7 +49,7 @@ class UserTaskEndpointIT extends BaseIT {
                 "newUser10@example.com",
                 "User Name",
                 "pass",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         userService.save(user);
 
@@ -76,7 +77,7 @@ class UserTaskEndpointIT extends BaseIT {
                 "newUser11@example.com",
                 "User Name 11",
                 "pass",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         User savedUser = userService.save(user);
 
@@ -109,7 +110,7 @@ class UserTaskEndpointIT extends BaseIT {
                 "newUser13@example.com",
                 "User Name 11",
                 "pass",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         User savedUser = userService.save(user);
 
@@ -158,7 +159,7 @@ class UserTaskEndpointIT extends BaseIT {
                 "newUser11@example.com",
                 "User Name 11",
                 "pass",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         User savedUser = userService.save(user);
 

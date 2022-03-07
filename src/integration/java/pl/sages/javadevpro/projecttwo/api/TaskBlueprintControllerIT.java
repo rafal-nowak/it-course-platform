@@ -9,6 +9,7 @@ import pl.sages.javadevpro.projecttwo.api.task.TaskBlueprintDto;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
+import pl.sages.javadevpro.projecttwo.domain.user.UserRole;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
                 "newUser@example.com",
                 "User Name",
                 "pass",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         TaskBlueprint taskBlueprint = new TaskBlueprint(
                 "1",
@@ -60,7 +61,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
                 "newUser1@example.com",
                 "User Name1",
                 "pass1",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         TaskBlueprint taskBlueprint2 = new TaskBlueprint(
                 "2",
@@ -128,7 +129,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
                 "newUser1@example.com",
                 "User Name1",
                 "pass1",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         TaskBlueprint taskBlueprint5 = new TaskBlueprint(
                 "5",
@@ -186,7 +187,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
                 "newUser@example.com",
                 "User Name",
                 "pass",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         TaskBlueprint taskBlueprint6 = new TaskBlueprint(
                 "6",
@@ -241,7 +242,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
                 "newUser1@example.com",
                 "User Name1",
                 "pass1",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         userService.save(user);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
