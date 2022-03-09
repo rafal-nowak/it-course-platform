@@ -3,18 +3,17 @@ package pl.sages.javadevpro.projecttwo.external.workspace;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.SneakyThrows;
+import org.eclipse.jgit.api.AddCommand;
+import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.springframework.stereotype.Service;
-import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
-import pl.sages.javadevpro.projecttwo.domain.exception.ResourceNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.task.Workspace;
 import pl.sages.javadevpro.projecttwo.external.directory.task.FileToBeDeliveredToUser;
 import pl.sages.javadevpro.projecttwo.external.directory.task.TaskDefinition;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -97,12 +96,17 @@ public class WorkspaceService implements Workspace {
         }
     }
 
+    @SneakyThrows
     @Override
     public void commitChanges(String rootPathUrl) {
+        Git git = Git.open(new File(rootPathUrl));
 
+        AddCommand add = git.add();
+        add.addFilepattern(rootPathUrl).call();
+
+        CommitCommand commit = git.commit();
+        commit.setMessage("update commit").call();
     }
-
-
 
     private void unlinkRemotes(Git git) {
         Set<String> remoteNames = git.getRepository().getRemoteNames();
@@ -114,20 +118,4 @@ public class WorkspaceService implements Workspace {
             }
         });
     }
-
-    public File takeFileFromUserTask(String userId, String taskId, String fileId) {
-        List<String> listOfAvailableFilesForUserTask = readListOfAvailableFilesForUserTask(userId, taskId);
-
-        if (Integer.parseInt(fileId) > listOfAvailableFilesForUserTask.size()) {
-            throw new ResourceNotFoundException("File " + fileId + " was not assigned to " + taskId + " user task " + userId);
-        }
-
-        String relatedPathToSelectedFile = listOfAvailableFilesForUserTask.get(Integer.parseInt(fileId) - 1);
-
-        String path = getPathToUserTask(userId, taskId) + "/" + relatedPathToSelectedFile;
-
-        return new File(path);
-    }
-
-
 }
