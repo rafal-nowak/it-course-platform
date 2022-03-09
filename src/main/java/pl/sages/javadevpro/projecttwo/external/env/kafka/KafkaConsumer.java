@@ -5,7 +5,6 @@ import lombok.extern.java.Log;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
-import pl.sages.javadevpro.projecttwo.domain.usertask.UserTaskService;
 import pl.sages.javadevpro.projecttwo.external.env.usertask.UserTaskEnv;
 import pl.sages.javadevpro.projecttwo.external.env.usertask.UserTaskEnvMapper;
 
@@ -15,7 +14,7 @@ import pl.sages.javadevpro.projecttwo.external.env.usertask.UserTaskEnvMapper;
 public class KafkaConsumer {
 
     private final UserService userService;
-    private final UserTaskService userTaskService;
+ //   private final UserTaskService userTaskService;
     private final UserTaskEnvMapper userTaskEnvMapper;
 
     @KafkaListener(topics = "Kafka_Task_Report_json", groupId = "group_json",
