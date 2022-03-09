@@ -19,9 +19,9 @@ import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskRequest;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRole;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
-import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
+import pl.sages.javadevpro.projecttwo.domain.usertask.UserTaskService;
 
 import java.io.File;
 import java.util.ArrayList;

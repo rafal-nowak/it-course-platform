@@ -18,10 +18,10 @@ public class TaskBlueprintStorageAdapter implements TaskBlueprintRepository {
     public TaskBlueprint save(TaskBlueprint taskBlueprint) {
         try{
             TaskBlueprintEntity saved = taskRepository.insert(mapper.toEntity(taskBlueprint));
-            log.info("Saved task " + saved);
+            log.info("Saved task blueprint" + saved);
             return mapper.toDomain(saved);
         }catch (DuplicateKeyException ex){
-            log.warning("Task " +  taskBlueprint.getName() + " already exits");
+            log.warning("Task blueprint " +  taskBlueprint.getName() + " already exits");
             throw new TaskBlueprintAlreadyExistsException("Task blueprint already exists");
         }
     }
@@ -36,7 +36,7 @@ public class TaskBlueprintStorageAdapter implements TaskBlueprintRepository {
         Optional<TaskBlueprintEntity> entity = taskRepository.findById(taskBlueprint.getId());
         TaskBlueprintEntity entityTask = mapper.toEntity(taskBlueprint);
         if(entity.isPresent()) {
-            log.info("Removing task " + entityTask.toString());
+            log.info("Removing task blueprint" + entityTask.toString());
             taskRepository.delete(entityTask);
         }
     }
@@ -44,6 +44,6 @@ public class TaskBlueprintStorageAdapter implements TaskBlueprintRepository {
     @Override
     public void update(TaskBlueprint updatedTaskBlueprint) {
         TaskBlueprintEntity updated = taskRepository.save(mapper.toEntity(updatedTaskBlueprint));
-        log.info("Updating task "+ updated);
+        log.info("Updating task blueprint"+ updated);
     }
 }
