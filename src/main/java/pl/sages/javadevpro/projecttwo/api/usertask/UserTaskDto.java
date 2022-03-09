@@ -3,7 +3,7 @@ package pl.sages.javadevpro.projecttwo.api.usertask;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import pl.sages.javadevpro.projecttwo.domain.usertask.TaskStatus;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskStatus;
 
 @Getter
 @Setter

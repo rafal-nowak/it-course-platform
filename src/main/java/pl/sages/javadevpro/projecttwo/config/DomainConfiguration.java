@@ -11,14 +11,14 @@ import pl.sages.javadevpro.projecttwo.api.user.UserDtoMapper;
 import pl.sages.javadevpro.projecttwo.api.usertask.UserTaskDtoMapper;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
-import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
+import pl.sages.javadevpro.projecttwo.domain.usertask.UserTaskService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintRepository;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
 import pl.sages.javadevpro.projecttwo.domain.usertask.DirectoryService;
 import pl.sages.javadevpro.projecttwo.domain.usertask.GitService;
-import pl.sages.javadevpro.projecttwo.domain.usertask.UserTaskExecutor;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskExecutor;
 import pl.sages.javadevpro.projecttwo.external.directory.LocalDirectoryService;
-import pl.sages.javadevpro.projecttwo.external.env.UserTaskEnvAdapter;
+import pl.sages.javadevpro.projecttwo.external.env.TaskEnvAdapter;
 import pl.sages.javadevpro.projecttwo.external.env.kafka.KafkaUserTaskEnv;
 import pl.sages.javadevpro.projecttwo.external.env.usertask.UserTaskEnvMapper;
 import pl.sages.javadevpro.projecttwo.external.git.JGitService;
@@ -29,8 +29,6 @@ import pl.sages.javadevpro.projecttwo.external.storage.task.TaskBlueprintMongoRe
 import pl.sages.javadevpro.projecttwo.external.storage.user.MongoUserRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntityMapper;
 import pl.sages.javadevpro.projecttwo.external.storage.usertask.UserTaskEntityMapper;
-
-import java.util.Map;
 
 @Configuration
 @ConfigurationProperties("domain.properties")
@@ -88,19 +86,19 @@ public class DomainConfiguration {
             DirectoryService directoryService,
             UserService userService,
             TaskBlueprintService taskBlueprintService,
-            UserTaskExecutor userTaskExecutor
+            TaskExecutor taskExecutor
     ) {
         return new UserTaskService(
                 gitService,
                 directoryService,
                 userService,
             taskBlueprintService,
-                userTaskExecutor);
+                taskExecutor);
     }
 
     @Bean
-    public UserTaskExecutor userTaskExecutor(KafkaUserTaskEnv userTaskExecutor, UserTaskEnvMapper userTaskExecMapper){
-        return new UserTaskEnvAdapter(userTaskExecutor, userTaskExecMapper);}
+    public TaskExecutor userTaskExecutor(KafkaUserTaskEnv userTaskExecutor, UserTaskEnvMapper userTaskExecMapper){
+        return new TaskEnvAdapter(userTaskExecutor, userTaskExecMapper);}
 
     @Bean
     UserTaskEnvMapper userTaskEnvMapper() { return Mappers.getMapper(UserTaskEnvMapper.class); }
