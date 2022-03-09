@@ -1,11 +1,10 @@
-package pl.sages.javadevpro.projecttwo.domain;
+package pl.sages.javadevpro.projecttwo.domain.usertask;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
 import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
-import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
-import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
+import pl.sages.javadevpro.projecttwo.domain.task.*;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.domain.usertask.*;
@@ -24,7 +23,7 @@ public class UserTaskService {
     private final DirectoryService directoryService;
     private final UserService userService;
     private final TaskBlueprintService taskBlueprintService;
-    private final UserTaskExecutor userTaskExecutor;
+    private final TaskExecutor taskExecutor;
 
     public String exec(String userEmail, String taskId) {
         // FIXME
@@ -43,16 +42,6 @@ public class UserTaskService {
         return null;
     }
 
-    public UserTask assignTask(String userId, String taskId) {
-        User user = userService.findById(userId);
-        TaskBlueprint taskBlueprint = taskBlueprintService.findBy(taskId);
-
-        UserTask userTask;
-        userTask = createFromTask(taskBlueprint, user.getId());
-
-        addUserTaskToDB(userTask, user);
-        return userTask;
-    }
 
     public List<String> readListOfAvailableFilesForUserTask (String userId, String taskId) {
         return directoryService.readListOfAvailableFilesForUserTask(userId, taskId);
@@ -80,7 +69,9 @@ public class UserTaskService {
         }
     }
 
-    public void updateUserTaskInDB(UserTask userTask, User user) {
+
+
+    public void updateUserTaskInDB(Task task, User user) {
 //        if (user.getTasks() == null) {
 //            user.setTasks(new ArrayList<>());
 //        }
@@ -90,18 +81,26 @@ public class UserTaskService {
 //        userService.update(user);
     }
 
-    private UserTask createFromTask(TaskBlueprint taskBlueprint, String userId) {
-        UserTask userTask = new UserTask();
-        userTask.setUserTaskFolder(copyRepositoryToUserFolder(taskBlueprint, userId));
-        userTask.setId(taskBlueprint.getId());
-        userTask.setName(taskBlueprint.getName());
-        userTask.setDescription(taskBlueprint.getDescription());
-        userTask.setTaskStatus(TaskStatus.NOT_STARTED);
-        userTask.setUserId(userId);
-        return userTask;
+    private Task createFromTask(TaskBlueprint taskBlueprint, String userId) {
+//        Task task = new Task(taskBlueprint.getId(), taskBlueprint.getName(), taskBlueprint.getDescription(),
+//                copyRepositoryToUserFolder(taskBlueprint, userId),  TaskStatus.NOT_STARTED);
+//
+//        return task;
+        return null;
     }
 
-    private void addUserTaskToDB(UserTask userTask, User user) {
+    public Task assignTask(String userId, String taskId) {
+        User user = userService.findById(userId);
+        TaskBlueprint taskBlueprint = taskBlueprintService.findBy(taskId);
+
+        Task task;
+        task = createFromTask(taskBlueprint, user.getId());
+
+        addUserTaskToDB(task, user);
+        return task;
+    }
+
+    private void addUserTaskToDB(Task task, User user) {
 //        if (user.getTasks() == null) {
 //            user.setTasks(new ArrayList<>());
 //        }
@@ -114,5 +113,7 @@ public class UserTaskService {
         gitService.cloneTask(taskBlueprint.getRepositoryUrl(), destinationFolderPath);
         return destinationFolderPath;
     }
+
+
 
 }

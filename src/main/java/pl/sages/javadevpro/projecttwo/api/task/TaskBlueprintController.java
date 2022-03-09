@@ -43,8 +43,8 @@ public class TaskBlueprintController {
 
     @PutMapping
     public ResponseEntity<TaskBlueprintDto> updateTask(@RequestBody TaskBlueprintDto dto){
-       TaskBlueprint taskBlueprint = taskBlueprintService.update(dtoMapper.toDomain(dto));
-       return ResponseEntity.ok(dtoMapper.toDto(taskBlueprint));
+        taskBlueprintService.update(dtoMapper.toDomain(dto));
+       return ResponseEntity.ok().build();
     }
 
 }

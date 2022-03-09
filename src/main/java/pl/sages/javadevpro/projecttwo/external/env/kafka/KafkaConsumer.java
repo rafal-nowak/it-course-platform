@@ -5,14 +5,9 @@ import lombok.extern.java.Log;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
-import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
-import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
-import pl.sages.javadevpro.projecttwo.domain.user.User;
-import pl.sages.javadevpro.projecttwo.domain.usertask.UserTask;
+import pl.sages.javadevpro.projecttwo.domain.usertask.UserTaskService;
 import pl.sages.javadevpro.projecttwo.external.env.usertask.UserTaskEnv;
 import pl.sages.javadevpro.projecttwo.external.env.usertask.UserTaskEnvMapper;
-
-import java.util.List;
 
 @Log
 @AllArgsConstructor

@@ -15,17 +15,16 @@ public class TaskBlueprintService {
     }
 
     public TaskBlueprint findBy(String id) {
-        Optional<TaskBlueprint> founded = taskBlueprintRepository.findById(id);
-        return founded.orElseThrow(() -> new TaskBlueprintNotFoundException("Task blueprint not found"));
+        return  taskBlueprintRepository.findById(id)
+                .orElseThrow(TaskBlueprintNotFoundException::new);
     }
 
-    public TaskBlueprint remove(TaskBlueprint taskBlueprint) {
-        Optional<TaskBlueprint> removed = taskBlueprintRepository.remove(taskBlueprint);
-        return removed.orElseThrow(() -> new TaskBlueprintNotFoundException("Task blueprint not found"));
+    public void remove(TaskBlueprint taskBlueprint) {
+        taskBlueprintRepository.remove(taskBlueprint);
     }
 
-    public TaskBlueprint update(TaskBlueprint taskBlueprint) {
-        return taskBlueprintRepository.update(taskBlueprint);
+    public void update(TaskBlueprint taskBlueprint) {
+        taskBlueprintRepository.update(taskBlueprint);
     }
 
 }

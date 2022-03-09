@@ -1,13 +1,13 @@
 package pl.sages.javadevpro.projecttwo.external.env.usertask;
 
 import org.mapstruct.Mapper;
-import pl.sages.javadevpro.projecttwo.domain.usertask.UserTask;
+import pl.sages.javadevpro.projecttwo.domain.task.Task;
 
 @Mapper
 public interface UserTaskEnvMapper {
 
-    UserTaskEnv toDto(UserTask userTask);
+    UserTaskEnv toDto(Task task);
 
-    UserTask toDomain(UserTaskEnv userTaskExec);
+    Task toDomain(UserTaskEnv userTaskExec);
 
 }

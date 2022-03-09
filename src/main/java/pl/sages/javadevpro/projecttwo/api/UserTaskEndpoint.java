@@ -10,7 +10,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.sages.javadevpro.projecttwo.api.usertask.*;
-import pl.sages.javadevpro.projecttwo.domain.UserTaskService;
+import pl.sages.javadevpro.projecttwo.domain.usertask.UserTaskService;
 
 import java.io.File;
 import java.io.FileInputStream;

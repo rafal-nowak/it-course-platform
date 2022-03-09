@@ -32,21 +32,18 @@ public class TaskBlueprintStorageAdapter implements TaskBlueprintRepository {
     }
 
     @Override
-    public Optional<TaskBlueprint> remove(TaskBlueprint taskBlueprint) {
+    public void remove(TaskBlueprint taskBlueprint) {
         Optional<TaskBlueprintEntity> entity = taskRepository.findById(taskBlueprint.getId());
         TaskBlueprintEntity entityTask = mapper.toEntity(taskBlueprint);
         if(entity.isPresent()) {
             log.info("Removing task " + entityTask.toString());
             taskRepository.delete(entityTask);
-            return Optional.of(taskBlueprint);
         }
-        return Optional.empty();
     }
 
     @Override
-    public TaskBlueprint update(TaskBlueprint updatedTaskBlueprint) {
+    public void update(TaskBlueprint updatedTaskBlueprint) {
         TaskBlueprintEntity updated = taskRepository.save(mapper.toEntity(updatedTaskBlueprint));
         log.info("Updating task "+ updated);
-        return mapper.toDomain(updated);
     }
 }
