@@ -4,6 +4,9 @@ Accept: application/json
 Content-Type: application/json
 Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
+### Encode to Base64 format: jan@example.com:MyPassword
+### Result: amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
 ### get user by email
 GET http://localhost:8080/users/me
 Accept: application/json
