@@ -1,3 +1,111 @@
+GET http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+<> 2022-03-11T212329.200.json
+
+###
+
+GET http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+<> 2022-03-11T212256.200.json
+
+###
+
+POST http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+###
+
+GET http://localhost:8080/users/622b230ff0150774ceba74c5
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+<> 2022-03-11T212208.404.json
+
+###
+
+POST http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+###
+
+POST http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+###
+
+POST http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+###
+
+POST http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+###
+
+POST http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+###
+
+POST http://localhost:8080/622bac27634bd02ec28a5c88/files
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+<> 2022-03-11T211215.404.json
+
+###
+
+POST http://localhost:8080/tasks/assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "userId": "622babb5634bd02ec28a5c87",
+  "taskId": "1"
+}
+
+<> 2022-03-11T210807.200.json
+
+###
+
+POST http://localhost:8080/task-blueprints
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "id": "1",
+  "name": "Python_1",
+  "description": "Description...",
+  "repositoryUrl": "https://github.com/rafal-nowak/task1"
+}
+
+<> 2022-03-11T210703.200.json
+
+###
+
 POST http://localhost:8080/usertasks/assign
 Accept: application/json
 Content-Type: application/json
@@ -491,119 +599,6 @@ Content-Type: application/json
   "email": "jan@example.com",
   "password": "MyPassword"
 }
-
-###
-
-POST http://localhost:8080/login
-Accept: application/json
-Content-Type: application/json
-
-{
-  "email": "jan@example.com",
-  "password": "MyPassword"
-}
-
-###
-
-GET http://localhost:8080/users/jan@example.com
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-<> f-14.txt
-
-###
-
-GET http://localhost:8080/users/me
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk=
-
-<> 2022-02-21T204727.401.json
-
-###
-
-GET http://localhost:8080/users/jan@example.com
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-<> f-13.txt
-
-###
-
-POST http://localhost:8080/users
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-{
-  "email": "rafal@gmail.com",
-  "name": "Rafal Nowak",
-  "password": "userPass",
-  "roles": ["STUDENT"]
-}
-
-###
-
-GET http://localhost:8080/users/jan@example.com
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-<> f-12.txt
-
-###
-
-GET http://localhost:8080/users/me
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk=
-
-<> 2022-02-21T204515.401.json
-
-###
-
-GET http://localhost:8080/users/stefan@example.com
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic U3RlZmFuIEJ1cmN6eW11Y2hhOnBhc3N3b3Jk
-
-<> f-11.txt
-
-###
-
-GET http://localhost:8080/users/jan@example.com
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-<> f-10.txt
-
-###
-
-GET http://localhost:8080/users/jan@example.com
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic U3RlZmFuIEJ1cmN6eW11Y2hhOnBhc3N3b3Jk
-
-<> f-9.txt
-
-###
-
-GET http://localhost:8080/users/jan@example.com
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic U3RlZmFuIEJ1cmN6eW11Y2hhOnBhc3N3b3Jk
-
-<> f-8.txt
-
-###
-
-GET http://localhost:8080/users/jan@example.com
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic U3RlZmFuIEJ1cmN6eW11Y2hhOnBhc3N3b3Jk
 
 ###
 

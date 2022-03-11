@@ -24,12 +24,18 @@ Content-Type: application/json
 Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
 ### assign taskBlueprint to user
-POST http://localhost:8080/usertasks/assign
+POST http://localhost:8080/tasks/assign
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
 {
-  "userId": "622b8786b47f3957c4a20d03",
+  "userId": "622babb5634bd02ec28a5c87",
   "taskId": "1"
 }
+
+### get file list of task for user
+GET http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk

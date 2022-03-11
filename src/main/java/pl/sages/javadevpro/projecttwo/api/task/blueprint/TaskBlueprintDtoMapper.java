@@ -1,6 +1,7 @@
-package pl.sages.javadevpro.projecttwo.api.task;
+package pl.sages.javadevpro.projecttwo.api.task.blueprint;
 
 import org.mapstruct.Mapper;
+import pl.sages.javadevpro.projecttwo.api.task.blueprint.TaskBlueprintDto;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 
 @Mapper(componentModel = "spring")

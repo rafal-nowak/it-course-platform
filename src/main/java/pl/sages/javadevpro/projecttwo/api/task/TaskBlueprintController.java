@@ -3,8 +3,9 @@ package pl.sages.javadevpro.projecttwo.api.task;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import pl.sages.javadevpro.projecttwo.api.task.blueprint.TaskBlueprintDto;
+import pl.sages.javadevpro.projecttwo.api.task.blueprint.TaskBlueprintDtoMapper;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 

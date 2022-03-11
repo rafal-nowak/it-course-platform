@@ -15,4 +15,7 @@ public class AssigmentService {
         return assigmentRepository.save(assigment);
     }
 
+    public boolean isTaskAssignedToUser(String userId, String taskId){
+       return assigmentRepository.find(userId, taskId).isPresent();
+    }
 }
