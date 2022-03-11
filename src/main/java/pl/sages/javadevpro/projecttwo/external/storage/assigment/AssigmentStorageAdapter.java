@@ -6,6 +6,8 @@ import org.springframework.dao.DuplicateKeyException;
 import pl.sages.javadevpro.projecttwo.domain.assigment.Assigment;
 import pl.sages.javadevpro.projecttwo.domain.assigment.AssigmentRepository;
 
+import java.util.Optional;
+
 @Log
 @RequiredArgsConstructor
 public class AssigmentStorageAdapter implements AssigmentRepository {
@@ -23,5 +25,16 @@ public class AssigmentStorageAdapter implements AssigmentRepository {
             log.warning("Assigment " +  assigment.getId() + " already exits");
             throw new AssigmentAlreadyExistsException("Assigment already exists");
         }
+    }
+
+    @Override
+    public Optional<Assigment> find(String userId, String taskId) {
+        Optional<AssigmentEntity> byTaskId = assigmentRepository.findByTaskId(taskId);
+        if (byTaskId.isPresent()){
+            if (byTaskId.get().getUserId().equals(userId)){
+                return Optional.of(mapper.toDomain(byTaskId.get()));
+            }
+        }
+        return Optional.empty();
     }
 }

@@ -1,32 +1,29 @@
-package pl.sages.javadevpro.projecttwo.api;
+package pl.sages.javadevpro.projecttwo.api.task;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import pl.sages.javadevpro.projecttwo.api.usertask.*;
 import pl.sages.javadevpro.projecttwo.domain.assigment.AssigmentService;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskService;
+import pl.sages.javadevpro.projecttwo.domain.user.User;
+import pl.sages.javadevpro.projecttwo.domain.user.UserService;
+import pl.sages.javadevpro.projecttwo.external.workspace.WorkspaceService;
+import pl.sages.javadevpro.projecttwo.security.UserPrincipal;
 
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "/usertasks")
-public class UserTaskEndpoint {
+@RequestMapping(path = "/tasks")
+public class TaskController {
 
-//    private final UserTaskService userTaskService;
     private final AssigmentService assigmentService;
-
+    private final WorkspaceService workspaceService;
+    private final UserService userService;
+    private final TaskService taskService;
 
     @PostMapping(
             path = "/assign",
@@ -34,12 +31,11 @@ public class UserTaskEndpoint {
             consumes = "application/json"
     )
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<MessageResponse> assignTaskToUser(@RequestBody UserTaskRequest userTaskRequest) {
-//        userTaskService.assignTask(userTaskRequest.getUserId(), userTaskRequest.getTaskId());
-        assigmentService.assignNewTask(userTaskRequest.getUserId(), userTaskRequest.getTaskId());
+    public ResponseEntity<MessageResponse> assignTaskToUser(@RequestBody AssigmentRequest assigmentRequest) {
+        assigmentService.assignNewTask(assigmentRequest.getUserId(), assigmentRequest.getTaskId());
         return ResponseEntity.ok(new MessageResponse("OK", "Task assigned to user"));
     }
-//
+
 //    @PostMapping("/run")
 //    @Secured("ROLE_STUDENT")
 //    public ResponseEntity<String> post(@RequestBody RunSolutionRequest runSolutionRequest) {
@@ -48,24 +44,27 @@ public class UserTaskEndpoint {
 //
 //        return ResponseEntity.ok(taskStatus);
 //    }
-//
-//    @GetMapping(
-//            produces = "application/json",
-//            consumes = "application/json",
-//            path = "{userId}/{taskId}/files"
-//    )
-//    @Secured("ROLE_STUDENT")
-//    public ResponseEntity<ListOfFilesResponse>  getFilesAssignedToUserTask(
-//            @PathVariable String userId,
-//            @PathVariable String taskId) {
-//
-//        List<String> listOfFiles = userTaskService.readListOfAvailableFilesForUserTask(userId, taskId);
-//
-//        return ResponseEntity.ok(new ListOfFilesResponse(
-//                "OK",
-//                listOfFiles));
-//    }
-//
+
+    @GetMapping(
+            produces = "application/json",
+            consumes = "application/json",
+            path = "{taskId}/files"
+    )
+    public ResponseEntity<ListOfFilesResponse>  getFilesAssignedToUserTask(
+            @PathVariable String taskId,
+            Authentication authentication) {
+
+        System.out.println(authentication.getPrincipal().getClass());
+        User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
+        List<String> listOfFiles = null;
+        if (assigmentService.isTaskAssignedToUser(user.getId(), taskId)){
+            listOfFiles = taskService.getTaskFilesList(taskId);
+        }
+        return ResponseEntity.ok(new ListOfFilesResponse(
+                "OK",
+                listOfFiles));
+    }
+
 //    @GetMapping(
 //            path = "{userId}/{taskId}/files/{fileId}"
 //    )

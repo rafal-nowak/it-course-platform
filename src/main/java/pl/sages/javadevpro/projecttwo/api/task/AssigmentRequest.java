@@ -1,11 +1,11 @@
-package pl.sages.javadevpro.projecttwo.api.usertask;
+package pl.sages.javadevpro.projecttwo.api.task;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class UserTaskRequest {
+public class AssigmentRequest {
 
     private final String userId;
     private final String taskId;
