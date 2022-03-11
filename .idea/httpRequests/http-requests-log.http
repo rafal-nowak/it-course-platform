@@ -4,6 +4,80 @@ Content-Type: application/json
 Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
 {
+  "userId": "622b8786b47f3957c4a20d03",
+  "taskId": "1"
+}
+
+<> 2022-03-11T184110.200.json
+
+###
+
+POST http://localhost:8080/task-blueprints
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "id": "1",
+  "name": "Python_1",
+  "description": "Description...",
+  "repositoryUrl": "https://github.com/rafal-nowak/task1"
+}
+
+<> 2022-03-11T184101.200.json
+
+###
+
+POST http://localhost:8080/usertasks/assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "userId": "622b8786b47f3957c4a20d03",
+  "taskId": "1"
+}
+
+<> 2022-03-11T183622.500.json
+
+###
+
+POST http://localhost:8080/usertasks/assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "userId": "622b8786b47f3957c4a20d03",
+  "taskId": "1"
+}
+
+<> 2022-03-11T183337.500.json
+
+###
+
+POST http://localhost:8080/task-blueprints
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "id": "1",
+  "name": "Python_1",
+  "description": "Description...",
+  "repositoryUrl": "https://github.com/rafal-nowak/taskBlueprint1.git"
+}
+
+<> 2022-03-11T183309.200.json
+
+###
+
+POST http://localhost:8080/usertasks/assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
   "userId": "622b230ff0150774ceba74c5",
   "taskId": "1"
 }
@@ -530,51 +604,6 @@ GET http://localhost:8080/users/jan@example.com
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic U3RlZmFuIEJ1cmN6eW11Y2hhOnBhc3N3b3Jk
-
-###
-
-GET http://localhost:8080/users/me
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk=
-
-<> 2022-02-21T202319.401.json
-
-###
-
-GET http://localhost:8080/users/jan@example.com
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-<> f-7.txt
-
-###
-
-GET http://localhost:8080/users/me
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk=
-
-<> 2022-02-21T202032.401.json
-
-###
-
-GET http://localhost:8080/users/me
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk=
-
-<> 2022-02-21T201517.401.json
-
-###
-
-GET http://localhost:8080/users/me
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-<> 2022-02-21T201304.401.json
 
 ###
 

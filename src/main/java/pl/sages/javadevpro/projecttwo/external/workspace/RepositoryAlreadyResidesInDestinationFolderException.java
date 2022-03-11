@@ -7,4 +7,8 @@ public class RepositoryAlreadyResidesInDestinationFolderException extends Runtim
         super(message);
     }
 
+    public RepositoryAlreadyResidesInDestinationFolderException(String message, Throwable ex) {
+        super(message, ex);
+    }
+
 }
