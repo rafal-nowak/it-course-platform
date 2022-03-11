@@ -3,6 +3,7 @@ package pl.sages.javadevpro.projecttwo.domain.task;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -15,9 +16,9 @@ public class TaskService {
     private final Workspace taskWorkspace;
     private final TaskBlueprintService taskBlueprintService;
 
-    @Value("#{resultFilePath}")
+//    @Value("#{resultFilePath}")
     @Setter
-    private String resultFilePath;
+    private String resultFilePath = "/test_results/test_summary.txt";
 
     public List<String> getTaskFilesList(String taskId) {
         var workspacePath = getWorkspacePath(taskId);

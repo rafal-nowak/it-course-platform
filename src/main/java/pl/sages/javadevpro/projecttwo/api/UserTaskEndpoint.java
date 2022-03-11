@@ -10,6 +10,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.sages.javadevpro.projecttwo.api.usertask.*;
+import pl.sages.javadevpro.projecttwo.domain.assigment.AssigmentService;
 
 
 import java.io.File;
@@ -24,18 +25,20 @@ import java.util.List;
 public class UserTaskEndpoint {
 
 //    private final UserTaskService userTaskService;
-//
-//
-//    @PostMapping(
-//            path = "/assign",
-//            produces = "application/json",
-//            consumes = "application/json"
-//    )
-//    @Secured("ROLE_ADMIN")
-//    public ResponseEntity<MessageResponse> assignTaskToUser(@RequestBody UserTaskRequest userTaskRequest) {
+    private final AssigmentService assigmentService;
+
+
+    @PostMapping(
+            path = "/assign",
+            produces = "application/json",
+            consumes = "application/json"
+    )
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity<MessageResponse> assignTaskToUser(@RequestBody UserTaskRequest userTaskRequest) {
 //        userTaskService.assignTask(userTaskRequest.getUserId(), userTaskRequest.getTaskId());
-//        return ResponseEntity.ok(new MessageResponse("OK", "Task assigned to user"));
-//    }
+        assigmentService.assignNewTask(userTaskRequest.getUserId(), userTaskRequest.getTaskId());
+        return ResponseEntity.ok(new MessageResponse("OK", "Task assigned to user"));
+    }
 //
 //    @PostMapping("/run")
 //    @Secured("ROLE_STUDENT")

@@ -5,31 +5,31 @@
 #Authorization: {{auth_token}}
 
 ### add taskBlueprint
-POST http://localhost:8080/tasks
+POST http://localhost:8080/task-blueprints
 Accept: application/json
 Content-Type: application/json
-Authorization: {{auth_token}}
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
 {
   "id": "1",
   "name": "Python_1",
   "description": "Description...",
-  "repositoryPath": "https://github.com/rafal-nowak/taskBlueprint1.git"
+  "repositoryUrl": "https://github.com/rafal-nowak/taskBlueprint1.git"
 }
 
 ### get taskBlueprint
-GET http://localhost:8080/tasks/1
+GET http://localhost:8080/task-blueprints/1
 Accept: application/json
 Content-Type: application/json
-Authorization: {{auth_token}}
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
 ### assign taskBlueprint to user
 POST http://localhost:8080/usertasks/assign
 Accept: application/json
 Content-Type: application/json
-Authorization: {{auth_token}}
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
 {
-  "userEmail": "jan@example.com",
+  "userId": "622b230ff0150774ceba74c5",
   "taskId": "1"
 }

@@ -1,3 +1,176 @@
+POST http://localhost:8080/usertasks/assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "userId": "622b230ff0150774ceba74c5",
+  "taskId": "1"
+}
+
+<> 2022-03-11T153240.500.json
+
+###
+
+POST http://localhost:8080/usertasks/assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "userId": "622b230ff0150774ceba74c",
+  "taskId": "1"
+}
+
+<> 2022-03-11T153230.500.json
+
+###
+
+POST http://localhost:8080/usertasks/assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "userId": "622b230ff0150774ceba74c5",
+  "taskId": "1"
+}
+
+<> 2022-03-11T153221.500.json
+
+###
+
+POST http://localhost:8080/usertasks/assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "userId": "622b230ff0150774ceba74c5",
+  "taskId": "1"
+}
+
+<> 2022-03-11T152858.500.json
+
+###
+
+POST http://localhost:8080/usertasks/assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "userId": "622b230ff0150774ceba74c5",
+  "taskId": "1"
+}
+
+<> 2022-03-11T152840.500.json
+
+###
+
+POST http://localhost:8080/usertasks/assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "userEmail": "stefan@example.com",
+  "taskId": "1"
+}
+
+<> 2022-03-11T132115.404.json
+
+###
+
+GET http://localhost:8080/task-blueprints/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+<> 2022-03-11T131853.200.json
+
+###
+
+POST http://localhost:8080/task-blueprints
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "id": "1",
+  "name": "Python_1",
+  "description": "Description...",
+  "repositoryUrl": "https://github.com/rafal-nowak/taskBlueprint1.git"
+}
+
+<> 2022-03-11T131823.200.json
+
+###
+
+POST http://localhost:8080/task-blueprints
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "id": "1",
+  "name": "Python_1",
+  "description": "Description...",
+  "repositoryUrl": "https://github.com/rafal-nowak/taskBlueprint1.git"
+}
+
+<> 2022-03-11T131745.409.json
+
+###
+
+POST http://localhost:8080/task-blueprints
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "id": "1",
+  "name": "Python_1",
+  "description": "Description...",
+  "repositoryPath": "https://github.com/rafal-nowak/taskBlueprint1.git"
+}
+
+<> 2022-03-11T131722.200.json
+
+###
+
+POST http://localhost:8080/task-blueprints
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "id": "1",
+  "name": "Python_1",
+  "description": "Description...",
+  "repositoryPath": "https://github.com/rafal-nowak/taskBlueprint1.git"
+}
+
+<> 2022-03-11T131637.401.json
+
+###
+
+POST http://localhost:8080/tasks
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "id": "1",
+  "name": "Python_1",
+  "description": "Description...",
+  "repositoryPath": "https://github.com/rafal-nowak/taskBlueprint1.git"
+}
+
+<> 2022-03-11T131529.404.json
+
+###
+
 POST http://localhost:8080/users
 Accept: application/json
 Content-Type: application/json
@@ -402,136 +575,6 @@ Content-Type: application/json
 Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
 <> 2022-02-21T201304.401.json
-
-###
-
-GET http://localhost:8080/users/me
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-<> 2022-02-21T201255.401.json
-
-###
-
-GET http://localhost:8080/users/2zdenek@gmail.com
-Accept: application/json
-Content-Type: application/json
-Authorization: {{auth_token}}
-
-<> f-6.txt
-
-###
-
-GET http://localhost:8080/users/jan@example.com
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-<> f-5.txt
-
-###
-
-GET http://localhost:8080/users/jan@example.com
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-<> f-4.txt
-
-###
-
-GET http://localhost:8080/users/jan@example.com
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-<> f-3.txt
-
-###
-
-GET http://localhost:8080/users/jan@example.com
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-<> f-2.txt
-
-###
-
-GET http://localhost:8080/users/jan@example.com
-Accept: application/json
-Content-Type: application/json
-Authorization: {{auth_token}}
-
-<> f-1.txt
-
-###
-
-POST http://localhost:8080/users
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-{
-  "email": "rafal@gmail.com",
-  "name": "Rafal Nowak",
-  "password": "userPass",
-  "roles": ["STUDENT"]
-}
-
-<> 2022-02-21T194156.403.json
-
-###
-
-GET http://localhost:8080/usertask/results
-Accept: application/json
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQ0MjYwODgzLCJyb2wiOlsiQURNSU4iXX0._CY2Z3aE_H6YI3h_7vk6FUQi1za6SatByIqh9sNIfAPNg5SICmGVtS3etxoKvLTkDCe2EwdJ0PvRQ5tT2MqHew
-
-{
-  "userEmail": "jan@example.com",
-  "taskId": "1"
-}
-
-<> 2022-02-07T201621.401.txt
-
-###
-
-POST http://localhost:8080/usertasks/assign
-Accept: application/json
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQ0MjYwODgzLCJyb2wiOlsiQURNSU4iXX0._CY2Z3aE_H6YI3h_7vk6FUQi1za6SatByIqh9sNIfAPNg5SICmGVtS3etxoKvLTkDCe2EwdJ0PvRQ5tT2MqHew
-
-{
-"userEmail": "rafal@gmail.com",
-"taskId": "1"
-}
-
-<> 2022-02-07T193939.200.json
-
-###
-
-POST http://localhost:8080/usertask/assign
-Accept: application/json
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQ0MjYwODgzLCJyb2wiOlsiQURNSU4iXX0._CY2Z3aE_H6YI3h_7vk6FUQi1za6SatByIqh9sNIfAPNg5SICmGVtS3etxoKvLTkDCe2EwdJ0PvRQ5tT2MqHew
-
-{
-"userEmail": "rafal@gmail.com",
-"taskId": "1"
-}
-
-###
-
-POST http://localhost:8080/login
-Accept: application/json
-Content-Type: application/json
-
-{
-  "email": "jan@example.com",
-  "password": "MyPassword"
-}
 
 ###
 
