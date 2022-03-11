@@ -12,14 +12,30 @@ import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.external.env.TaskEnvAdapter;
 import pl.sages.javadevpro.projecttwo.external.env.kafka.KafkaUserTaskEnv;
 import pl.sages.javadevpro.projecttwo.external.env.usertask.UserTaskEnvMapper;
+import pl.sages.javadevpro.projecttwo.external.storage.task.TaskBlueprintEntityMapper;
+import pl.sages.javadevpro.projecttwo.external.storage.task.TaskBlueprintMongoRepository;
+import pl.sages.javadevpro.projecttwo.external.storage.task.TaskBlueprintStorageAdapter;
+import pl.sages.javadevpro.projecttwo.external.storage.user.MongoUserRepository;
+import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntityMapper;
+import pl.sages.javadevpro.projecttwo.external.storage.user.UserStorageAdapter;
 
 @Configuration
 @ConfigurationProperties("domain.properties")
 public class DomainConfiguration {
 
     @Bean
+    public UserRepository userRepository(MongoUserRepository mongoUserRepository, UserEntityMapper mapper) {
+        return new UserStorageAdapter(mongoUserRepository, mapper);
+    }
+
+    @Bean
     public UserService userService(UserRepository userRepository)  {
         return new UserService(userRepository);
+    }
+
+    @Bean
+    public TaskBlueprintRepository taskRepository(TaskBlueprintMongoRepository taskRepository, TaskBlueprintEntityMapper mapper ) {
+        return new TaskBlueprintStorageAdapter( taskRepository, mapper );
     }
 
     @Bean

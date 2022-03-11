@@ -108,6 +108,6 @@ class TaskBlueprintServiceTest {
 //                ()->{
 //                    taskBlueprintService.remove(fakeTaskBlueprint);
 //                });
-//    }
+    }
 
 }
