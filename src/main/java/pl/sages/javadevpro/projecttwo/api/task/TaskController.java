@@ -1,6 +1,7 @@
 package pl.sages.javadevpro.projecttwo.api.task;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -50,7 +51,7 @@ public class TaskController {
             consumes = "application/json",
             path = "{taskId}/files"
     )
-    public ResponseEntity<ListOfFilesResponse>  getFilesAssignedToUserTask(
+    public ResponseEntity<Object>  getFilesAssignedToUserTask(
             @PathVariable String taskId,
             Authentication authentication) {
 
@@ -59,10 +60,11 @@ public class TaskController {
         List<String> listOfFiles = null;
         if (assigmentService.isTaskAssignedToUser(user.getId(), taskId)){
             listOfFiles = taskService.getTaskFilesList(taskId);
+            return ResponseEntity.ok(new ListOfFilesResponse(
+                    "OK",
+                    listOfFiles));
         }
-        return ResponseEntity.ok(new ListOfFilesResponse(
-                "OK",
-                listOfFiles));
+        return new ResponseEntity<>("ERROR", HttpStatus.NOT_FOUND);
     }
 
 //    @GetMapping(
