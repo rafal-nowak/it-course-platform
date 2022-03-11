@@ -25,4 +25,8 @@ spring:
 ## Max Request Size
 #spring.servlet.multipart.max-request-size=200KB
 local:
-  folder: userTasks/
+  folders:
+    baseWorkspace: ./workspaces/
+  files:
+    taskDefinition: /task_definition.yml
+    taskSummaryResult: /test_results/test_summary.txt

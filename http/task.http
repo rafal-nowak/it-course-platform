@@ -14,7 +14,7 @@ Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
   "id": "1",
   "name": "Python_1",
   "description": "Description...",
-  "repositoryUrl": "https://github.com/rafal-nowak/taskBlueprint1.git"
+  "repositoryUrl": "https://github.com/rafal-nowak/task1"
 }
 
 ### get taskBlueprint
@@ -30,6 +30,6 @@ Content-Type: application/json
 Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
 {
-  "userId": "622b230ff0150774ceba74c5",
+  "userId": "622b8786b47f3957c4a20d03",
   "taskId": "1"
 }

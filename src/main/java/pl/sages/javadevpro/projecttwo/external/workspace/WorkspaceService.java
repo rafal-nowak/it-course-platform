@@ -2,13 +2,13 @@ package pl.sages.javadevpro.projecttwo.external.workspace;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.springframework.stereotype.Service;
 import pl.sages.javadevpro.projecttwo.domain.task.Workspace;
 import pl.sages.javadevpro.projecttwo.external.directory.task.FileToBeDeliveredToUser;
 import pl.sages.javadevpro.projecttwo.external.directory.task.TaskDefinition;
@@ -23,17 +23,17 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Service
+@RequiredArgsConstructor
 public class WorkspaceService implements Workspace {
 
-    private static final String SUMMARY_RESULT_FILE_PATH = "/test_results/test_summary.txt";
-    private static final String TASK_DEFINITION_FILE_PATH = "/task_definition.yml";
-    private static final String WORKSPACE_BASE_DIRECTORY_PATH = "/workspaces/";
+    private final String baseWorkspace;
+    private final String taskDefinitionFile;
+    private final String taskSummaryResult;
 
     @Override
     @SneakyThrows(GitAPIException.class)
     public String createWorkspace(String sourceRepositoryUrl) {
-        String destinationPath = WORKSPACE_BASE_DIRECTORY_PATH + UUID.randomUUID();
+        String destinationPath = baseWorkspace + UUID.randomUUID();
         File repo = new File(destinationPath);
         Git git;
         try {
@@ -42,7 +42,7 @@ public class WorkspaceService implements Workspace {
                     .setDirectory(repo)
                     .call();
         } catch (JGitInternalException e) {
-            throw new RepositoryAlreadyResidesInDestinationFolderException("Repository already resides in destination folder.");
+            throw new RepositoryAlreadyResidesInDestinationFolderException("Repository already resides in destination folder.", e);
         }
         unlinkRemotes(git);
         git.close();
@@ -51,7 +51,7 @@ public class WorkspaceService implements Workspace {
 
     @Override
     public List<String> getFilesList(String rootPathUrl) {
-        String path = rootPathUrl + TASK_DEFINITION_FILE_PATH;
+        String path = rootPathUrl + taskDefinitionFile;
 
         var mapper = new ObjectMapper(new YAMLFactory());
         mapper.findAndRegisterModules();

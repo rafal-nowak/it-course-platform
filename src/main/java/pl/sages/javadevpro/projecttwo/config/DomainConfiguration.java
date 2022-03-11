@@ -1,7 +1,6 @@
 package pl.sages.javadevpro.projecttwo.config;
 
-
-import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +29,7 @@ import pl.sages.javadevpro.projecttwo.external.storage.task.TaskMongoRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.user.MongoUserRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.user.UserEntityMapper;
 import pl.sages.javadevpro.projecttwo.external.storage.user.UserStorageAdapter;
+import pl.sages.javadevpro.projecttwo.external.workspace.WorkspaceService;
 
 @Configuration
 @ConfigurationProperties("domain.properties")
@@ -52,15 +52,12 @@ public class DomainConfiguration {
 
     @Bean
     public TaskBlueprintService taskBlueprintService(TaskBlueprintRepository taskBlueprintRepository) {
-
         return new TaskBlueprintService(taskBlueprintRepository);
     }
-
 
     @Bean
     public TaskExecutor userTaskExecutor(KafkaUserTaskEnv userTaskExecutor, UserTaskEnvMapper userTaskExecMapper){
         return new TaskEnvAdapter(userTaskExecutor, userTaskExecMapper);}
-
 
     @Bean
     public TaskRepository taskRepository(TaskMongoRepository taskMongoRepository, TaskEntityMapper mapper)  {
@@ -68,8 +65,13 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public TaskService taskService(TaskRepository taskRepository, Workspace workspace, TaskBlueprintService taskBlueprintService)  {
-        return new TaskService(taskRepository, workspace, taskBlueprintService);
+    public TaskService taskService(
+        @Value("${local.files.taskSummaryResult}") String resultFile,
+        TaskRepository taskRepository,
+        Workspace workspace,
+        TaskBlueprintService taskBlueprintService
+    )  {
+        return new TaskService(taskRepository, workspace, taskBlueprintService, resultFile);
     }
 
     @Bean
@@ -80,6 +82,15 @@ public class DomainConfiguration {
     @Bean
     public AssigmentService assigmentService(AssigmentRepository assigmentRepository, TaskService taskService)  {
         return new AssigmentService(assigmentRepository, taskService);
+    }
+
+    @Bean
+    public Workspace workspace(
+        @Value("${local.folders.baseWorkspace}") String baseWorkspace,
+        @Value("${local.files.taskDefinition}") String definitionFile,
+        @Value("${local.files.taskSummaryResult}") String resultFile
+    ) {
+        return new WorkspaceService(baseWorkspace, definitionFile, resultFile);
     }
 
 }
