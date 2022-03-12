@@ -3,6 +3,15 @@ Accept: application/json
 Content-Type: application/json
 Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
 
+<> 2022-03-12T111853.200.json
+
+###
+
+GET http://localhost:8080/tasks/622b89e08d175933ad1be4e8/files
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
 <> 2022-03-12T104324.200.json
 
 ###
@@ -564,20 +573,6 @@ Content-Type: application/json
 {
   "email": "jan@example.com",
   "password": "MyPassword"
-}
-
-###
-
-POST http://localhost:8080/users
-Accept: application/json
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQ1NTU4NzY5LCJyb2wiOlsiQURNSU4iXX0.7diU7PgWdVzpCY6odvKaLq3gsGKwb01c6Y9DFE4VOxcElDCyhm4KeVO1GiZ7mgJCmThqS3kQ82UwxOaViykNjA
-
-{
-  "email": "rafal@gmail.com",
-  "name": "Rafal Nowak",
-  "password": "userPass",
-  "roles": ["STUDENT"]
 }
 
 ###
