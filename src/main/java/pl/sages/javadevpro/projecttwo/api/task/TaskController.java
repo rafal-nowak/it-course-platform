@@ -114,7 +114,6 @@ public class TaskController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             path = "{taskId}/files/{fileId}"
     )
-    @Secured("ROLE_STUDENT")
     public ResponseEntity<Object>  postFileAssignedToUserTask(
             @RequestParam("file") MultipartFile file,
             @PathVariable String taskId,
@@ -145,15 +144,21 @@ public class TaskController {
 
     }
 
-//    @GetMapping(
-//            path = "/results",
-//            produces = "application/json",
-//            consumes = "application/json"
-//    )
-//    @Secured("ROLE_STUDENT")
-//    public ResponseEntity<String> getUserTaskResult(@RequestBody UserTaskRequest userTaskRequest){
-//        String resultSummary = userTaskService.getUserTaskStatusSummary(userTaskRequest.getUserId(), userTaskRequest.getTaskId());
-//        return ResponseEntity.ok(resultSummary);
-//    }
+    @GetMapping(
+            path = "{taskId}/results"
+    )
+    public ResponseEntity<Object>  getUserTaskResult(
+            @PathVariable String taskId,
+            Authentication authentication) {
 
+        System.out.println(authentication.getPrincipal().getClass());
+        User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
+
+        if (assigmentService.isTaskAssignedToUser(user.getId(), taskId)){
+            String resultSummary = new String(taskService.readTaskResults(taskId));
+            return ResponseEntity.ok(resultSummary);
+        }
+
+        return new ResponseEntity<>("ERROR", HttpStatus.NOT_FOUND);
+    }
 }
