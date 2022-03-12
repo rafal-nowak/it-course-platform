@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import pl.sages.javadevpro.projecttwo.BaseIT;
-import pl.sages.javadevpro.projecttwo.api.task.TaskBlueprintDto;
+import pl.sages.javadevpro.projecttwo.api.task.blueprint.TaskBlueprintDto;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
