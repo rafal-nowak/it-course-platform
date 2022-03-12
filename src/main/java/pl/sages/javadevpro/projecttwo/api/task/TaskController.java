@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pl.sages.javadevpro.projecttwo.api.usertask.*;
 import pl.sages.javadevpro.projecttwo.domain.assigment.AssigmentService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskService;
@@ -21,6 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -107,33 +109,42 @@ public class TaskController {
         return new ResponseEntity<>("ERROR", HttpStatus.NOT_FOUND);
 
     }
-//
-//    @PostMapping(
-//            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
-//            path = "{userId}/{taskId}/files/{fileId}"
-//    )
-//    @Secured("ROLE_STUDENT")
-//    public ResponseEntity<Object>  postFileAssignedToUserTask(
-//            @RequestParam("file") MultipartFile file,
-//            @PathVariable String userId,
-//            @PathVariable String taskId,
-//            @PathVariable String fileId
-//            ) {
-//
-//        try {
-//            byte[] bytes = file.getBytes();
-//
-//            userTaskService.uploadFileForUserTask(userId, taskId, fileId, bytes);
-//
-//            userTaskService.commitTask(userId, taskId);
-//
-//        } catch (IOException e) {
-//            return new ResponseEntity<>("The File Upload Failed", HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//
-//        return new ResponseEntity<>("The File Uploaded Successfully", HttpStatus.OK);
-//    }
-//
+
+    @PostMapping(
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
+            path = "{taskId}/files/{fileId}"
+    )
+    @Secured("ROLE_STUDENT")
+    public ResponseEntity<Object>  postFileAssignedToUserTask(
+            @RequestParam("file") MultipartFile file,
+            @PathVariable String taskId,
+            @PathVariable String fileId,
+            Authentication authentication
+            ) {
+
+        System.out.println(authentication.getPrincipal().getClass());
+        User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
+
+        if (assigmentService.isTaskAssignedToUser(user.getId(), taskId)){
+            try {
+                byte[] bytes = file.getBytes();
+                String filePath = taskService.getTaskFilesList(taskId).get(parseInt(fileId));
+
+                taskService.writeTaskFile(taskId, filePath, bytes);
+
+                taskService.commitTaskChanges(taskId);
+
+            } catch (IOException e) {
+                return new ResponseEntity<>("The File Upload Failed", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            return new ResponseEntity<>("The File Uploaded Successfully", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("ERROR", HttpStatus.NOT_FOUND);
+
+    }
+
 //    @GetMapping(
 //            path = "/results",
 //            produces = "application/json",
