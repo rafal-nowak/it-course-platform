@@ -1,7 +1,10 @@
 package pl.sages.javadevpro.projecttwo.api.task;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -14,7 +17,14 @@ import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.external.workspace.WorkspaceService;
 import pl.sages.javadevpro.projecttwo.security.UserPrincipal;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.List;
+
+import static java.lang.Integer.parseInt;
 
 @RequiredArgsConstructor
 @RestController
@@ -67,35 +77,36 @@ public class TaskController {
         return new ResponseEntity<>("ERROR", HttpStatus.NOT_FOUND);
     }
 
-//    @GetMapping(
-//            path = "{userId}/{taskId}/files/{fileId}"
-//    )
-//    @Secured("ROLE_STUDENT")
-//    public ResponseEntity<Object>  getFileAssignedToUserTask(
-//            @PathVariable String userId,
-//            @PathVariable String taskId,
-//            @PathVariable String fileId) {
-//
-//
-//        InputStreamResource resource;
-//        try {
-//            File file = userTaskService.takeFileFromUserTask(userId, taskId, fileId);
-//
-//            resource = new InputStreamResource(new FileInputStream(file));
-//
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
-//            headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-//            headers.add("Pragma", "no-cache");
-//            headers.add("Expires", "0");
-//
-//            return ResponseEntity.ok().headers(headers).contentLength(file.length()).contentType(MediaType.parseMediaType("application/txt")).body(resource);
-//
-//        } catch (FileNotFoundException e) {
-//            return new ResponseEntity<>("error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//
-//    }
+    @GetMapping(
+            path = "{taskId}/files/{fileId}"
+    )
+    public ResponseEntity<Object>  getFileAssignedToUserTask(
+            @PathVariable String taskId,
+            @PathVariable String fileId,
+            Authentication authentication) {
+
+        System.out.println(authentication.getPrincipal().getClass());
+        User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
+
+        if (assigmentService.isTaskAssignedToUser(user.getId(), taskId)){
+            String filePath = taskService.getTaskFilesList(taskId).get(parseInt(fileId));
+            String fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
+            byte[] file = taskService.readTaskFile(taskId, filePath);
+            InputStreamResource resource;
+            resource = new InputStreamResource(new ByteArrayInputStream(file));
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", fileName));
+            headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+            headers.add("Pragma", "no-cache");
+            headers.add("Expires", "0");
+
+            return ResponseEntity.ok().headers(headers).contentLength(file.length).contentType(MediaType.parseMediaType("application/txt")).body(resource);
+
+        }
+
+        return new ResponseEntity<>("ERROR", HttpStatus.NOT_FOUND);
+
+    }
 //
 //    @PostMapping(
 //            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
