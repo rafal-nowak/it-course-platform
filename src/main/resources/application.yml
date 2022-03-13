@@ -26,7 +26,7 @@ spring:
 #spring.servlet.multipart.max-request-size=200KB
 local:
   folders:
-    baseWorkspace: ./workspaces/
+    baseWorkspace: workspaces/
   files:
     taskDefinition: /task_definition.yml
     taskSummaryResult: /test_results/test_summary.txt

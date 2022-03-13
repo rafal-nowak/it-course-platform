@@ -1,3 +1,84 @@
+POST http://localhost:8080/tasks/assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "userId": "622b230ff0150774ceba74c5",
+  "taskId": "1"
+}
+
+<> 2022-03-13T132408.200.json
+
+###
+
+POST http://localhost:8080/tasks/assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "userId": "622b230ff0150774ceba74c5",
+  "taskId": "1"
+}
+
+<> 2022-03-13T131917.200.json
+
+###
+
+POST http://localhost:8080/tasks/assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "userId": "622b230ff0150774ceba74c5",
+  "taskId": "1"
+}
+
+<> 2022-03-13T131647.403.json
+
+###
+
+GET http://localhost:8080/task-blueprints/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+<> 2022-03-13T131634.200.json
+
+###
+
+POST http://localhost:8080/tasks/assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "userId": "622b230ff0150774ceba74c5",
+  "taskId": "1"
+}
+
+<> 2022-03-13T131540.403.json
+
+###
+
+POST http://localhost:8080/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "email": "rafal@gmail.com",
+  "name": "Rafal Nowak",
+  "password": "userPass",
+  "roles": ["STUDENT"]
+}
+
+<> 2022-03-13T131501.409.json
+
+###
+
 GET http://localhost:8080/tasks/622b89e08d175933ad1be4e8/files
 Accept: application/json
 Content-Type: application/json
@@ -499,81 +580,6 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkL
 }
 
 <> 2022-02-22T204959.200.json
-
-###
-
-POST http://localhost:8080/users
-Accept: application/json
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQ1NTYxMTc0LCJyb2wiOlsiQURNSU4iXX0.bVPr7_vqDSWrPhtKoYwv_Pgh9e2gAM1jYM42LenTrPZ4mD9te_q6yRjuGTA3FUYNGj5KhAnc3ZFoEXFHDZY7Wg
-
-{
-  "email": "rafal@gmail.com",
-  "name": "Rafal Nowak",
-  "password": "userPass",
-  "roles": ["STUDENT"]
-}
-
-###
-
-POST http://localhost:8080/login
-Accept: application/json
-Content-Type: application/json
-
-{
-  "email": "jan@example.com",
-  "password": "MyPassword"
-}
-
-###
-
-GET http://localhost:8080/users/62153a13f950e5309113dc04
-Accept: application/json
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQ1NTYwMDI4LCJyb2wiOlsiQURNSU4iXX0.CUkby2_F7pAn8rBIqpvR8jUMhOs-Fe1iOuAFx2VTskPJPWRJcx738flsxlH3QLYBPw6S-8rPe1JaoVQ8zJK0Mw
-
-<> 2022-02-22T203143.200.json
-
-###
-
-POST http://localhost:8080/users
-Accept: application/json
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQ1NTYwMDI4LCJyb2wiOlsiQURNSU4iXX0.CUkby2_F7pAn8rBIqpvR8jUMhOs-Fe1iOuAFx2VTskPJPWRJcx738flsxlH3QLYBPw6S-8rPe1JaoVQ8zJK0Mw
-
-{
-  "email": "rafal@gmail.com",
-  "name": "Rafal Nowak",
-  "password": "userPass",
-  "roles": ["STUDENT"]
-}
-
-<> 2022-02-22T203132.200.json
-
-###
-
-POST http://localhost:8080/users
-Accept: application/json
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQ1NTYwMDI4LCJyb2wiOlsiQURNSU4iXX0.CUkby2_F7pAn8rBIqpvR8jUMhOs-Fe1iOuAFx2VTskPJPWRJcx738flsxlH3QLYBPw6S-8rPe1JaoVQ8zJK0Mw
-
-{
-  "email": "rafal@gmail.com",
-  "name": "Rafal Nowak",
-  "password": "userPass",
-  "roles": ["STUDENT"]
-}
-
-###
-
-POST http://localhost:8080/login
-Accept: application/json
-Content-Type: application/json
-
-{
-  "email": "jan@example.com",
-  "password": "MyPassword"
-}
 
 ###
 
