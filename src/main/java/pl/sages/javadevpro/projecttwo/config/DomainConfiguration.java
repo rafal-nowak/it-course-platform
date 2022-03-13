@@ -15,8 +15,8 @@ import pl.sages.javadevpro.projecttwo.domain.task.Workspace;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.external.env.TaskEnvAdapter;
-import pl.sages.javadevpro.projecttwo.external.env.kafka.KafkaUserTaskEnv;
-import pl.sages.javadevpro.projecttwo.external.env.usertask.UserTaskEnvMapper;
+import pl.sages.javadevpro.projecttwo.external.env.kafka.KafkaTaskEnv;
+import pl.sages.javadevpro.projecttwo.external.env.task.TaskEnvMapper;
 import pl.sages.javadevpro.projecttwo.external.storage.assigment.AssigmentEntityMapper;
 import pl.sages.javadevpro.projecttwo.external.storage.assigment.AssigmentMongoRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.assigment.AssigmentStorageAdapter;
@@ -55,9 +55,9 @@ public class DomainConfiguration {
         return new TaskBlueprintService(taskBlueprintRepository);
     }
 
-    @Bean
-    public TaskExecutor userTaskExecutor(KafkaUserTaskEnv userTaskExecutor, UserTaskEnvMapper userTaskExecMapper){
-        return new TaskEnvAdapter(userTaskExecutor, userTaskExecMapper);}
+//    @Bean
+//    public TaskExecutor userTaskExecutor(KafkaTaskEnv userTaskExecutor, TaskEnvMapper userTaskExecMapper){
+//        return new TaskEnvAdapter(userTaskExecutor, userTaskExecMapper);}
 
     @Bean
     public TaskRepository taskRepository(TaskMongoRepository taskMongoRepository, TaskEntityMapper mapper)  {
@@ -69,9 +69,10 @@ public class DomainConfiguration {
         @Value("${local.files.taskSummaryResult}") String resultFile,
         TaskRepository taskRepository,
         Workspace workspace,
-        TaskBlueprintService taskBlueprintService
+        TaskBlueprintService taskBlueprintService,
+        TaskExecutor taskExecutor
     )  {
-        return new TaskService(taskRepository, workspace, taskBlueprintService, resultFile);
+        return new TaskService(taskRepository, workspace, taskBlueprintService, taskExecutor, resultFile);
     }
 
     @Bean
@@ -92,5 +93,9 @@ public class DomainConfiguration {
     ) {
         return new WorkspaceService(baseWorkspace, definitionFile, resultFile);
     }
+
+    @Bean
+    public TaskExecutor taskExecutor1(KafkaTaskEnv kafkaTaskEnv){
+        return new TaskEnvAdapter(kafkaTaskEnv);}
 
 }

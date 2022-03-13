@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Set;
@@ -46,7 +47,10 @@ public class WorkspaceService implements Workspace {
         }
         unlinkRemotes(git);
         git.close();
-        return destinationPath;
+
+        Path currentRelativePath = Paths.get(destinationPath);
+        String absoluteDestinationPath = currentRelativePath.toAbsolutePath().toString();
+        return absoluteDestinationPath;
     }
 
     @Override

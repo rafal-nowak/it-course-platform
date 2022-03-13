@@ -30,7 +30,7 @@ Content-Type: application/json
 Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
 {
-  "userId": "622babb5634bd02ec28a5c87",
+  "userId": "622b230ff0150774ceba74c5",
   "taskId": "1"
 }
 

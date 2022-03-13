@@ -8,9 +8,16 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import pl.sages.javadevpro.projecttwo.api.usertask.*;
+import pl.sages.javadevpro.projecttwo.api.usertask.ListOfFilesResponse;
+import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.domain.assigment.AssigmentService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
@@ -19,11 +26,7 @@ import pl.sages.javadevpro.projecttwo.external.workspace.WorkspaceService;
 import pl.sages.javadevpro.projecttwo.security.UserPrincipal;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
@@ -49,14 +52,24 @@ public class TaskController {
         return ResponseEntity.ok(new MessageResponse("OK", "Task assigned to user"));
     }
 
-//    @PostMapping("/run")
-//    @Secured("ROLE_STUDENT")
-//    public ResponseEntity<String> post(@RequestBody RunSolutionRequest runSolutionRequest) {
-//        String taskStatus = userTaskService
-//                .exec(runSolutionRequest.getUserEmail(), runSolutionRequest.getTaskId());
-//
-//        return ResponseEntity.ok(taskStatus);
-//    }
+    @PostMapping(
+            path = "{taskId}/run"
+    )
+    public ResponseEntity<Object>  postRun(
+            @PathVariable String taskId,
+            Authentication authentication) {
+
+        System.out.println(authentication.getPrincipal().getClass());
+        User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
+
+        if (assigmentService.isTaskAssignedToUser(user.getId(), taskId)){
+            String taskStatus = taskService.execute(taskId);
+            return ResponseEntity.ok(taskStatus);
+        }
+
+        return new ResponseEntity<>("ERROR", HttpStatus.NOT_FOUND);
+    }
+
 
     @GetMapping(
             produces = "application/json",

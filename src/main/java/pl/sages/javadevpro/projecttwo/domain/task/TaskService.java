@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import static pl.sages.javadevpro.projecttwo.domain.task.TaskStatus.NOT_STARTED;
+import static pl.sages.javadevpro.projecttwo.domain.task.TaskStatus.SUBMITTED;
 
 @RequiredArgsConstructor
 public class TaskService {
@@ -11,7 +12,16 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final Workspace taskWorkspace;
     private final TaskBlueprintService taskBlueprintService;
+    private final TaskExecutor taskExecutor;
     private final String resultFilePath;
+
+    public String execute(String taskId) {
+        updateTaskStatus(taskId, SUBMITTED);
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(TaskNotFoundException::new);
+        taskExecutor.exec(task);
+        return task.getStatus().toString();
+    }
 
     public List<String> getTaskFilesList(String taskId) {
         var workspacePath = getWorkspacePath(taskId);
