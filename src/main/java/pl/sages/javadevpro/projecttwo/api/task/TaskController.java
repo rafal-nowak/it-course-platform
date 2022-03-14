@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import pl.sages.javadevpro.projecttwo.api.task.dto.CommandName;
+import pl.sages.javadevpro.projecttwo.api.task.dto.TaskControllerCommand;
 import pl.sages.javadevpro.projecttwo.api.usertask.ListOfFilesResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.domain.assigment.AssigmentService;
@@ -52,22 +54,26 @@ public class TaskController {
         return ResponseEntity.ok(new MessageResponse("OK", "Task assigned to user"));
     }
 
+
     @PostMapping(
-            path = "{taskId}/run"
+            path = "{taskId}/commands"
     )
-    public ResponseEntity<Object>  postRun(
+    public ResponseEntity<Object> taskCommand(
+            @RequestBody TaskControllerCommand taskControllerCommand,
             @PathVariable String taskId,
             Authentication authentication) {
 
         System.out.println(authentication.getPrincipal().getClass());
         User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
-
         if (assigmentService.isTaskAssignedToUser(user.getId(), taskId)){
-            String taskStatus = taskService.execute(taskId);
-            return ResponseEntity.ok(taskStatus);
+            if(taskControllerCommand.getCommandName().equals(CommandName.EXECUTE)){
+                String taskStatus = taskService.execute(taskId);
+                return new ResponseEntity<>("Task "  + taskId + " executed, status: " + taskStatus, HttpStatus.OK);
+            }
         }
 
         return new ResponseEntity<>("ERROR", HttpStatus.NOT_FOUND);
+
     }
 
 
