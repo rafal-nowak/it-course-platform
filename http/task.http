@@ -39,3 +39,14 @@ GET http://localhost:8080/tasks/622b89e08d175933ad1be4e8/files
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+
+### Wyślij task
+POST http://localhost:8080/tasks/622b89e08d175933ad1be4e8/commands
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+{
+  "commandName": "EXECUTE"
+}

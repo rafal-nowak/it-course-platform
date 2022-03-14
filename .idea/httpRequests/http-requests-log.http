@@ -1,3 +1,42 @@
+POST http://localhost:8080/tasks/622b89e08d175933ad1be4e8/commands
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+{
+  "commandName": "EXECUTE"
+}
+
+<> 2022-03-14T090954.200.json
+
+###
+
+POST http://localhost:8080/tasks/622b89e08d175933ad1be4e8/commands
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+{
+  "commandName": "EXECUTE"
+}
+
+<> 2022-03-14T090132.500.json
+
+###
+
+POST http://localhost:8080/tasks/622b89e08d175933ad1be4e8/commands
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+{
+  "commandName": "EXECUTE"
+}
+
+<> 2022-03-14T085351.200.json
+
+###
+
 POST http://localhost:8080/tasks/assign
 Accept: application/json
 Content-Type: application/json
@@ -546,40 +585,6 @@ Content-Type: application/json
 Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
 <> f-2.txt
-
-###
-
-GET http://localhost:8080/users/me
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
-
-<> 2022-03-11T122113.200.json
-
-###
-
-GET http://localhost:8080/users/62153e676b1e1d4a83869468
-Accept: application/json
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQ1NTYxMTc0LCJyb2wiOlsiQURNSU4iXX0.bVPr7_vqDSWrPhtKoYwv_Pgh9e2gAM1jYM42LenTrPZ4mD9te_q6yRjuGTA3FUYNGj5KhAnc3ZFoEXFHDZY7Wg
-
-<> 2022-02-22T205009.200.json
-
-###
-
-POST http://localhost:8080/users
-Accept: application/json
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmVkLWFwaSIsImF1ZCI6InNlY3VyZWQtYXBwIiwic3ViIjoiamFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjQ1NTYxMTc0LCJyb2wiOlsiQURNSU4iXX0.bVPr7_vqDSWrPhtKoYwv_Pgh9e2gAM1jYM42LenTrPZ4mD9te_q6yRjuGTA3FUYNGj5KhAnc3ZFoEXFHDZY7Wg
-
-{
-  "email": "rafal@gmail.com",
-  "name": "Rafal Nowak",
-  "password": "userPass",
-  "roles": ["STUDENT"]
-}
-
-<> 2022-02-22T204959.200.json
 
 ###
 
