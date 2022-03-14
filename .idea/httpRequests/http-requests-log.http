@@ -7,6 +7,32 @@ Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
   "commandName": "EXECUTE"
 }
 
+<> 2022-03-14T115053.200.json
+
+###
+
+POST http://localhost:8080/tasks/622b89e08d175933ad1be4e8/commands
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+{
+  "commandName": "EXECUTE"
+}
+
+<> 2022-03-14T114933.200.json
+
+###
+
+POST http://localhost:8080/tasks/622b89e08d175933ad1be4e8/commands
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+{
+  "commandName": "EXECUTE"
+}
+
 <> 2022-03-14T090954.200.json
 
 ###
@@ -567,24 +593,6 @@ Content-Type: application/json
 Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
 <> 2022-03-11T122552.200.json
-
-###
-
-GET http://localhost:8080/users/622b230ff0150774ceba74c5
-Accept: application/json
-Content-Type: application/json
-Authorization: {{auth_token}}
-
-<> 2022-03-11T122522.200.json
-
-###
-
-GET http://localhost:8080/users/jan@example.com
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-<> f-2.txt
 
 ###
 

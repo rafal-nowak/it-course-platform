@@ -64,6 +64,11 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
+    public TaskStatus getTaskStatus(String taskId) {
+        Task task = findTaskById(taskId);
+        return task.getStatus();
+    }
+
     private Task findTaskById(String taskId) {
         return taskRepository.findById(taskId)
                 .orElseThrow(TaskNotFoundException::new);
