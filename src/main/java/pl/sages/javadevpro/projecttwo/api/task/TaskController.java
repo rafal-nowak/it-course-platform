@@ -22,6 +22,7 @@ import pl.sages.javadevpro.projecttwo.api.usertask.ListOfFilesResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.domain.assigment.AssigmentService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskService;
+import pl.sages.javadevpro.projecttwo.domain.task.TaskStatus;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.external.workspace.WorkspaceService;
@@ -144,6 +145,11 @@ public class TaskController {
         User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
 
         if (assigmentService.isTaskAssignedToUser(user.getId(), taskId)){
+
+            if (taskService.getTaskStatus(taskId).equals(TaskStatus.SUBMITTED)) {
+                return new ResponseEntity<>("The File Upload Failed. The Task was sent to ENV.", HttpStatus.METHOD_NOT_ALLOWED);
+            }
+
             try {
                 byte[] bytes = file.getBytes();
                 String filePath = taskService.getTaskFilesList(taskId).get(parseInt(fileId));
