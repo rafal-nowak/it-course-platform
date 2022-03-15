@@ -8,9 +8,11 @@ import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.TestUserFactory;
 import pl.sages.javadevpro.projecttwo.api.user.UserDto;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
+import pl.sages.javadevpro.projecttwo.domain.user.UserRole;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -161,7 +163,7 @@ class UserControllerIT extends BaseIT {
                 "email@email.com",
                 "newPerson",
                 "newpassword",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         String adminAccessToken = getTokenForAdmin();
 
@@ -181,7 +183,7 @@ class UserControllerIT extends BaseIT {
         assertEquals(toUpdate.getEmail(), body.getEmail());
         assertEquals(toUpdate.getName(), body.getName());
         assertEquals("######", body.getPassword());
-        assertEquals(toUpdate.getRoles(), body.getRoles());
+        assertEquals(toUpdate.getRoles().stream().map(UserRole::getValue).collect(Collectors.toList()), body.getRoles());
     }
 
     @Test
@@ -211,7 +213,7 @@ class UserControllerIT extends BaseIT {
                 "otherUser@email.com",
                 "Person",
                 "password",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
         );
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
