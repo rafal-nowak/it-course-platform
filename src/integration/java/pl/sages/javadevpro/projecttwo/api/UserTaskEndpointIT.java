@@ -71,6 +71,7 @@ class UserTaskEndpointIT extends BaseIT {
 
         //then
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertNotNull(messageResponse);
         Assertions.assertEquals("OK", messageResponse.getStatus());
         Assertions.assertEquals("Task assigned to user", messageResponse.getMessage());
 
@@ -125,6 +126,7 @@ class UserTaskEndpointIT extends BaseIT {
 
         //then
         Assertions.assertEquals(HttpStatus.OK, responseAssignTask.getStatusCode());
+        Assertions.assertNotNull(messageResponse);
         Assertions.assertEquals("OK", messageResponse.getStatus());
         Assertions.assertEquals("Task assigned to user", messageResponse.getMessage());
 
@@ -136,6 +138,7 @@ class UserTaskEndpointIT extends BaseIT {
         ArrayList<String> expectedFileList = new ArrayList<>();
         expectedFileList.add("src/task.py");
         Assertions.assertEquals(HttpStatus.OK, responseListOfFiles.getStatusCode());
+        Assertions.assertNotNull(listOfFilesResponse);
         Assertions.assertEquals("OK", listOfFilesResponse.getStatus());
         Assertions.assertEquals(expectedFileList, listOfFilesResponse.getFiles());
 

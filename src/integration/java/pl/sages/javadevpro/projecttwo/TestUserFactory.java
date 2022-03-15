@@ -1,6 +1,7 @@
 package pl.sages.javadevpro.projecttwo;
 
 import pl.sages.javadevpro.projecttwo.domain.user.User;
+import pl.sages.javadevpro.projecttwo.domain.user.UserRole;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class TestUserFactory {
                 "newUser" + userSequence + "@example.com",
                 "User Name " + userSequence,
                 "password",
-                List.of("STUDENT")
+                List.of(UserRole.STUDENT)
                 );
     }
 
