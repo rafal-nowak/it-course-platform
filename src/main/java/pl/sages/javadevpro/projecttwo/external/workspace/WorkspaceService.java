@@ -33,7 +33,7 @@ public class WorkspaceService implements Workspace {
 
     @Override
     public String createWorkspace(String sourceRepositoryUrl) {
-        String absoluteDestinationPath = crateDirectory();
+        String absoluteDestinationPath = crateDirectoryPath();
         cloneRepository(sourceRepositoryUrl, absoluteDestinationPath);
         return absoluteDestinationPath;
     }
@@ -108,10 +108,9 @@ public class WorkspaceService implements Workspace {
         });
     }
 
-    private String crateDirectory() {
-        File baseDirectory = new File(baseWorkspace);
-        File generatedDirectory = new File(baseDirectory, UUID.randomUUID().toString());
-        return generatedDirectory.getAbsolutePath();
+    private String crateDirectoryPath() {
+        Path generatedDirectoryPath = java.nio.file.Paths.get(".", baseWorkspace, UUID.randomUUID().toString());
+        return generatedDirectoryPath.toAbsolutePath().toString();
     }
 
     private void cloneRepository(String sourceRepositoryUrl, String destinationPath){
