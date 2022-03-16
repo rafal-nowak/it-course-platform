@@ -1,7 +1,6 @@
 package pl.sages.javadevpro.projecttwo.api.task;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,11 +24,8 @@ import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.security.UserPrincipal;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
-
-import static java.lang.Integer.parseInt;
 
 @RequiredArgsConstructor
 @RestController
@@ -113,11 +109,8 @@ public class TaskController {
         try {
             byte[] bytes = file.getBytes();
             String filePath = taskService.getTaskFilesList(taskId).get(fileId);
-
             taskService.writeTaskFile(taskId, filePath, bytes);
-
             taskService.commitTaskChanges(taskId);
-
         } catch (IOException e) {
             return new ResponseEntity<>("The File Upload Failed", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -134,8 +127,10 @@ public class TaskController {
             Authentication authentication) {
 
         verifyThatUserIsAuthorizedToThisTask(taskId, authentication);
-        String resultSummary = new String(taskService.readTaskResults(taskId));
-        return ResponseEntity.ok(resultSummary);
+        String fileName = "task_results.txt";
+        byte[] file = taskService.readTaskResults(taskId);
+        HttpHeaders headers = prepareHttpHeadersForFileResponse(fileName);
+        return ResponseEntity.ok().headers(headers).contentLength(file.length).contentType(MediaType.parseMediaType("application/txt")).body(file);
 
     }
 
