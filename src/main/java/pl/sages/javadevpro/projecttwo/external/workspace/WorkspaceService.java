@@ -32,24 +32,9 @@ public class WorkspaceService implements Workspace {
     private final String taskSummaryResult;
 
     @Override
-    @SneakyThrows(GitAPIException.class)
     public String createWorkspace(String sourceRepositoryUrl) {
-        String destinationPath = baseWorkspace + UUID.randomUUID();
-        File repo = new File(destinationPath);
-        Git git;
-        try {
-            git = Git.cloneRepository()
-                    .setURI(sourceRepositoryUrl)
-                    .setDirectory(repo)
-                    .call();
-        } catch (JGitInternalException e) {
-            throw new RepositoryAlreadyResidesInDestinationFolderException("Repository already resides in destination folder.", e);
-        }
-        unlinkRemotes(git);
-        git.close();
-
-        Path currentRelativePath = Paths.get(destinationPath);
-        String absoluteDestinationPath = currentRelativePath.toAbsolutePath().toString();
+        String absoluteDestinationPath = crateDirectory();
+        cloneRepository(sourceRepositoryUrl, absoluteDestinationPath);
         return absoluteDestinationPath;
     }
 
@@ -121,5 +106,26 @@ public class WorkspaceService implements Workspace {
                 e.printStackTrace();
             }
         });
+    }
+
+    private String crateDirectory() {
+        File baseDirectory = new File(baseWorkspace);
+        File generatedDirectory = new File(baseDirectory, UUID.randomUUID().toString());
+        return generatedDirectory.getAbsolutePath();
+    }
+
+    private void cloneRepository(String sourceRepositoryUrl, String destinationPath){
+        File repo = new File(destinationPath);
+        Git git;
+        try {
+            git = Git.cloneRepository()
+                    .setURI(sourceRepositoryUrl)
+                    .setDirectory(repo)
+                    .call();
+        } catch (JGitInternalException | GitAPIException e) {
+            throw new RepositoryAlreadyResidesInDestinationFolderException("Repository already resides in destination folder.", e);
+        }
+        unlinkRemotes(git);
+        git.close();
     }
 }
