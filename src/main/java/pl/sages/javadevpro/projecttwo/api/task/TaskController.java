@@ -90,11 +90,7 @@ public class TaskController {
         byte[] file = taskService.readTaskFile(taskId, filePath);
         InputStreamResource resource;
         resource = new InputStreamResource(new ByteArrayInputStream(file));
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", fileName));
-        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-        headers.add("Pragma", "no-cache");
-        headers.add("Expires", "0");
+        HttpHeaders headers = prepareHttpHeadersForFileResponse(fileName);
         return ResponseEntity.ok().headers(headers).contentLength(file.length).contentType(MediaType.parseMediaType("application/txt")).body(resource);
 
     }
@@ -153,5 +149,14 @@ public class TaskController {
             return;
         }
         throw new UserIsNotAuthorizedToThisTaskException("User is not authorized to this task.");
+    }
+
+    private HttpHeaders prepareHttpHeadersForFileResponse (String fileName) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", fileName));
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+        return headers;
     }
 }
