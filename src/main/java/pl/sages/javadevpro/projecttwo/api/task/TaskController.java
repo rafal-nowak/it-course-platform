@@ -6,7 +6,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.sages.javadevpro.projecttwo.api.task.dto.CommandName;
 import pl.sages.javadevpro.projecttwo.api.task.dto.TaskControllerCommand;
 import pl.sages.javadevpro.projecttwo.api.usertask.ListOfFilesResponse;
-import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.domain.assigment.AssigmentService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskStatus;
@@ -51,15 +49,11 @@ public class TaskController {
             @PathVariable String taskId,
             Authentication authentication) {
 
-        System.out.println(authentication.getPrincipal().getClass());
-        User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
-        if (assigmentService.isTaskAssignedToUser(user.getId(), taskId)){
-            if(taskControllerCommand.getCommandName().equals(CommandName.EXECUTE)){
-                String taskStatus = taskService.execute(taskId);
-                return new ResponseEntity<>("Task "  + taskId + " executed, status: " + taskStatus, HttpStatus.OK);
-            }
+        verifyThatUserIsAuthorizedToThisTask(taskId, authentication);
+        if (taskControllerCommand.getCommandName().equals(CommandName.EXECUTE)) {
+            String taskStatus = taskService.execute(taskId);
+            return new ResponseEntity<>("Task " + taskId + " executed, status: " + taskStatus, HttpStatus.OK);
         }
-
         return new ResponseEntity<>("ERROR", HttpStatus.NOT_FOUND);
 
     }
@@ -70,50 +64,38 @@ public class TaskController {
             consumes = "application/json",
             path = "{taskId}/files"
     )
-    public ResponseEntity<Object>  getFilesAssignedToUserTask(
+    public ResponseEntity<Object> getFilesAssignedToUserTask(
             @PathVariable String taskId,
             Authentication authentication) {
 
-        System.out.println(authentication.getPrincipal().getClass());
-        User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
-        List<String> listOfFiles = null;
-        if (assigmentService.isTaskAssignedToUser(user.getId(), taskId)){
-            listOfFiles = taskService.getTaskFilesList(taskId);
-            return ResponseEntity.ok(new ListOfFilesResponse(
-                    "OK",
-                    listOfFiles));
-        }
-        return new ResponseEntity<>("ERROR", HttpStatus.NOT_FOUND);
+        verifyThatUserIsAuthorizedToThisTask(taskId, authentication);
+        List<String> listOfFiles = taskService.getTaskFilesList(taskId);
+        return ResponseEntity.ok(new ListOfFilesResponse(
+                "OK",
+                listOfFiles));
+
     }
 
     @GetMapping(
             path = "{taskId}/files/{fileId}"
     )
-    public ResponseEntity<Object>  getFileAssignedToUserTask(
+    public ResponseEntity<Object> getFileAssignedToUserTask(
             @PathVariable String taskId,
             @PathVariable String fileId,
             Authentication authentication) {
 
-        System.out.println(authentication.getPrincipal().getClass());
-        User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
-
-        if (assigmentService.isTaskAssignedToUser(user.getId(), taskId)){
-            String filePath = taskService.getTaskFilesList(taskId).get(parseInt(fileId));
-            String fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
-            byte[] file = taskService.readTaskFile(taskId, filePath);
-            InputStreamResource resource;
-            resource = new InputStreamResource(new ByteArrayInputStream(file));
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", fileName));
-            headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-            headers.add("Pragma", "no-cache");
-            headers.add("Expires", "0");
-
-            return ResponseEntity.ok().headers(headers).contentLength(file.length).contentType(MediaType.parseMediaType("application/txt")).body(resource);
-
-        }
-
-        return new ResponseEntity<>("ERROR", HttpStatus.NOT_FOUND);
+        verifyThatUserIsAuthorizedToThisTask(taskId, authentication);
+        String filePath = taskService.getTaskFilesList(taskId).get(parseInt(fileId));
+        String fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
+        byte[] file = taskService.readTaskFile(taskId, filePath);
+        InputStreamResource resource;
+        resource = new InputStreamResource(new ByteArrayInputStream(file));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", fileName));
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+        return ResponseEntity.ok().headers(headers).contentLength(file.length).contentType(MediaType.parseMediaType("application/txt")).body(resource);
 
     }
 
@@ -121,56 +103,55 @@ public class TaskController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             path = "{taskId}/files/{fileId}"
     )
-    public ResponseEntity<Object>  postFileAssignedToUserTask(
+    public ResponseEntity<Object> postFileAssignedToUserTask(
             @RequestParam("file") MultipartFile file,
             @PathVariable String taskId,
             @PathVariable int fileId,
             Authentication authentication
-            ) {
+    ) {
 
-        System.out.println(authentication.getPrincipal().getClass());
-        User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
+        verifyThatUserIsAuthorizedToThisTask(taskId, authentication);
 
-        if (assigmentService.isTaskAssignedToUser(user.getId(), taskId)){
-
-            if (taskService.getTaskStatus(taskId).equals(TaskStatus.SUBMITTED)) {
-                return new ResponseEntity<>("The File Upload Failed. The Task was sent to ENV.", HttpStatus.METHOD_NOT_ALLOWED);
-            }
-
-            try {
-                byte[] bytes = file.getBytes();
-                String filePath = taskService.getTaskFilesList(taskId).get(fileId);
-
-                taskService.writeTaskFile(taskId, filePath, bytes);
-
-                taskService.commitTaskChanges(taskId);
-
-            } catch (IOException e) {
-                return new ResponseEntity<>("The File Upload Failed", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-
-            return new ResponseEntity<>("The File Uploaded Successfully", HttpStatus.OK);
+        if (taskService.getTaskStatus(taskId).equals(TaskStatus.SUBMITTED)) {
+            return new ResponseEntity<>("The File Upload Failed. The Task was sent to ENV.", HttpStatus.METHOD_NOT_ALLOWED);
         }
 
-        return new ResponseEntity<>("ERROR", HttpStatus.NOT_FOUND);
+        try {
+            byte[] bytes = file.getBytes();
+            String filePath = taskService.getTaskFilesList(taskId).get(fileId);
+
+            taskService.writeTaskFile(taskId, filePath, bytes);
+
+            taskService.commitTaskChanges(taskId);
+
+        } catch (IOException e) {
+            return new ResponseEntity<>("The File Upload Failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>("The File Uploaded Successfully", HttpStatus.OK);
 
     }
 
     @GetMapping(
             path = "{taskId}/results"
     )
-    public ResponseEntity<Object>  getUserTaskResult(
+    public ResponseEntity<Object> getUserTaskResult(
             @PathVariable String taskId,
             Authentication authentication) {
 
+        verifyThatUserIsAuthorizedToThisTask(taskId, authentication);
+        String resultSummary = new String(taskService.readTaskResults(taskId));
+        return ResponseEntity.ok(resultSummary);
+
+    }
+
+    private void verifyThatUserIsAuthorizedToThisTask(String taskId, Authentication authentication) {
         System.out.println(authentication.getPrincipal().getClass());
         User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
 
-        if (assigmentService.isTaskAssignedToUser(user.getId(), taskId)){
-            String resultSummary = new String(taskService.readTaskResults(taskId));
-            return ResponseEntity.ok(resultSummary);
+        if (assigmentService.isTaskAssignedToUser(user.getId(), taskId)) {
+            return;
         }
-
-        return new ResponseEntity<>("ERROR", HttpStatus.NOT_FOUND);
+        throw new UserIsNotAuthorizedToThisTaskException("User is not authorized to this task.");
     }
 }
