@@ -25,7 +25,6 @@ import pl.sages.javadevpro.projecttwo.domain.task.TaskService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskStatus;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
-import pl.sages.javadevpro.projecttwo.external.workspace.WorkspaceService;
 import pl.sages.javadevpro.projecttwo.security.UserPrincipal;
 
 import java.io.ByteArrayInputStream;
@@ -40,20 +39,8 @@ import static java.lang.Integer.parseInt;
 public class TaskController {
 
     private final AssigmentService assigmentService;
-    private final WorkspaceService workspaceService;
     private final UserService userService;
     private final TaskService taskService;
-
-    @PostMapping(
-            path = "/assign",
-            produces = "application/json",
-            consumes = "application/json"
-    )
-    @Secured("ROLE_ADMIN")
-    public ResponseEntity<MessageResponse> assignTaskToUser(@RequestBody AssigmentRequest assigmentRequest) {
-        assigmentService.assignNewTask(assigmentRequest.getUserId(), assigmentRequest.getTaskId());
-        return ResponseEntity.ok(new MessageResponse("OK", "Task assigned to user"));
-    }
 
 
     @PostMapping(
@@ -137,7 +124,7 @@ public class TaskController {
     public ResponseEntity<Object>  postFileAssignedToUserTask(
             @RequestParam("file") MultipartFile file,
             @PathVariable String taskId,
-            @PathVariable String fileId,
+            @PathVariable int fileId,
             Authentication authentication
             ) {
 
@@ -152,7 +139,7 @@ public class TaskController {
 
             try {
                 byte[] bytes = file.getBytes();
-                String filePath = taskService.getTaskFilesList(taskId).get(parseInt(fileId));
+                String filePath = taskService.getTaskFilesList(taskId).get(fileId);
 
                 taskService.writeTaskFile(taskId, filePath, bytes);
 
