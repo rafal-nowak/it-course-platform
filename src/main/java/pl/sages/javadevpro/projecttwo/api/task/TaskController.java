@@ -81,11 +81,11 @@ public class TaskController {
     )
     public ResponseEntity<Object> getFileAssignedToUserTask(
             @PathVariable String taskId,
-            @PathVariable String fileId,
+            @PathVariable int fileId,
             Authentication authentication) {
 
         verifyThatUserIsAuthorizedToThisTask(taskId, authentication);
-        String filePath = taskService.getTaskFilesList(taskId).get(parseInt(fileId));
+        String filePath = taskService.getTaskFilesList(taskId).get(fileId);
         String fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
         byte[] file = taskService.readTaskFile(taskId, filePath);
         HttpHeaders headers = prepareHttpHeadersForFileResponse(fileName);
