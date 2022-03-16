@@ -30,7 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/users/**").hasRole("ADMIN")
             .mvcMatchers("/task-blueprints").hasRole("ADMIN")
             .mvcMatchers("/task-blueprints/*").hasAnyRole("ADMIN", "STUDENT")
-            .antMatchers( "/tasks/assign").hasRole("ADMIN")
+            .antMatchers( "/assign").hasRole("ADMIN")
             .antMatchers("/tasks/**").hasRole("STUDENT")
             .and()
             .httpBasic();

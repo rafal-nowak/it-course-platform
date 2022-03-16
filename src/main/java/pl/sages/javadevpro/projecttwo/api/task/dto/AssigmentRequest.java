@@ -1,4 +1,4 @@
-package pl.sages.javadevpro.projecttwo.api.task;
+package pl.sages.javadevpro.projecttwo.api.task.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

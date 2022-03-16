@@ -24,7 +24,7 @@ Content-Type: application/json
 Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
 ### assign taskBlueprint to user
-POST http://localhost:8080/tasks/assign
+POST http://localhost:8080/assign
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=

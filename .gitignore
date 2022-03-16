@@ -41,6 +41,7 @@ out/
 /userTasks/
 /testRepo/
 /workspaces/
+/workspaces/*
 *.txt
 *.png
 *.svg
