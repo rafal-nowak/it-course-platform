@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import pl.sages.javadevpro.projecttwo.api.task.UserIsNotAuthorizedToThisTaskException;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
 import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
@@ -51,6 +52,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     public final ResponseEntity<MessageResponse> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
+                .body(new MessageResponse("ERROR", ex.getMessage()));
+    }
+
+    @ExceptionHandler(UserIsNotAuthorizedToThisTaskException.class)
+    public final ResponseEntity<MessageResponse> handleUserIsNotAuthorizedToThisTaskException(UserIsNotAuthorizedToThisTaskException ex) {
+        return ResponseEntity
+                .status(HttpStatus.METHOD_NOT_ALLOWED)
                 .body(new MessageResponse("ERROR", ex.getMessage()));
     }
 }
