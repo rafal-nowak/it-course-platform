@@ -88,10 +88,8 @@ public class TaskController {
         String filePath = taskService.getTaskFilesList(taskId).get(parseInt(fileId));
         String fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
         byte[] file = taskService.readTaskFile(taskId, filePath);
-        InputStreamResource resource;
-        resource = new InputStreamResource(new ByteArrayInputStream(file));
         HttpHeaders headers = prepareHttpHeadersForFileResponse(fileName);
-        return ResponseEntity.ok().headers(headers).contentLength(file.length).contentType(MediaType.parseMediaType("application/txt")).body(resource);
+        return ResponseEntity.ok().headers(headers).contentLength(file.length).contentType(MediaType.parseMediaType("application/txt")).body(file);
 
     }
 
