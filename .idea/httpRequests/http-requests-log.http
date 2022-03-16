@@ -1,3 +1,17 @@
+POST http://localhost:8080/assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "userId": "622b230ff0150774ceba74c5",
+  "taskId": "1"
+}
+
+<> 2022-03-16T233032.200.json
+
+###
+
 GET http://localhost:8080/tasks/6231f42225512057f5b86b76/files
 Accept: application/json
 Content-Type: application/json
@@ -566,22 +580,6 @@ Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 }
 
 <> 2022-03-11T131745.409.json
-
-###
-
-POST http://localhost:8080/task-blueprints
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-{
-  "id": "1",
-  "name": "Python_1",
-  "description": "Description...",
-  "repositoryPath": "https://github.com/rafal-nowak/taskBlueprint1.git"
-}
-
-<> 2022-03-11T131722.200.json
 
 ###
 
