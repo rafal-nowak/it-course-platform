@@ -12,10 +12,11 @@ import pl.sages.javadevpro.projecttwo.external.env.task.TaskEnvMapper;
 public class TaskEnvAdapter implements TaskExecutor {
 
    private final KafkaTaskEnv taskExecutor;
+   private final TaskEnvMapper taskEnvMapper;
 
     @Override
     public void exec(Task task) {
-        taskExecutor.send(task);
+        taskExecutor.send(taskEnvMapper.toDto(task));
     }
 
 }

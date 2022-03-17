@@ -95,7 +95,7 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public TaskExecutor taskExecutor1(KafkaTaskEnv kafkaTaskEnv){
-        return new TaskEnvAdapter(kafkaTaskEnv);}
+    public TaskExecutor taskExecutor1(KafkaTaskEnv kafkaTaskEnv, TaskEnvMapper taskEnvMapper){
+        return new TaskEnvAdapter(kafkaTaskEnv, taskEnvMapper);}
 
 }
