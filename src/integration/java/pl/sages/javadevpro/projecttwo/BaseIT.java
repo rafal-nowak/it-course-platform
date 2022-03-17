@@ -1,6 +1,5 @@
 package pl.sages.javadevpro.projecttwo;
 
-import io.netty.handler.codec.base64.Base64Encoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +13,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import pl.sages.javadevpro.projecttwo.config.CredentialsDTO;
-import pl.sages.javadevpro.projecttwo.domain.user.UserRole;
-import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
+import pl.sages.javadevpro.projecttwo.domain.user.UserRole;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 
 import java.io.UnsupportedEncodingException;
