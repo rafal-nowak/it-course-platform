@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.TestUserFactory;
 import pl.sages.javadevpro.projecttwo.api.user.UserDto;
+import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRole;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;

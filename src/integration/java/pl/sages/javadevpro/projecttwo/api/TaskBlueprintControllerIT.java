@@ -8,10 +8,9 @@ import org.springframework.http.HttpStatus;
 import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.TestTaskBlueprintFactory;
 import pl.sages.javadevpro.projecttwo.TestUserFactory;
-import pl.sages.javadevpro.projecttwo.api.task.TaskBlueprintDto;
-import pl.sages.javadevpro.projecttwo.api.task.TaskBlueprintDtoMapper;
-import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.api.task.blueprint.TaskBlueprintDto;
+import pl.sages.javadevpro.projecttwo.api.task.blueprint.TaskBlueprintDtoMapper;
+import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprint;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
@@ -204,10 +203,7 @@ public class TaskBlueprintControllerIT extends BaseIT {
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         //and
         TaskBlueprintDto body = response.getBody();
-        Assertions.assertNotNull(body);
-        Assertions.assertEquals(taskBlueprint.getId(), body.getId());
-        Assertions.assertEquals(updatedTaskBlueprint.getName(), body.getName());
-        Assertions.assertEquals(updatedTaskBlueprint.getDescription(), body.getDescription());
+        Assertions.assertNull(body);
     }
 
     @Test
