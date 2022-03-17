@@ -65,18 +65,16 @@ public class WorkspaceService implements Workspace {
     public void writeFile(String rootPathUrl, String path, byte[] bytes) {
         String fullPath = java.nio.file.Paths.get(rootPathUrl, path).toString();
 
-        File file = new File(fullPath);
-        try(FileOutputStream fos = new FileOutputStream(file);){
-            fos.write(bytes);
+        try {
+            Files.write(Paths.get(fullPath), bytes);
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new FileWasNotFoundException("File was not found.");
+            throw new FileWasNotFoundException("File Was Not Found");
         }
     }
 
     @Override
     public byte[] readFile(String rootPathUrl, String path) {
-        String fullPath = rootPathUrl + "/" + path;
+        String fullPath = java.nio.file.Paths.get(rootPathUrl, path).toString();
 
         try {
           return Files.readAllBytes(Paths.get(fullPath));
