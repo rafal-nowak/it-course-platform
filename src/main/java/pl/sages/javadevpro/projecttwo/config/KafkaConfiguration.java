@@ -24,7 +24,7 @@ import java.util.Map;
 public class KafkaConfiguration {
 
     @Bean
-    public ProducerFactory<String, Task> taskProducerFactory() {
+    public ProducerFactory<String, TaskEnv> taskProducerFactory() {
         Map<String, Object> config = new HashMap<>();
 
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
@@ -36,12 +36,12 @@ public class KafkaConfiguration {
 
 
     @Bean
-    public KafkaTemplate<String, Task> taskKafkaTemplate() {
+    public KafkaTemplate<String, TaskEnv> taskKafkaTemplate() {
         return new KafkaTemplate<>(taskProducerFactory());
     }
 
     @Bean
-    public ConsumerFactory<String, Task> taskConsumerFactory() {
+    public ConsumerFactory<String, TaskEnv> taskConsumerFactory() {
         Map<String, Object> config = new HashMap<>();
 
 
@@ -53,18 +53,18 @@ public class KafkaConfiguration {
 
 
         return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(),
-                new JsonDeserializer<>(Task.class));
+                new JsonDeserializer<>(TaskEnv.class));
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, Task> taskKafkaListenerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, Task> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<String, TaskEnv> taskKafkaListenerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, TaskEnv> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(taskConsumerFactory());
         return factory;
     }
 
     @Bean
-    public KafkaTaskEnv kafkaUserTaskEnv(KafkaTemplate<String, Task> kafkaTemplate){
+    public KafkaTaskEnv kafkaUserTaskEnv(KafkaTemplate<String, TaskEnv> kafkaTemplate){
         return new KafkaTaskEnv(kafkaTemplate);
     }
 }

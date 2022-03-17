@@ -20,10 +20,12 @@ import java.util.List;
 public class KafkaConsumer {
 
     private final TaskService taskService;
+    private final TaskEnvMapper taskEnvMapper;
 
     @KafkaListener(topics = "Kafka_Task_Report_json", groupId = "group_json",
             containerFactory = "taskKafkaListenerFactory")
-    public void consumeJson(Task task) {
+    public void consumeJson(TaskEnv taskEnv) {
+        Task task = taskEnvMapper.toDomain(taskEnv);
         log.info("Consumed JSON Task: " + task);
         taskService.updateTaskStatus(task.getId(), task.getStatus());
 

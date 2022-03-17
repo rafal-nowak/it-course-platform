@@ -9,12 +9,12 @@ import pl.sages.javadevpro.projecttwo.external.env.task.TaskEnv;
 @AllArgsConstructor
  public class KafkaTaskEnv {
 
-    private KafkaTemplate<String, Task> kafkaTemplate;
+    private KafkaTemplate<String, TaskEnv> kafkaTemplate;
 
     private static final String TOPIC = "Kafka_Task_json";
 
-    public String send(Task task) {
-        kafkaTemplate.send(TOPIC, task);
+    public String send(TaskEnv taskEnv) {
+        kafkaTemplate.send(TOPIC, taskEnv);
 
         return "Task Send Successfully";
     }

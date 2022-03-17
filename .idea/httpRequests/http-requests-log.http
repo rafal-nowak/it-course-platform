@@ -1,3 +1,16 @@
+POST http://localhost:8080/tasks/6231f42225512057f5b86b76/commands
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+{
+  "commandName": "EXECUTE"
+}
+
+<> 2022-03-17T161600.200.json
+
+###
+
 GET http://localhost:8080/tasks/6231f42225512057f5b86b76/files
 Accept: application/json
 Content-Type: application/json
@@ -562,15 +575,6 @@ Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 }
 
 <> 2022-03-11T132115.404.json
-
-###
-
-GET http://localhost:8080/task-blueprints/1
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-<> 2022-03-11T131853.200.json
 
 ###
 
