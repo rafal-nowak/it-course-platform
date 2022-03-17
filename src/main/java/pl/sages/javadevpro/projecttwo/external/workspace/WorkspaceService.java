@@ -14,8 +14,10 @@ import pl.sages.javadevpro.projecttwo.external.directory.task.FileToBeDeliveredT
 import pl.sages.javadevpro.projecttwo.external.directory.task.TaskDefinition;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -61,16 +63,14 @@ public class WorkspaceService implements Workspace {
 
     @Override
     public void writeFile(String rootPathUrl, String path, byte[] bytes) {
-        String fullPath = rootPathUrl + "/" + path;
+        String fullPath = java.nio.file.Paths.get(rootPathUrl, path).toString();
+
         File file = new File(fullPath);
-
-        try {
-            file.createNewFile();
-            FileOutputStream fos = new FileOutputStream(file);
+        try(FileOutputStream fos = new FileOutputStream(file);){
             fos.write(bytes);
-
         } catch (IOException e) {
             e.printStackTrace();
+            throw new FileWasNotFoundException("File was not found.");
         }
     }
 
