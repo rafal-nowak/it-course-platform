@@ -40,7 +40,7 @@ public class WorkspaceService implements Workspace {
 
     @Override
     public List<String> getFilesList(String rootPathUrl) {
-        String path = rootPathUrl + taskDefinitionFile;
+        String path = java.nio.file.Paths.get(rootPathUrl, taskDefinitionFile).toString();
 
         var mapper = new ObjectMapper(new YAMLFactory());
         mapper.findAndRegisterModules();
