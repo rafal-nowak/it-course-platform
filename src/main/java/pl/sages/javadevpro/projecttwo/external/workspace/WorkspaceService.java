@@ -9,15 +9,13 @@ import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.api.errors.NoFilepatternException;
 import pl.sages.javadevpro.projecttwo.domain.task.Workspace;
 import pl.sages.javadevpro.projecttwo.external.directory.task.FileToBeDeliveredToUser;
 import pl.sages.javadevpro.projecttwo.external.directory.task.TaskDefinition;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -83,16 +81,20 @@ public class WorkspaceService implements Workspace {
         }
     }
 
-    @SneakyThrows
     @Override
     public void commitChanges(String rootPathUrl) {
-        Git git = Git.open(new File(rootPathUrl));
+        CommitCommand commit;
+        try (Git git = Git.open(new File(rootPathUrl))) {
 
-        AddCommand add = git.add();
-        add.addFilepattern(rootPathUrl).call();
+            AddCommand add = git.add();
+            add.addFilepattern(".").call();
 
-        CommitCommand commit = git.commit();
-        commit.setMessage("update commit").call();
+            commit = git.commit();
+            commit.setMessage("update commit").call();
+        } catch (IOException | GitAPIException e) {
+            e.printStackTrace();
+            throw new RepositoryWasNotFoundException("Repository Was Not Found");
+        }
     }
 
     private void unlinkRemotes(Git git) {

@@ -13,6 +13,7 @@ import pl.sages.javadevpro.projecttwo.external.storage.task.TaskBlueprintAlready
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintNotFoundException;
 import pl.sages.javadevpro.projecttwo.external.storage.user.UserAlreadyExistsException;
 import pl.sages.javadevpro.projecttwo.domain.user.UserNotFoundException;
+import pl.sages.javadevpro.projecttwo.external.workspace.RepositoryWasNotFoundException;
 
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
@@ -57,6 +58,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserIsNotAuthorizedToThisTaskException.class)
     public final ResponseEntity<MessageResponse> handleUserIsNotAuthorizedToThisTaskException(UserIsNotAuthorizedToThisTaskException ex) {
+        return ResponseEntity
+                .status(HttpStatus.METHOD_NOT_ALLOWED)
+                .body(new MessageResponse("ERROR", ex.getMessage()));
+    }
+
+    @ExceptionHandler(RepositoryWasNotFoundException.class)
+    public final ResponseEntity<MessageResponse> handleRepositoryWasNotFoundException(RepositoryWasNotFoundException ex) {
         return ResponseEntity
                 .status(HttpStatus.METHOD_NOT_ALLOWED)
                 .body(new MessageResponse("ERROR", ex.getMessage()));
