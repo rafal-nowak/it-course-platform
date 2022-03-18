@@ -51,9 +51,7 @@ class UserServiceTest {
         //when
         //then
         Assertions.assertThrows(UserAlreadyExistsException.class,
-                ()->{
-                    userService.save(fakeUser);
-                });
+                ()-> userService.save(fakeUser));
     }
 
     @Test
@@ -78,9 +76,7 @@ class UserServiceTest {
         //when
         //then
         Assertions.assertThrows(UserNotFoundException.class,
-                ()->{
-                    userService.update(fakeUser);
-                });
+                ()-> userService.update(fakeUser));
     }
 
     @Test
@@ -105,9 +101,7 @@ class UserServiceTest {
         //when
         //then
         Assertions.assertThrows(UserNotFoundException.class,
-                ()->{
-                    userService.removeById(fakeUser.getId());
-                });
+                ()-> userService.removeById(fakeUser.getId()));
     }
 
     @Test
@@ -132,9 +126,7 @@ class UserServiceTest {
         //when
         //then
         Assertions.assertThrows(UserNotFoundException.class,
-                ()->{
-                    userService.findByEmail(fakeUser.getEmail());
-                });
+                ()-> userService.findByEmail(fakeUser.getEmail()));
     }
 
     @Test
@@ -159,9 +151,7 @@ class UserServiceTest {
         //when
         //then
         Assertions.assertThrows(UserNotFoundException.class,
-                ()->{
-                    userService.findById(fakeUser.getId());
-                });
+                ()-> userService.findById(fakeUser.getId()));
     }
 
 }

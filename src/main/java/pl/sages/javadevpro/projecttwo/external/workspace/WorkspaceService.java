@@ -3,13 +3,11 @@ package pl.sages.javadevpro.projecttwo.external.workspace;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.api.errors.NoFilepatternException;
 import pl.sages.javadevpro.projecttwo.domain.task.Workspace;
 import pl.sages.javadevpro.projecttwo.external.directory.task.FileToBeDeliveredToUser;
 import pl.sages.javadevpro.projecttwo.external.directory.task.TaskDefinition;
@@ -29,7 +27,7 @@ public class WorkspaceService implements Workspace {
 
     private final String baseWorkspace;
     private final String taskDefinitionFile;
-    private final String taskSummaryResult;
+    private final String resultFile;
 
     @Override
     public String createWorkspace(String sourceRepositoryUrl) {

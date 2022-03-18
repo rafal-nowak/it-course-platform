@@ -51,9 +51,7 @@ class TaskBlueprintServiceTest {
         //when
         //then
         Assertions.assertThrows(TaskBlueprintAlreadyExistsException.class,
-                ()->{
-                    taskBlueprintService.save(fakeTaskBlueprint);
-                });
+                ()-> taskBlueprintService.save(fakeTaskBlueprint));
     }
 
     @Test
@@ -78,9 +76,7 @@ class TaskBlueprintServiceTest {
         //when
         //then
         Assertions.assertThrows(TaskBlueprintNotFoundException.class,
-                ()->{
-                    taskBlueprintService.findBy(fakeTaskBlueprint.getId());
-                });
+                ()-> taskBlueprintService.findBy(fakeTaskBlueprint.getId()));
     }
 
     @Test
