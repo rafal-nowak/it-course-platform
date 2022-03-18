@@ -1,9 +1,6 @@
 package pl.sages.javadevpro.projecttwo.domain.task;
 
 import lombok.RequiredArgsConstructor;
-import pl.sages.javadevpro.projecttwo.external.storage.task.TaskBlueprintAlreadyExistsException;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 public class TaskBlueprintService {

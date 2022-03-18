@@ -3,7 +3,6 @@ package pl.sages.javadevpro.projecttwo.external.storage.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.dao.DuplicateKeyException;
-import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
 
@@ -61,20 +60,6 @@ public class UserStorageAdapter implements UserRepository {
     @Override
     public Optional<User> findById(String id) {
         return userRepository.findById(id).map(mapper::toDomain);
-    }
-
-    public Optional<User> findByName(String email) {
-        Optional<UserEntity> entity = userRepository.findByName(email);
-        if (entity.isEmpty()) {
-            throw new RecordNotFoundException("User not found");
-        }
-        log.info("Found entity " + entity.map(Object::toString).orElse("none"));
-        if (entity.isPresent()) {
-            return entity
-                .map(mapper::toDomain);
-        }
-
-        return Optional.empty();
     }
 
     @Override
