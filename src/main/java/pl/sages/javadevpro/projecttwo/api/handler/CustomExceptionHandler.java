@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import pl.sages.javadevpro.projecttwo.api.task.verification.UserIsNotAuthorizedToThisTaskException;
+import pl.sages.javadevpro.projecttwo.security.taskauthorization.UserIsNotAuthorizedToThisTaskException;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
 import pl.sages.javadevpro.projecttwo.domain.exception.DuplicateRecordException;
 import pl.sages.javadevpro.projecttwo.domain.exception.RecordNotFoundException;
@@ -30,43 +30,37 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(TaskBlueprintNotFoundException.class)
     public final ResponseEntity<MessageResponse> handleTaskBlueprintNotFoundException(TaskBlueprintNotFoundException ex) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(new MessageResponse("ERROR", ex.getMessage()));
+        return buildResponse(ex, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(TaskBlueprintAlreadyExistsException.class)
     public final ResponseEntity<MessageResponse> handleTaskBlueprintAlreadyExistsException(TaskBlueprintAlreadyExistsException ex) {
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(new MessageResponse("ERROR", ex.getMessage()));
+        return buildResponse(ex, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<MessageResponse> handleUserNotFoundException(UserNotFoundException ex) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(new MessageResponse("ERROR", ex.getMessage()));
+        return buildResponse(ex,  HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public final ResponseEntity<MessageResponse> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(new MessageResponse("ERROR", ex.getMessage()));
+        return buildResponse(ex, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UserIsNotAuthorizedToThisTaskException.class)
     public final ResponseEntity<MessageResponse> handleUserIsNotAuthorizedToThisTaskException(UserIsNotAuthorizedToThisTaskException ex) {
-        return ResponseEntity
-                .status(HttpStatus.METHOD_NOT_ALLOWED)
-                .body(new MessageResponse("ERROR", ex.getMessage()));
+        return buildResponse(ex, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     @ExceptionHandler(RepositoryWasNotFoundException.class)
     public final ResponseEntity<MessageResponse> handleRepositoryWasNotFoundException(RepositoryWasNotFoundException ex) {
+        return buildResponse(ex, HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    private <E extends RuntimeException> ResponseEntity<MessageResponse> buildResponse(E exception, HttpStatus status) {
         return ResponseEntity
-                .status(HttpStatus.METHOD_NOT_ALLOWED)
-                .body(new MessageResponse("ERROR", ex.getMessage()));
+                .status(status)
+                .body(new MessageResponse("ERROR", exception.getMessage()));
     }
 }
