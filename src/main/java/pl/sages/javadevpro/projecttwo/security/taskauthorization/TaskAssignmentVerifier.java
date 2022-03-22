@@ -1,4 +1,4 @@
-package pl.sages.javadevpro.projecttwo.api.task.verification;
+package pl.sages.javadevpro.projecttwo.security.taskauthorization;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -10,11 +10,10 @@ import pl.sages.javadevpro.projecttwo.security.UserPrincipal;
 
 @Service
 @RequiredArgsConstructor
-public class AssignmentVerifier {
+class TaskAssignmentVerifier {
 
     private final UserService userService;
     private final AssigmentService assigmentService;
-
 
     public boolean userIsOwnerOfTask(String taskId, Authentication authentication) {
         User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());

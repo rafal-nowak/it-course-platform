@@ -37,7 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .mvcMatchers(HttpMethod.PUT,"/task-blueprints").hasRole("ADMIN")
             .mvcMatchers("/task-blueprints/**").hasAnyRole("ADMIN", "STUDENT")
             .antMatchers( "/assign").hasRole("ADMIN")
-            .antMatchers("/tasks/**").hasRole("STUDENT")
+            .antMatchers("/tasks/{taskId}/**").access("@taskAssignmentVerifier.userIsOwnerOfTask(#taskId, authentication)")
             .and()
             .httpBasic();
     }

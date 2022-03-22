@@ -1,4 +1,4 @@
-package pl.sages.javadevpro.projecttwo.api.task.verification;
+package pl.sages.javadevpro.projecttwo.security.taskauthorization;
 
 public class UserIsNotAuthorizedToThisTaskException extends RuntimeException{
 
