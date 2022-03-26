@@ -9,9 +9,14 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoding encoder;
 
     public User save(User user) {
-        return userRepository.save(user);
+        return userRepository.save(
+            user.withPassword(
+                encoder.encode(user.getPassword())
+            )
+        );
     }
 
     public User update(User user) {

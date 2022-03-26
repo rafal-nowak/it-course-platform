@@ -13,4 +13,7 @@ public class User {
     String password;
     List<UserRole> roles;
 
+    public User withPassword(String newPassword) {
+        return new User(id, email, name, newPassword, roles);
+    }
 }

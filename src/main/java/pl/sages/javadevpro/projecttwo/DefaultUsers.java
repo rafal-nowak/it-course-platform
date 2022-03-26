@@ -1,20 +1,21 @@
 package pl.sages.javadevpro.projecttwo;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
-import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRole;
+import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 
 import java.util.List;
-import java.util.Optional;
 
-@RequiredArgsConstructor
 @Component
 public class DefaultUsers implements CommandLineRunner {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
+
+    public DefaultUsers(UserService userService) {
+        this.userService = userService;
+    }
 
     private final User adminUser = new User(
         null,
@@ -34,14 +35,15 @@ public class DefaultUsers implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        addUser(adminUser);
-        addUser(studentUser);
+        try {
+            addUser(adminUser);
+            addUser(studentUser);
+        } catch (Exception ex) {
+
+        }
     }
 
     private void addUser(User user) {
-        Optional<User> found = userRepository.findByEmail(user.getEmail());
-        if(found.isEmpty()) {
-            userRepository.save(user);
-        }
+        userService.save(user);
     }
 }

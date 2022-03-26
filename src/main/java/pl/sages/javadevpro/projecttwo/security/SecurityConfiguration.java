@@ -2,17 +2,21 @@ package pl.sages.javadevpro.projecttwo.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import javax.annotation.PostConstruct;
 
 @AllArgsConstructor
 @EnableWebSecurity
@@ -28,8 +32,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers(HttpMethod.GET, "/users/me").hasRole("STUDENT")
             .antMatchers("/users/**").hasRole("ADMIN")
-            .mvcMatchers("/task-blueprints").hasRole("ADMIN")
-            .mvcMatchers("/task-blueprints/*").hasAnyRole("ADMIN", "STUDENT")
+            .antMatchers(HttpMethod.DELETE,"/task-blueprints").hasRole("ADMIN")
+            .mvcMatchers(HttpMethod.POST,"/task-blueprints").hasRole("ADMIN")
+            .mvcMatchers(HttpMethod.PUT,"/task-blueprints").hasRole("ADMIN")
+            .mvcMatchers("/task-blueprints/**").hasAnyRole("ADMIN", "STUDENT")
             .antMatchers( "/assign").hasRole("ADMIN")
             .antMatchers("/tasks/**").hasRole("STUDENT")
             .and()
@@ -42,8 +48,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    @Primary
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance(); // just for test purposes
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

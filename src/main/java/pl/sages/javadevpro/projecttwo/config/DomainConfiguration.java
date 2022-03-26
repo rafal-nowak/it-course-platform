@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.sages.javadevpro.projecttwo.domain.assigment.AssigmentRepository;
 import pl.sages.javadevpro.projecttwo.domain.assigment.AssigmentService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintRepository;
@@ -12,6 +13,7 @@ import pl.sages.javadevpro.projecttwo.domain.task.TaskExecutor;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskRepository;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskService;
 import pl.sages.javadevpro.projecttwo.domain.task.Workspace;
+import pl.sages.javadevpro.projecttwo.domain.user.PasswordEncoding;
 import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 import pl.sages.javadevpro.projecttwo.external.env.TaskEnvAdapter;
@@ -41,8 +43,8 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public UserService userService(UserRepository userRepository)  {
-        return new UserService(userRepository);
+    public UserService userService(UserRepository userRepository, PasswordEncoding encoder)  {
+        return new UserService(userRepository, encoder);
     }
 
     @Bean
