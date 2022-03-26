@@ -103,6 +103,279 @@ Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
 ###
 
+POST http://localhost:8080/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "email": "rafal@gmail.com",
+  "name": "Rafal Nowak",
+  "password": "userPass",
+  "roles": ["STUDENT"]
+}
+
+<> 2022-03-15T210624.200.json
+
+###
+
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+<> 2022-03-15T210614.200.json
+
+###
+
+POST http://localhost:8080/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "email": "rafal@gmail.com",
+  "name": "Rafal Nowak",
+  "password": "userPass",
+  "roles": ["STUDENT"]
+}
+
+<> 2022-03-15T205631.409.json
+
+###
+
+POST http://localhost:8080/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "email": "rafal@gmail.com",
+  "name": "Rafal Nowak",
+  "password": "userPass",
+  "roles": ["STUDENT"]
+}
+
+<> 2022-03-15T205614.200.json
+
+###
+
+POST http://localhost:8080/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "email": "rafal@gmail.com",
+  "name": "Rafal Nowak",
+  "password": "userPass",
+  "roles": ["STUDENT"]
+}
+
+<> 2022-03-15T203558.200.json
+
+###
+
+POST http://localhost:8080/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "email": "rafal@gmail.com",
+  "name": "Rafal Nowak",
+  "password": "userPass",
+  "roles": ["STUDENT"]
+}
+
+<> 2022-03-15T203035.401.json
+
+###
+
+POST http://localhost:8080/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "email": "rafal@gmail.com",
+  "name": "Rafal Nowak",
+  "password": "userPass",
+  "roles": ["STUDENT"]
+}
+
+<> 2022-03-15T202846.401.json
+
+###
+
+POST http://localhost:8080/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "email": "rafal@gmail.com",
+  "name": "Rafal Nowak",
+  "password": "userPass",
+  "roles": ["STUDENT"]
+}
+
+<> 2022-03-15T201823.401.json
+
+###
+
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOntiY3J5cHR9JDJhJDEwJHVmVmxnaXFNVDIvYzZZaTI1L3JpSU9RT2dVb21tbGxTMDNKNks1QVR3ai9QckhDZEg1MjJt
+
+<> 2022-03-14T203052.401.json
+
+###
+
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOiQyYSQxMCQ1UHk1ZnFweURYUnRBTTR2RjZmS0N1ZWcwWEhDeHQuWEZ4QjdtcjBzNUxRR21GdXRNMzNueQ==
+
+<> 2022-03-14T202845.401.json
+
+###
+
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOiQyYSQxMCQvZjhNSGkxbTM2NWRsc21VN21hSU51QUYvWDVNZW85S0RrenE0SjJTY3ppR294ZHk4MWFGQw==
+
+<> 2022-03-14T202737.401.json
+
+###
+
+POST http://localhost:8080/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOiQyYSQxMCR0SDdjcE9WQm13QW1KMHNSZkxqNjB1b0NtcllaZ1BpanJsT1lET1JhT0tKLkhTeklMems2eQ==
+
+{
+  "email": "rafal@gmail.com",
+  "name": "Rafal Nowak",
+  "password": "userPass",
+  "roles": ["STUDENT"]
+}
+
+<> 2022-03-14T202718.401.json
+
+###
+
+POST http://localhost:8080/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOiQyYSQxMCR0SDdjcE9WQm13QW1KMHNSZkxqNjB1b0NtcllaZ1BpanJsT1lET1JhT0tKLkhTeklMems2eQ==
+
+{
+  "email": "rafal@gmail.com",
+  "name": "Rafal Nowak",
+  "password": "userPass",
+  "roles": ["STUDENT"]
+}
+
+<> 2022-03-14T202510.401.json
+
+###
+
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOiQyYSQxMCRYMkgxY1ouMUsvOEYyTjZrTkRLYUZlMWJKbkJWbW9wbjlaU1JpREgyMEFMaGkxOHVKWkNqaQ==
+
+<> 2022-03-14T201756.401.json
+
+###
+
+POST http://localhost:8080/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOiQyYSQxMCR5RjNmdGUyNkpuMzRlcURiQXlCVU9PRVMzTWsveHBHVURZSUhzQktNTWZLNkRacHgwNnliZQ==
+
+{
+  "email": "rafal@gmail.com",
+  "name": "Rafal Nowak",
+  "password": "userPass",
+  "roles": ["STUDENT"]
+}
+
+<> 2022-03-14T201313.401.json
+
+###
+
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOiQyYSQxMCRaRmNHOXN2YTc0L1E2d3VPRjZUR2RlODJpOXZaLmsyWWlSYjRkTndEM3FlNFU5UGIxME82Ng=
+
+<> 2022-03-14T200051.401.json
+
+###
+
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOiQyYSQxMCRaRmNHOXN2YTc0L1E2d3VPRjZUR2RlODJpOXZaLmsyWWlSYjRkTndEM3FlNFU5UGIxME82Ng==
+
+<> 2022-03-14T200045.401.json
+
+###
+
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOiQyYSQxMCQyM2FwRlkycDdBbXVmeHYybi5wc3d1Wk5TcEVVYjIuSnFPSVNkcEdtcXJFQWtRcEQ4UFpRRw==
+
+<> 2022-03-14T195836.401.json
+
+###
+
+POST http://localhost:8080/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic YWRtaW5AZXhhbXBsZS5wbDokMmEkMTAkdVduN3VXWUhXODhyLkcuaTZaOW81dVBoMDFhLlZPaWZNcld6c2ppa042dkVyNDdyaXBTSWU
+
+{
+  "email": "rafal@gmail.com",
+  "name": "Rafal Nowak",
+  "password": "userPass",
+  "roles": ["STUDENT"]
+}
+
+<> 2022-03-14T194840.401.json
+
+###
+
+POST http://localhost:8080/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic YWRtaW5AZXhhbXBsZS5wbDokMmEkMTAkdVduN3VXWUhXODhyLkcuaTZaOW81dVBoMDFhLlZPaWZNcld6c2ppa042dkVyNDdyaXBTSWU=
+
+{
+  "email": "rafal@gmail.com",
+  "name": "Rafal Nowak",
+  "password": "userPass",
+  "roles": ["STUDENT"]
+}
+
+<> 2022-03-14T194827.401.json
+
+###
+
+GET http://localhost:8080/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+<> 2022-03-14T194751.401.json
+
+###
+
 POST http://localhost:8080/tasks/622b89e08d175933ad1be4e8/commands
 Accept: application/json
 Content-Type: application/json

@@ -20,4 +20,14 @@ public class TestUserFactory {
                 );
     }
 
+    public static User createAdmin() {
+        userSequence++;
+        return new User(
+            "TEST" + userSequence,
+            "newUser" + userSequence + "@example.com",
+            "User Name " + userSequence,
+            "password",
+            List.of(UserRole.ADMIN)
+        );
+    }
 }

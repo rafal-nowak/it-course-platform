@@ -168,12 +168,13 @@ public class TaskBlueprintControllerIT extends BaseIT {
         taskBlueprintService.save(taskBlueprint);
 
         //when
-        var response = callHttpMethod(HttpMethod.DELETE,
-                "/task-blueprints",
-                token,
-                taskBlueprint,
-                MessageResponse.class
-                );
+        var response = callHttpMethod(
+            HttpMethod.DELETE,
+            "/task-blueprints",
+            token,
+            taskBlueprint,
+            MessageResponse.class
+        );
 
         //then
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.FORBIDDEN);

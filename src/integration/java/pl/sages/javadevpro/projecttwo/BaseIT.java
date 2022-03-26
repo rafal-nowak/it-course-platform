@@ -11,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
@@ -36,6 +37,8 @@ public class BaseIT {
     @Autowired
     protected UserService userService;
 
+    protected BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @Autowired
     MongoTemplate mongoTemplate;
 
@@ -49,11 +52,11 @@ public class BaseIT {
         mongoTemplate.getDb().drop();
     }
 
-    private static final User adminUser = new User(
+    private User adminUser = new User(
             "ID3",
             "admin@example.pl",
             "Stefan Burczymucha",
-            "password",
+            passwordEncoder.encode("password"),
             List.of(UserRole.ADMIN)
         );
 
@@ -69,12 +72,13 @@ public class BaseIT {
         String token = "Basic ";
         try {
             token = token + Base64.getEncoder()
-                .encodeToString((email + ":" + password)
-                    .getBytes("UTF-8"));
+                .encodeToString(
+                    (email + ":" + password).getBytes("UTF-8")
+                );
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
+        System.out.println("AUTH " + token);
         return token;
     }
 
@@ -82,12 +86,13 @@ public class BaseIT {
         String adminToken = "Basic ";
         try {
             adminToken = adminToken + Base64.getEncoder()
-                .encodeToString((adminUser.getEmail() + ":" + adminUser.getPassword())
-                .getBytes("UTF-8"));
+                .encodeToString(
+                    (adminUser.getEmail() + ":" + adminUser.getPassword()).getBytes("UTF-8")
+                );
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
+        System.out.println("AUTH " + adminToken);
         return adminToken;
     }
 
@@ -102,11 +107,17 @@ public class BaseIT {
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
         headers.add(HttpHeaders.AUTHORIZATION, accessToken);
         headers.add(HttpHeaders.ACCEPT, "application/json");
+        HttpEntity<T> requestEntity;
+        if (body == null) {
+            requestEntity = new HttpEntity<>(headers);
+        } else {
+            requestEntity = new HttpEntity<>(body, headers);
+        }
         return restTemplate.exchange(
-                localUrl(url),
-                httpMethod,
-                new HttpEntity<>(body, headers),
-                mapToObject
+            localUrl(url),
+            httpMethod,
+            requestEntity,
+            mapToObject
         );
     }
 
