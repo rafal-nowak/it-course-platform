@@ -5,7 +5,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.sages.javadevpro.projecttwo.api.task.dto.CommandName;
@@ -27,11 +26,10 @@ public class TaskController {
 
 
     @PostMapping(path = "{taskId}/commands")
-    @VerifyTaskAuthorization(taskIdParamName = "taskId", authenticationParamName = "authentication")
+    @VerifyTaskAuthorization
     public ResponseEntity<Object> taskCommand(
-            @RequestBody TaskControllerCommand taskControllerCommand,
             @PathVariable String taskId,
-            Authentication authentication
+            @RequestBody TaskControllerCommand taskControllerCommand
     ) {
         if (taskControllerCommand.getCommandName().equals(CommandName.EXECUTE)) {
             String taskStatus = taskService.execute(taskId);
@@ -45,10 +43,9 @@ public class TaskController {
             consumes = "application/json",
             path = "{taskId}/files"
     )
-    @VerifyTaskAuthorization(taskIdParamName = "taskId", authenticationParamName = "authentication")
+    @VerifyTaskAuthorization
     public ResponseEntity<ListOfFilesResponse> getFilesAssignedToUserTask(
-            @PathVariable String taskId,
-            Authentication authentication
+            @PathVariable String taskId
     ) {
         List<String> listOfFiles = taskService.getTaskFilesList(taskId);
         return ResponseEntity.ok(new ListOfFilesResponse(
@@ -59,11 +56,10 @@ public class TaskController {
     @GetMapping(
             path = "{taskId}/files/{fileId}"
     )
-    @VerifyTaskAuthorization(taskIdParamName = "taskId", authenticationParamName = "authentication")
+    @VerifyTaskAuthorization
     public ResponseEntity<Object> getFileAssignedToUserTask(
             @PathVariable String taskId,
-            @PathVariable int fileId,
-            Authentication authentication
+            @PathVariable int fileId
     ) {
         String filePath = taskService.getTaskFilesList(taskId).get(fileId);
         String fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
@@ -76,12 +72,11 @@ public class TaskController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             path = "{taskId}/files/{fileId}"
     )
-    @VerifyTaskAuthorization(taskIdParamName = "taskId", authenticationParamName = "authentication")
+    @VerifyTaskAuthorization
     public ResponseEntity<Object> postFileAssignedToUserTask(
-            @RequestParam("file") MultipartFile file,
             @PathVariable String taskId,
             @PathVariable int fileId,
-            Authentication authentication
+            @RequestParam("file") MultipartFile file
     ) {
         if (taskService.getTaskStatus(taskId).equals(TaskStatus.SUBMITTED)) {
             return new ResponseEntity<>("The File Upload Failed. The Task was sent to ENV.", HttpStatus.METHOD_NOT_ALLOWED);
@@ -102,10 +97,9 @@ public class TaskController {
     @GetMapping(
             path = "{taskId}/results"
     )
-    @VerifyTaskAuthorization(taskIdParamName = "taskId", authenticationParamName = "authentication")
+    @VerifyTaskAuthorization
     public ResponseEntity<Object> getUserTaskResult(
-            @PathVariable String taskId,
-            Authentication authentication
+            @PathVariable String taskId
     ) {
         String fileName = "task_results.txt";
         byte[] file = taskService.readTaskResults(taskId);
