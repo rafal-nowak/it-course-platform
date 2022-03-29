@@ -3,6 +3,7 @@ package pl.sages.javadevpro.projecttwo.domain;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.sages.javadevpro.projecttwo.BaseIT;
 import pl.sages.javadevpro.projecttwo.TestUserFactory;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
@@ -12,6 +13,9 @@ public class UserServiceIT extends BaseIT {
 
     @Autowired
     UserService service;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Test
     public void add_user_test() {
@@ -25,7 +29,7 @@ public class UserServiceIT extends BaseIT {
         //then
         Assertions.assertEquals(user.getEmail(), readUser.getEmail());
         Assertions.assertEquals(user.getName(), readUser.getName());
-//        Assertions.assertEquals(user.getPassword(), readUser.getPassword());
+        Assertions.assertTrue(passwordEncoder.matches(user.getPassword(), readUser.getPassword()));
     }
 
     @Test
@@ -44,7 +48,7 @@ public class UserServiceIT extends BaseIT {
         //then
         Assertions.assertEquals(user2.getEmail(), readUser.getEmail());
         Assertions.assertEquals(user2.getName(), readUser.getName());
-//        Assertions.assertEquals(user2.getPassword(), readUser.getPassword());
+        Assertions.assertTrue(passwordEncoder.matches(user2.getPassword(), readUser.getPassword()));
     }
 
 }

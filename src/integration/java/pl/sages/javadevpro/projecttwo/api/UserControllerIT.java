@@ -39,7 +39,6 @@ class UserControllerIT extends BaseIT {
 
         //then
         UserDto body = response.getBody();
-        System.out.println(body);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertNotNull(body);
         assertEquals(user.getId(), body.getId());

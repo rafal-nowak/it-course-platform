@@ -61,7 +61,6 @@ public class UserController {
 
     @GetMapping("me")
     public ResponseEntity<UserDto> aboutMe(Authentication authentication) {
-        System.out.println(authentication.getPrincipal().getClass());
         User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
         return ResponseEntity
             .ok(dtoMapper.toDto(user));
