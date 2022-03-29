@@ -78,7 +78,6 @@ public class BaseIT {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        System.out.println("AUTH " + token);
         return token;
     }
 
@@ -92,7 +91,6 @@ public class BaseIT {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        System.out.println("AUTH " + adminToken);
         return adminToken;
     }
 
