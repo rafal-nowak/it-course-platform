@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import pl.sages.javadevpro.projecttwo.domain.assigment.AssigmentService;
 import pl.sages.javadevpro.projecttwo.domain.user.User;
@@ -25,7 +26,7 @@ class TaskAuthorizationVerifier {
 
     @Before(value = "@annotation(verifyTaskAuthorization)")
     public void userIsOwnerOfTask(JoinPoint joinPoint, VerifyTaskAuthorization verifyTaskAuthorization) {
-        Authentication authentication = (Authentication) getParameterByName(joinPoint, verifyTaskAuthorization.authenticationParamName());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String taskId = (String) getParameterByName(joinPoint, verifyTaskAuthorization.taskIdParamName());
 
         User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
