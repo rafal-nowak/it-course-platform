@@ -1,3 +1,35 @@
+POST http://localhost:8080/task-blueprints
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "id": "1",
+  "name": "Python_1",
+  "description": "Description...",
+  "repositoryUrl": "https://github.com/rafal-nowak/task1"
+}
+
+<> 2022-04-05T200911.200.json
+
+###
+
+POST http://localhost:8080/task-blueprints
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "id": "1",
+  "name": "Python_1",
+  "description": "Description...",
+  "repositoryUrl": "https://github.com/rafal-nowak/task1"
+}
+
+<> 2022-04-05T200350.401.json
+
+###
+
 POST http://localhost:8080/tasks/6231f42225512057f5b86b76/commands
 Accept: application/json
 Content-Type: application/json
@@ -582,272 +614,6 @@ Content-Type: application/json
 Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
 
 <> 2022-03-11T213122.200.json
-
-###
-
-GET http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
-
-<> 2022-03-11T212329.200.json
-
-###
-
-GET http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
-
-<> 2022-03-11T212256.200.json
-
-###
-
-POST http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
-
-###
-
-GET http://localhost:8080/users/622b230ff0150774ceba74c5
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-<> 2022-03-11T212208.404.json
-
-###
-
-POST http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
-
-###
-
-POST http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-###
-
-POST http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
-
-###
-
-POST http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
-
-###
-
-POST http://localhost:8080/tasks/622bac27634bd02ec28a5c88/files
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
-
-###
-
-POST http://localhost:8080/622bac27634bd02ec28a5c88/files
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
-
-<> 2022-03-11T211215.404.json
-
-###
-
-POST http://localhost:8080/tasks/assign
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-{
-  "userId": "622babb5634bd02ec28a5c87",
-  "taskId": "1"
-}
-
-<> 2022-03-11T210807.200.json
-
-###
-
-POST http://localhost:8080/task-blueprints
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-{
-  "id": "1",
-  "name": "Python_1",
-  "description": "Description...",
-  "repositoryUrl": "https://github.com/rafal-nowak/task1"
-}
-
-<> 2022-03-11T210703.200.json
-
-###
-
-POST http://localhost:8080/usertasks/assign
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-{
-  "userId": "622b8786b47f3957c4a20d03",
-  "taskId": "1"
-}
-
-<> 2022-03-11T184110.200.json
-
-###
-
-POST http://localhost:8080/task-blueprints
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-{
-  "id": "1",
-  "name": "Python_1",
-  "description": "Description...",
-  "repositoryUrl": "https://github.com/rafal-nowak/task1"
-}
-
-<> 2022-03-11T184101.200.json
-
-###
-
-POST http://localhost:8080/usertasks/assign
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-{
-  "userId": "622b8786b47f3957c4a20d03",
-  "taskId": "1"
-}
-
-<> 2022-03-11T183622.500.json
-
-###
-
-POST http://localhost:8080/usertasks/assign
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-{
-  "userId": "622b8786b47f3957c4a20d03",
-  "taskId": "1"
-}
-
-<> 2022-03-11T183337.500.json
-
-###
-
-POST http://localhost:8080/task-blueprints
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-{
-  "id": "1",
-  "name": "Python_1",
-  "description": "Description...",
-  "repositoryUrl": "https://github.com/rafal-nowak/taskBlueprint1.git"
-}
-
-<> 2022-03-11T183309.200.json
-
-###
-
-POST http://localhost:8080/usertasks/assign
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-{
-  "userId": "622b230ff0150774ceba74c5",
-  "taskId": "1"
-}
-
-<> 2022-03-11T153240.500.json
-
-###
-
-POST http://localhost:8080/usertasks/assign
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-{
-  "userId": "622b230ff0150774ceba74c",
-  "taskId": "1"
-}
-
-<> 2022-03-11T153230.500.json
-
-###
-
-POST http://localhost:8080/usertasks/assign
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-{
-  "userId": "622b230ff0150774ceba74c5",
-  "taskId": "1"
-}
-
-<> 2022-03-11T153221.500.json
-
-###
-
-POST http://localhost:8080/usertasks/assign
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-{
-  "userId": "622b230ff0150774ceba74c5",
-  "taskId": "1"
-}
-
-<> 2022-03-11T152858.500.json
-
-###
-
-POST http://localhost:8080/usertasks/assign
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-{
-  "userId": "622b230ff0150774ceba74c5",
-  "taskId": "1"
-}
-
-<> 2022-03-11T152840.500.json
-
-###
-
-POST http://localhost:8080/usertasks/assign
-Accept: application/json
-Content-Type: application/json
-Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
-
-{
-  "userEmail": "stefan@example.com",
-  "taskId": "1"
-}
-
-<> 2022-03-11T132115.404.json
 
 ###
 

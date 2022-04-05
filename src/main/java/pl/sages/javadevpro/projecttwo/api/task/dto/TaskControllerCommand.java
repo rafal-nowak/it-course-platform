@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class TaskControllerCommand {
     CommandName commandName;
 
-    //todo 1. dodać metodę hasName
+    //todo 1. (Mariusz/Rafal) dodać metodę hasName
 }
