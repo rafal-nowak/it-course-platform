@@ -61,7 +61,7 @@ public class TaskController {
             @PathVariable String taskId,
             @PathVariable int fileId
     ) {
-        //todo 2. metoda pomocnicza do osobnej funkcji/klasy
+        //todo 2. (Mariusz) metoda pomocnicza do osobnej funkcji/klasy
         String filePath = taskService.getTaskFilesList(taskId).get(fileId);
         String fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
         byte[] file = taskService.readTaskFile(taskId, filePath);
