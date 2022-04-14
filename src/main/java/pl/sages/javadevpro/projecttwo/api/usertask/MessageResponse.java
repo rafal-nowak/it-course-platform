@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MessageResponse {
 
-    //todo 8. zrobić ErrorResponse do użycia w CustomExceptionHandler -- status do usunięcia
+    //todo 8. (Rafał) zrobić ErrorResponse do użycia w CustomExceptionHandler -- status do usunięcia
     private String status;
     private String message;
 }

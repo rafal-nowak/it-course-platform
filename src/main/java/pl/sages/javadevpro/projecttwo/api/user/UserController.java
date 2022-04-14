@@ -47,7 +47,7 @@ public class UserController {
 //                .map(dtoMapper::toDto)
 //                .collect(Collectors.toList());
 
-        List<UserDto> userList = pageUsers.getContent().stream()  // TODO 7. dadac do mappera
+        List<UserDto> userList = pageUsers.getContent().stream()  // TODO 7. (Piotrek) dadac do mappera
                 .map(dtoMapper::toDto)
                 .collect(Collectors.toList());
 
@@ -83,7 +83,7 @@ public class UserController {
 
     @GetMapping("me")
     public ResponseEntity<UserDto> aboutMe(Authentication authentication) {
-        //todo 6. klasa ze statyczna metodą getPrincipal np: Security.getPrincipal()
+        //todo 6. (Piotrek) klasa ze statyczna metodą getPrincipal np: Security.getPrincipal()
         User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
         return ResponseEntity
             .ok(dtoMapper.toDto(user));

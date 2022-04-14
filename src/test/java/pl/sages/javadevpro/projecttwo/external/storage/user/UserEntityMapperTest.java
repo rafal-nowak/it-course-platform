@@ -50,7 +50,7 @@ public class UserEntityMapperTest {
         assertEquals(USER_NAME, entity.getName());
         assertEquals(USER_EMAIL, entity.getEmail());
         assertEquals(USER_PASSWORD, entity.getPassword());
-        //assertEquals(USER_ROLES, entity.getRoles());  //fixme
+        //assertEquals(USER_ROLES, entity.getRoles());  //fixme (Rafał)
 
     }
 }

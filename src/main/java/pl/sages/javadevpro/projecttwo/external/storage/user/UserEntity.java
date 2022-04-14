@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Set;
 
 @Data
-@TypeAlias("Users")//todo - do sprawdzenie czy nie jest zbędne - @Document.value = Users
+@TypeAlias("Users")//todo (Rafał) - do sprawdzenie czy nie jest zbędne - @Document.value = Users
 @Document(value = "UserEntity")
 @Builder
 public class UserEntity {
