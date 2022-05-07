@@ -35,6 +35,7 @@ public class TaskController {
             @PathVariable String taskId,
             @RequestBody TaskControllerCommand taskControllerCommand
     ) {
+        // TODO ta logika powinna być niżej
         if (taskControllerCommand.hasName(CommandName.EXECUTE)) {
             String taskStatus = taskService.execute(taskId);
             return new ResponseEntity<>("Task " + taskId + " executed, status: " + taskStatus, HttpStatus.OK);
@@ -82,6 +83,7 @@ public class TaskController {
             throw new IncorrectTaskStatusException();
         }
         try {
+            // TODO przenieść do handlera
             taskService.writeAndCommitTask(taskId, fileId, file.getBytes());
         } catch (IOException e) {
             throw new CommitTaskException();

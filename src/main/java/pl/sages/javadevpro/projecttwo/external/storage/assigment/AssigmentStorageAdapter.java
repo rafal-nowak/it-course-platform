@@ -30,6 +30,7 @@ public class AssigmentStorageAdapter implements AssigmentRepository {
     @Override
     public Optional<Assigment> find(String userId, String taskId) {
         Optional<AssigmentEntity> byTaskId = assigmentRepository.findByTaskId(taskId);
+        // TODO jeden if
         if (byTaskId.isPresent()){
             if (byTaskId.get().getUserId().equals(userId)){
                 return Optional.of(mapper.toDomain(byTaskId.get()));

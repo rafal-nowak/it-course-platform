@@ -8,6 +8,7 @@ import pl.sages.javadevpro.projecttwo.domain.user.User;
 import pl.sages.javadevpro.projecttwo.domain.user.UserService;
 
 @Component
+// TODO final + required args constructor
 @AllArgsConstructor
 public class Security {
 

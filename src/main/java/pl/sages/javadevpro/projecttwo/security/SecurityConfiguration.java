@@ -23,6 +23,8 @@ import javax.annotation.PostConstruct;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+
+    // TODO final + required args constructor
     private UserPrincipalDetailsService userPrincipalDetailsService;
 
     @Override
@@ -44,7 +46,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userPrincipalDetailsService);
+        // TODO zdefiniować PasswordEncoder
+        auth.userDetailsService(userPrincipalDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Bean

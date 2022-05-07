@@ -3,6 +3,8 @@ package pl.sages.javadevpro.projecttwo.domain.assigment;
 import lombok.AllArgsConstructor;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskService;
 
+
+// TODO final + required args constructor
 @AllArgsConstructor
 public class AssigmentService {
 

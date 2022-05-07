@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
+// TODO zastanowić się nad nazwą
 public @interface VerifyTaskAuthorization {
 
     String taskIdParamName() default "taskId";

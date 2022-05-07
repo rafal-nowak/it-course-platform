@@ -39,7 +39,7 @@ public class DefaultUsers implements CommandLineRunner {
             addUser(adminUser);
             addUser(studentUser);
         } catch (Exception ex) {
-
+            // TODO Zalogować, że użytkownik już istnieje
         }
     }
 

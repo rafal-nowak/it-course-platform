@@ -1,5 +1,7 @@
 package pl.sages.javadevpro.projecttwo.config;
 
+
+// TODO czy to leży w dobrym pakiecie
 public class CredentialsDTO {
     private String email;
     private String password;

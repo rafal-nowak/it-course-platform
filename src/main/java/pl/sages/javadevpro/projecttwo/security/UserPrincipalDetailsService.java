@@ -11,12 +11,13 @@ import pl.sages.javadevpro.projecttwo.domain.user.UserRepository;
 @Service
 public class UserPrincipalDetailsService implements UserDetailsService {
 
+    // TODO final + required args constructor
     private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
             .map(UserPrincipal::new)
-            .orElseThrow( () -> new UsernameNotFoundException("User " + username + " not found"));
+            .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"));
     }
 }

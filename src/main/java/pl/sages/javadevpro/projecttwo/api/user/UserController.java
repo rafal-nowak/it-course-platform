@@ -42,6 +42,7 @@ public class UserController {
         Page<User> pageUsers= userService.findAll(pageable);
         List<UserDto> userList = dtoMapper.toListDto(pageUsers.getContent());
 
+        // TODO do utils
         Map<String, Object> response = new HashMap<>();
         response.put("users", userList);
         response.put("currentPage", pageUsers.getNumber());

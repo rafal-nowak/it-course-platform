@@ -18,6 +18,7 @@ import java.util.Arrays;
 @Component
 @Aspect
 @RequiredArgsConstructor
+// TODO zastanowić się nad nazwą
 class TaskAuthorizationVerifier {
 
     private final UserService userService;
