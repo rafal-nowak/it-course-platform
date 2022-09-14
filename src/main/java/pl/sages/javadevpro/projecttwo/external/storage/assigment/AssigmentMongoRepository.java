@@ -8,4 +8,5 @@ public interface AssigmentMongoRepository extends MongoRepository<AssigmentEntit
 
     Optional<AssigmentEntity> findByTaskId(String taskId);
 
+    void deleteByTaskId(String taskId);
 }

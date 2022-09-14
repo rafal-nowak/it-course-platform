@@ -2,9 +2,13 @@ package pl.sages.javadevpro.projecttwo.api.task;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,25 +17,69 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import pl.sages.javadevpro.projecttwo.api.task.dto.PageTaskDto;
 import pl.sages.javadevpro.projecttwo.api.task.dto.TaskControllerCommand;
+import pl.sages.javadevpro.projecttwo.api.task.dto.TaskDto;
+import pl.sages.javadevpro.projecttwo.api.task.mapper.PageTaskDtoMapper;
+import pl.sages.javadevpro.projecttwo.api.task.mapper.TaskDtoMapper;
 import pl.sages.javadevpro.projecttwo.api.task.verification.AuthVerifyTask;
 import pl.sages.javadevpro.projecttwo.api.usertask.ListOfFilesResponse;
 import pl.sages.javadevpro.projecttwo.api.usertask.MessageResponse;
+import pl.sages.javadevpro.projecttwo.domain.assigment.AssigmentService;
 import pl.sages.javadevpro.projecttwo.domain.task.IncorrectTaskStatusException;
+import pl.sages.javadevpro.projecttwo.domain.task.Task;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskCommand;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskStatus;
+import pl.sages.javadevpro.projecttwo.domain.user.UserService;
+import pl.sages.javadevpro.projecttwo.domain.user.model.User;
+import pl.sages.javadevpro.projecttwo.security.UserPrincipal;
 
 import java.io.IOException;
 import java.util.List;
 
+import static pl.sages.javadevpro.projecttwo.domain.user.model.UserRole.ADMIN;
+
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "/tasks")
+@RequestMapping(path = "/api/v1/tasks")
 public class TaskController {
 
     private final TaskService taskService;
+    private final TaskDtoMapper taskMapper;
+    private final PageTaskDtoMapper pageTaskDtoMapper;
+    private final UserService userService;
 
+    private final AssigmentService assigmentService;
+
+    @GetMapping
+    public ResponseEntity<PageTaskDto> getTasks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        PageTaskDto pageTasks;
+
+        if (user.getRoles().contains(ADMIN)) {
+            pageTasks = pageTaskDtoMapper.toPageDto(taskService.findAll(pageable));
+        } else {
+            pageTasks = pageTaskDtoMapper.toPageDto(assigmentService.findAllTasksByUserId(pageable, user.getId()));
+        }
+
+        return ResponseEntity.ok(pageTasks);
+    }
+
+    @GetMapping(path = "/{taskId}")
+    @AuthVerifyTask
+    public ResponseEntity<TaskDto> getTask(@PathVariable String taskId) {
+        Task task = taskService.findById(taskId);
+        return ResponseEntity
+                .ok(taskMapper.toDto(task));
+    }
 
     @PostMapping(path = "{taskId}/commands")
     @AuthVerifyTask

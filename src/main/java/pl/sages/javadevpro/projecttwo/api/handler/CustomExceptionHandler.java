@@ -5,13 +5,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import pl.sages.javadevpro.projecttwo.api.quiz.verification.UserIsNotAuthorizedToThisQuizException;
+import pl.sages.javadevpro.projecttwo.api.quiz.verification.UserIsNotAuthorizedToThisQuizTemplateException;
 import pl.sages.javadevpro.projecttwo.api.task.verification.UserIsNotAuthorizedToThisTaskException;
 import pl.sages.javadevpro.projecttwo.api.usertask.ErrorResponse;
+import pl.sages.javadevpro.projecttwo.domain.gradingtable.exception.GradingTableNotFoundException;
+import pl.sages.javadevpro.projecttwo.domain.quiz.exception.QuizNotFoundException;
+import pl.sages.javadevpro.projecttwo.domain.quiz.exception.QuizSolutionTemplateNotFoundException;
+import pl.sages.javadevpro.projecttwo.domain.quiz.exception.QuizTemplateNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.task.CommandNotSupportedException;
 import pl.sages.javadevpro.projecttwo.domain.task.CommitTaskException;
 import pl.sages.javadevpro.projecttwo.domain.task.IncorrectTaskStatusException;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintNotFoundException;
 import pl.sages.javadevpro.projecttwo.domain.user.exception.UserNotFoundException;
+import pl.sages.javadevpro.projecttwo.external.storage.gradingtable.GradingTableAlreadyExistsException;
+import pl.sages.javadevpro.projecttwo.external.storage.quiz.QuizAlreadyExistsException;
+import pl.sages.javadevpro.projecttwo.external.storage.quiz.QuizSolutionTemplateAlreadyExistsException;
+import pl.sages.javadevpro.projecttwo.external.storage.quiz.QuizTemplateAlreadyExistsException;
 import pl.sages.javadevpro.projecttwo.external.storage.task.TaskBlueprintAlreadyExistsException;
 import pl.sages.javadevpro.projecttwo.external.storage.user.UserAlreadyExistsException;
 import pl.sages.javadevpro.projecttwo.external.workspace.RepositoryWasNotFoundException;
@@ -31,6 +41,46 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponse(ex, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(GradingTableNotFoundException.class)
+    public final ResponseEntity<ErrorResponse> handleGradingTableNotFoundException(GradingTableNotFoundException ex) {
+        return buildResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(GradingTableAlreadyExistsException.class)
+    public final ResponseEntity<ErrorResponse> handleGradingTableAlreadyExistsException(GradingTableAlreadyExistsException ex) {
+        return buildResponse(ex, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(QuizNotFoundException.class)
+    public final ResponseEntity<ErrorResponse> handleQuizNotFoundException(QuizNotFoundException ex) {
+        return buildResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(QuizAlreadyExistsException.class)
+    public final ResponseEntity<ErrorResponse> handleQuizAlreadyExistsException(QuizAlreadyExistsException ex) {
+        return buildResponse(ex, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(QuizTemplateNotFoundException.class)
+    public final ResponseEntity<ErrorResponse> handleQuizTemplateNotFoundException(QuizTemplateNotFoundException ex) {
+        return buildResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(QuizTemplateAlreadyExistsException.class)
+    public final ResponseEntity<ErrorResponse> handleQuizTemplateAlreadyExistsException(QuizTemplateAlreadyExistsException ex) {
+        return buildResponse(ex, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(QuizSolutionTemplateNotFoundException.class)
+    public final ResponseEntity<ErrorResponse> handleQuizSolutionTemplateNotFoundException(QuizSolutionTemplateNotFoundException ex) {
+        return buildResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(QuizSolutionTemplateAlreadyExistsException.class)
+    public final ResponseEntity<ErrorResponse> handleQuizSolutionTemplateAlreadyExistsException(QuizSolutionTemplateAlreadyExistsException ex) {
+        return buildResponse(ex, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex) {
         return buildResponse(ex,  HttpStatus.NOT_FOUND);
@@ -43,6 +93,16 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserIsNotAuthorizedToThisTaskException.class)
     public final ResponseEntity<ErrorResponse> handleUserIsNotAuthorizedToThisTaskException(UserIsNotAuthorizedToThisTaskException ex) {
+        return buildResponse(ex, HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    @ExceptionHandler(UserIsNotAuthorizedToThisQuizException.class)
+    public final ResponseEntity<ErrorResponse> handleUserIsNotAuthorizedToThisQuizException(UserIsNotAuthorizedToThisQuizException ex) {
+        return buildResponse(ex, HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    @ExceptionHandler(UserIsNotAuthorizedToThisQuizTemplateException.class)
+    public final ResponseEntity<ErrorResponse> handleUserIsNotAuthorizedToThisQuizTemplateException(UserIsNotAuthorizedToThisQuizTemplateException ex) {
         return buildResponse(ex, HttpStatus.METHOD_NOT_ALLOWED);
     }
 

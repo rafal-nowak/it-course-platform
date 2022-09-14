@@ -19,7 +19,7 @@ class UserTaskEndpointIT extends BaseIT {
 //    @Autowired
 //    TaskBlueprintDtoMapper taskBlueprintDtoMapper;
 //
-//    @Test
+//    @Exam
 //    void user_should_not_be_able_to_assign_task() {
 //        //given
 //        User user = TestUserFactory.createStudent();
@@ -36,7 +36,7 @@ class UserTaskEndpointIT extends BaseIT {
 //        Assertions.assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
 //    }
 //
-//    @Test
+//    @Exam
 //    void admin_should_be_able_to_assign_task_to_user() {
 //        User user = TestUserFactory.createStudent();
 //        userService.save(user);
@@ -58,7 +58,7 @@ class UserTaskEndpointIT extends BaseIT {
 //
 //    }
 //
-//    @Test
+//    @Exam
 //    void admin_should_get_conflict_response_when_trying_to_assign_the_same_task_twice(){
 //        User user = TestUserFactory.createStudent();
 //        userService.save(user);
@@ -76,7 +76,7 @@ class UserTaskEndpointIT extends BaseIT {
 //        Assertions.assertEquals(HttpStatus.CONFLICT, response2.getStatusCode());
 //    }
 //
-//    @Test
+//    @Exam
 //    void admin_should_get_404_response_code_when_trying_to_add_task_to_not_existing_user() {
 //        TaskBlueprint taskBlueprint = TestTaskBlueprintFactory.createWithValidUrl("https://github.com/Piorrt/projectOne");
 //        taskBlueprintService.save(taskBlueprint);
@@ -90,7 +90,7 @@ class UserTaskEndpointIT extends BaseIT {
 //        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 //    }
 //
-//    @Test
+//    @Exam
 //    void student_should_be_able_to_take_list_of_files_assigned_to_user_task() {
 //        User user = TestUserFactory.createStudent();
 //        User savedUser = userService.save(user);

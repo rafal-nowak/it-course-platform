@@ -15,8 +15,6 @@ services:
   mongo-express-production:
     image: mongo-express
     container_name: p2-mongo-express-production
-    depends_on:
-      - mongodb-production
     ports:
       - 8087:8081
     environment:
@@ -36,8 +34,6 @@ services:
   mongo-express-it:
     image: mongo-express
     container_name: p2-mongo-express-it
-    depends_on:
-      - mongodb-it
     ports:
       - 8086:8081
     environment:

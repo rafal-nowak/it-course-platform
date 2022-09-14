@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -92,6 +93,23 @@ public class WorkspaceService implements Workspace {
             commit.setMessage("update commit").call();
         } catch (IOException | GitAPIException e) {
             e.printStackTrace();
+            throw new RepositoryWasNotFoundException();
+        }
+    }
+
+    @Override
+    public void deleteWorkspace(final String workspaceUrl) {
+        deleteDirectory(workspaceUrl);
+    }
+
+    private void deleteDirectory(String path) {
+        var pathToBeDeleted = java.nio.file.Path.of(path);
+        try {
+            Files.walk(pathToBeDeleted)
+                    .sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+        } catch (IOException e) {
             throw new RepositoryWasNotFoundException();
         }
     }

@@ -1,0 +1,59 @@
+### post quiz template
+POST http://localhost:8080/api/v1/quiz-templates
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "gradingTableId": "63641a357f64a559398e3d3d",
+  "maximumScore": 0,
+  "score": 0,
+  "grade": "quiz template",
+  "testName": "My test 456",
+  "questions": [
+    {
+      "questionId": 1,
+      "maximumScore": 4,
+      "score": 0,
+      "type": "SINGLE_CHOICE_CLOSED_QUESTION",
+      "question": "Single choice question?",
+      "answers": [
+        "Single choice answer 10",
+        "Single choice answer 20",
+        "Single choice answer 30",
+        "Single choice answer 40"
+      ]
+    },
+    {
+      "questionId": 2,
+      "maximumScore": 4,
+      "score": 0,
+      "type": "MULTI_CHOICE_CLOSED_QUESTION",
+      "question": "Multi choice question?",
+      "answers": [
+        "Multi choice answer 10",
+        "Multi choice answer 20",
+        "Multi choice answer 30",
+        "Multi choice answer 40"
+      ]
+    }
+  ]
+}
+
+### get quiz template
+GET http://localhost:8080/api/v1/quiz-templates/634a9cd95477cc38c725d937
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+### get quiz templates
+GET http://localhost:8080/api/v1/quiz-templates
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+### delete quiz template
+DELETE http://localhost:8080/api/v1/quiz-templates/636ac19f60e5e729dd7a4feb
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=

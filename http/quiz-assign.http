@@ -1,0 +1,10 @@
+### assign quiz to user
+POST http://localhost:8080/api/v1/quiz-assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "userId": "634a930a29e4ec510c26e1fb",
+  "quizTemplateId": "634a9cd95477cc38c725d937"
+}

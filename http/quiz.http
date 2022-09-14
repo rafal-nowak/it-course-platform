@@ -1,0 +1,83 @@
+### assign quiz to user
+POST http://localhost:8080/api/v1/quiz-assign
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "userId": "6363b4daf4a23809eaac4fd4",
+  "quizTemplateId": "63641a6a7f64a559398e3d3e"
+}
+
+### get quiz
+GET http://localhost:8080/api/v1/quizzes/63641a987f64a559398e3d3f
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+### get quizzes
+GET http://localhost:8080/api/v1/quizzes
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+### Sprawdź quiz
+POST http://localhost:8080/api/v1/quizzes/634af7842bf86668eba6440d/commands
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+{
+  "commandName": "CHECK"
+}
+
+### Oceń quiz
+POST http://localhost:8080/api/v1/quizzes/634af7842bf86668eba6440d/commands
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+{
+  "commandName": "RATE"
+}
+
+### Przeslij roziwazanie
+PUT http://localhost:8080/api/v1/quizzes
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+{
+  "testId": "63641a987f64a559398e3d3f",
+  "gradingTableId": "63641a357f64a559398e3d3d",
+  "userId": "6363b4daf4a23809eaac4fd4",
+  "testTemplateId": "63641a6a7f64a559398e3d3e",
+  "maximumScore": 0,
+  "score": 0,
+  "grade": "quiz template",
+  "testName": "My test 456",
+  "status": "SUBMITTED",
+  "questions": [
+    {
+      "questionId": 1,
+      "maximumScore": 4,
+      "score": 0,
+      "type": "SINGLE_CHOICE_CLOSED_QUESTION",
+      "question": "Single choice question?",
+      "answers": [
+        "Single choice answer 10"
+      ]
+    },
+    {
+      "questionId": 2,
+      "maximumScore": 4,
+      "score": 0,
+      "type": "MULTI_CHOICE_CLOSED_QUESTION",
+      "question": "Multi choice question?",
+      "answers": [
+        "Multi choice answer 10",
+        "Multi choice answer 20"
+      ]
+    }
+  ]
+}

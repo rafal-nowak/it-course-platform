@@ -27,7 +27,7 @@ class JGitServiceTest {
 //    }
 //
 //    @DisplayName("should clone repository to specified folder")
-//    @Test
+//    @Exam
 //    void shouldCloneRepositoryToTargetFolder() throws IOException {
 //        jGitService.cloneTask(TEST_REPO, TEST_FOLDER);
 //
@@ -41,7 +41,7 @@ class JGitServiceTest {
 //    }
 //
 //    @DisplayName("should unlink remotes after cloning repository")
-//    @Test
+//    @Exam
 //    void shouldUnlinkRemoteAfterCloning() throws IOException {
 //        jGitService.cloneTask(TEST_REPO, TEST_FOLDER);
 //
@@ -55,7 +55,7 @@ class JGitServiceTest {
 //    }
 //
 //    @DisplayName("should throw exception if repository path is incorrect")
-//    @Test
+//    @Exam
 //    void shouldThrowExceptionIfRepositoryPathIsIncorrect() {
 //        Assertions.assertThrows(
 //                InvalidRemoteException.class,
@@ -63,7 +63,7 @@ class JGitServiceTest {
 //    }
 //
 //    @DisplayName("should throw exception if target folder path is not empty")
-//    @Test
+//    @Exam
 //    void shouldThrowExceptionIfTargetPathIsNotEmpty() {
 //        Assertions.assertThrows(
 //                DuplicateRecordException.class,

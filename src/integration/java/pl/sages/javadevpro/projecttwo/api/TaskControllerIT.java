@@ -48,7 +48,7 @@ class TaskControllerIT extends BaseIT {
         //when
         var response = callHttpMethod(
                 HttpMethod.GET,
-                "/tasks/" + taskId + "/files",
+                "/api/v1/tasks/" + taskId + "/files",
                 userToken,
                 null,
                 ListOfFilesResponse.class
@@ -65,7 +65,7 @@ class TaskControllerIT extends BaseIT {
         //when
         var response = callHttpMethod(
                 HttpMethod.GET,
-                "/tasks/" + taskId + "/files",
+                "/api/v1/tasks/" + taskId + "/files",
                 userToken,
                 null,
                 ErrorResponse.class
@@ -87,7 +87,7 @@ class TaskControllerIT extends BaseIT {
         //when
         var response = callHttpMethod(
                 HttpMethod.POST,
-                "/tasks/" + taskId + "/commands",
+                "/api/v1/tasks/" + taskId + "/commands",
                 userToken,
                 body,
                 MessageResponse.class

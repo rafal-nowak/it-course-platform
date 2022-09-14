@@ -42,7 +42,7 @@ class UserTaskServiceTestBlueprint {
 //
 //
 //    @DisplayName("Should create new UserTask")
-//    @Test
+//    @Exam
 //    void shouldCreateNewUserTask() {
 //        String userEmail = fakeUser.getEmail();
 //        String taskId = fakeTaskBlueprint.getId();

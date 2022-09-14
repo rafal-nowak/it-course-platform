@@ -4,8 +4,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import pl.sages.javadevpro.projecttwo.domain.assigment.AssigmentRepository;
 import pl.sages.javadevpro.projecttwo.domain.assigment.AssigmentService;
+import pl.sages.javadevpro.projecttwo.domain.gradingtable.GradingTableRepository;
+import pl.sages.javadevpro.projecttwo.domain.gradingtable.GradingTableService;
+import pl.sages.javadevpro.projecttwo.domain.quiz.QuizRepository;
+import pl.sages.javadevpro.projecttwo.domain.quiz.QuizService;
+import pl.sages.javadevpro.projecttwo.domain.quiz.QuizSolutionTemplateRepository;
+import pl.sages.javadevpro.projecttwo.domain.quiz.QuizSolutionTemplateService;
+import pl.sages.javadevpro.projecttwo.domain.quiz.QuizTemplateRepository;
+import pl.sages.javadevpro.projecttwo.domain.quiz.QuizTemplateService;
+import pl.sages.javadevpro.projecttwo.domain.quiz.assigment.QuizAssigmentService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintRepository;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskBlueprintService;
 import pl.sages.javadevpro.projecttwo.domain.task.TaskExecutor;
@@ -21,6 +31,18 @@ import pl.sages.javadevpro.projecttwo.external.env.task.TaskEnvMapper;
 import pl.sages.javadevpro.projecttwo.external.storage.assigment.AssigmentEntityMapper;
 import pl.sages.javadevpro.projecttwo.external.storage.assigment.AssigmentMongoRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.assigment.AssigmentStorageAdapter;
+import pl.sages.javadevpro.projecttwo.external.storage.gradingtable.GradingTableEntityMapper;
+import pl.sages.javadevpro.projecttwo.external.storage.gradingtable.GradingTableStorageAdapter;
+import pl.sages.javadevpro.projecttwo.external.storage.gradingtable.MongoGradingTableRepository;
+import pl.sages.javadevpro.projecttwo.external.storage.quiz.MongoQuizRepository;
+import pl.sages.javadevpro.projecttwo.external.storage.quiz.MongoQuizSolutionTemplateRepository;
+import pl.sages.javadevpro.projecttwo.external.storage.quiz.MongoQuizTemplateRepository;
+import pl.sages.javadevpro.projecttwo.external.storage.quiz.QuizEntityMapper;
+import pl.sages.javadevpro.projecttwo.external.storage.quiz.QuizSolutionTemplateEntityMapper;
+import pl.sages.javadevpro.projecttwo.external.storage.quiz.QuizSolutionTemplateStorageAdapter;
+import pl.sages.javadevpro.projecttwo.external.storage.quiz.QuizStorageAdapter;
+import pl.sages.javadevpro.projecttwo.external.storage.quiz.QuizTemplateEntityMapper;
+import pl.sages.javadevpro.projecttwo.external.storage.quiz.QuizTemplateStorageAdapter;
 import pl.sages.javadevpro.projecttwo.external.storage.task.TaskBlueprintEntityMapper;
 import pl.sages.javadevpro.projecttwo.external.storage.task.TaskBlueprintMongoRepository;
 import pl.sages.javadevpro.projecttwo.external.storage.task.TaskBlueprintStorageAdapter;
@@ -37,6 +59,16 @@ import pl.sages.javadevpro.projecttwo.external.workspace.WorkspaceService;
 public class DomainConfiguration {
 
     @Bean
+    public GradingTableRepository gradingTableRepository(MongoGradingTableRepository mongoGradingTableRepository, GradingTableEntityMapper mapper) {
+        return new GradingTableStorageAdapter(mongoGradingTableRepository, mapper);
+    }
+
+    @Bean
+    public GradingTableService gradingTableService(GradingTableRepository gradingTableRepository)  {
+        return new GradingTableService(gradingTableRepository);
+    }
+
+    @Bean
     public UserRepository userRepository(MongoUserRepository mongoUserRepository, UserEntityMapper mapper) {
         return new UserStorageAdapter(mongoUserRepository, mapper);
     }
@@ -44,6 +76,40 @@ public class DomainConfiguration {
     @Bean
     public UserService userService(UserRepository userRepository, EncodingService encoder)  {
         return new UserService(userRepository, encoder);
+    }
+
+    @Bean
+    public QuizRepository quizRepository(MongoQuizRepository mongoQuizRepository, QuizEntityMapper mapper) {
+        return new QuizStorageAdapter(mongoQuizRepository, mapper);
+    }
+    @Bean
+    public QuizTemplateRepository quizTemplateRepository(MongoQuizTemplateRepository mongoQuizTemplateRepository, QuizTemplateEntityMapper mapper) {
+        return new QuizTemplateStorageAdapter(mongoQuizTemplateRepository, mapper);
+    }
+
+    @Bean
+    public QuizSolutionTemplateRepository quizSolutionTemplateRepository(MongoQuizSolutionTemplateRepository mongoQuizSolutionTemplateRepository, QuizSolutionTemplateEntityMapper mapper) {
+        return new QuizSolutionTemplateStorageAdapter(mongoQuizSolutionTemplateRepository, mapper);
+    }
+
+    @Bean
+    public QuizAssigmentService quizAssigmentService(QuizTemplateRepository quizTemplateRepository, QuizRepository quizRepository) {
+        return new QuizAssigmentService(quizTemplateRepository, quizRepository);
+    }
+
+    @Bean
+    public QuizService quizService(QuizSolutionTemplateService quizSolutionTemplateService, QuizRepository quizRepository, GradingTableService gradingTableService) {
+        return new QuizService(quizSolutionTemplateService, quizRepository, gradingTableService);
+    }
+
+    @Bean
+    public QuizTemplateService quizTemplateService(QuizTemplateRepository quizTemplateRepository) {
+        return new QuizTemplateService(quizTemplateRepository);
+    }
+
+    @Bean
+    public QuizSolutionTemplateService quizSolutionTemplateService(QuizSolutionTemplateRepository quizSolutionTemplateRepository) {
+        return new QuizSolutionTemplateService(quizSolutionTemplateRepository);
     }
 
     @Bean
@@ -56,9 +122,6 @@ public class DomainConfiguration {
         return new TaskBlueprintService(taskBlueprintRepository);
     }
 
-//    @Bean
-//    public TaskExecutor userTaskExecutor(KafkaTaskEnv userTaskExecutor, TaskEnvMapper userTaskExecMapper){
-//        return new TaskEnvAdapter(userTaskExecutor, userTaskExecMapper);}
 
     @Bean
     public TaskRepository taskRepository(TaskMongoRepository taskMongoRepository, TaskEntityMapper mapper)  {

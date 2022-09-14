@@ -1,8 +1,16 @@
 package pl.sages.javadevpro.projecttwo.domain.task;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import pl.sages.javadevpro.projecttwo.domain.assigment.AssigmentService;
+import pl.sages.javadevpro.projecttwo.domain.quiz.exception.QuizNotFoundException;
+import pl.sages.javadevpro.projecttwo.domain.quiz.model.PageQuiz;
+import pl.sages.javadevpro.projecttwo.domain.quiz.model.Quiz;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static pl.sages.javadevpro.projecttwo.domain.task.TaskStatus.NOT_STARTED;
 import static pl.sages.javadevpro.projecttwo.domain.task.TaskStatus.SUBMITTED;
@@ -15,6 +23,15 @@ public class TaskService {
     private final TaskBlueprintService taskBlueprintService;
     private final TaskExecutor taskExecutor;
     private final String resultFilePath;
+
+    public Task findById(String id) {
+        return taskRepository.findById(id)
+                .orElseThrow(TaskNotFoundException::new);
+    }
+
+    public PageTask findAll(Pageable pageable) {
+        return taskRepository.findAll(pageable);
+    }
 
     public String executeCommand(TaskCommand taskCommand, String taskId) {
         if (taskCommand.equals(TaskCommand.EXECUTE)) {
@@ -63,6 +80,12 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
+    public void deleteTask(String taskId) {
+        var task = taskRepository.findById(taskId).orElseThrow(TaskNotFoundException::new);
+        taskWorkspace.deleteWorkspace(task.getWorkspaceUrl());
+        taskRepository.remove(taskId);
+    }
+
     public TaskStatus getTaskStatus(String taskId) {
         return findTaskById(taskId).getStatus();
     }
@@ -81,4 +104,19 @@ public class TaskService {
         taskWorkspace.writeFile(getWorkspacePath(taskId), filePath, bytes);
         commitTaskChanges(taskId);
     }
+
+    public List<Task> findAll() {
+        return taskRepository.findAll();
+    }
+
+//    public PageTask findAllByUserId(final Pageable pageable, final String userId) {
+//        final List<Task> userTasks = taskRepository.findAll()
+//                .stream()
+//                .filter(task -> assigmentService.isTaskAssignedToUser(userId, task.getId()))
+//                .collect(Collectors.toList());
+//
+//        Page<Task> pages = new PageImpl<Task>(userTasks, pageable, userTasks.size());
+//
+//        return new PageTask(pages.getContent(), pages.getNumber(), pages.getTotalPages(), pages.getTotalElements());
+//    }
 }

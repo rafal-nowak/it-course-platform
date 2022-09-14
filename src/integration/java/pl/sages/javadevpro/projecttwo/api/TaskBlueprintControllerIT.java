@@ -36,7 +36,7 @@ class TaskBlueprintControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
-                "/task-blueprints/" + taskBlueprint.getId(),
+                "/api/v1/task-blueprints/" + taskBlueprint.getId(),
                 token,
                 null,
                 TaskBlueprintDto.class);
@@ -67,7 +67,7 @@ class TaskBlueprintControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
-                "/task-blueprints/" + taskBlueprint3.getId(),
+                "/api/v1/task-blueprints/" + taskBlueprint3.getId(),
                 token,
                 null,
                 TaskBlueprintDto.class);
@@ -90,7 +90,7 @@ class TaskBlueprintControllerIT extends BaseIT {
         String adminAccessToken = getTokenForAdmin();
         //when
         var response = callHttpMethod(HttpMethod.POST,
-                "/task-blueprints",
+                "/api/v1/task-blueprints",
                 adminAccessToken,
                 taskBlueprint,
                 TaskBlueprintDto.class);
@@ -116,7 +116,7 @@ class TaskBlueprintControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.POST,
-                "/task-blueprints",
+                "/api/v1/task-blueprints",
                 token,
                 taskBlueprint,
                 ErrorResponse.class);
@@ -133,7 +133,7 @@ class TaskBlueprintControllerIT extends BaseIT {
         taskBlueprintService.save(taskBlueprint);
         //when
         var response = callHttpMethod(HttpMethod.POST,
-                "/task-blueprints",
+                "/api/v1/task-blueprints",
                 adminAccessToken,
                 taskBlueprint,
                 ErrorResponse.class);
@@ -149,7 +149,7 @@ class TaskBlueprintControllerIT extends BaseIT {
         taskBlueprintService.save(taskBlueprint);
         //when
         var response = callHttpMethod(HttpMethod.DELETE,
-                "/task-blueprints",
+                "/api/v1/task-blueprints",
                 adminAccessToken,
                 mapper.toDto(taskBlueprint),
                 Void.class);
@@ -169,7 +169,7 @@ class TaskBlueprintControllerIT extends BaseIT {
         //when
         var response = callHttpMethod(
             HttpMethod.DELETE,
-            "/task-blueprints",
+            "/api/v1/task-blueprints",
             token,
             taskBlueprint,
             ErrorResponse.class
@@ -194,7 +194,7 @@ class TaskBlueprintControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.PUT,
-                "/task-blueprints",
+                "/api/v1/task-blueprints",
                 adminAccessToken,
                 updatedTaskBlueprint,
                 TaskBlueprintDto.class);
@@ -214,7 +214,7 @@ class TaskBlueprintControllerIT extends BaseIT {
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         //when
         var response = callHttpMethod(HttpMethod.GET,
-                "/task-blueprints/1",
+                "/api/v1/task-blueprints/1",
                 token,
                 null,
                 ErrorResponse.class);

@@ -16,4 +16,5 @@ public interface Workspace {
 
     void commitChanges(String rootPathUrl);
 
+    void deleteWorkspace(String workspaceUrl);
 }

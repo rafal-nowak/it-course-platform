@@ -5,7 +5,7 @@
 #Authorization: {{auth_token}}
 
 ### add taskBlueprint
-POST http://localhost:8080/task-blueprints
+POST http://localhost:8080/api/v1/task-blueprints
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
@@ -18,31 +18,37 @@ Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 }
 
 ### get taskBlueprint
-GET http://localhost:8080/task-blueprints/1
+GET http://localhost:8080/api/v1/task-blueprints/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+### get taskBlueprints
+GET http://localhost:8080/api/v1/task-blueprints/
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
 ### assign taskBlueprint to user
-POST http://localhost:8080/assign
+POST http://localhost:8080/api/v1/assign
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
 
 {
-  "userId": "62557dc67d35d9235bd1cb54",
+  "userId": "6363b4daf4a23809eaac4fd4",
   "taskId": "1"
 }
 
 ### get file list of task for user
-GET http://localhost:8080/tasks/6231f42225512057f5b86b76/files
+GET http://localhost:8080/api/v1/tasks/6231f42225512057f5b86b76/files
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
 
 
 ### Wyślij task
-POST http://localhost:8080/tasks/6231f42225512057f5b86b76/commands
+POST http://localhost:8080/api/v1/tasks/6231f42225512057f5b86b76/commands
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
@@ -50,3 +56,28 @@ Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
 {
   "commandName": "EXECUTE"
 }
+
+### get tasks as ADMIN
+GET http://localhost:8080/api/v1/tasks/
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+### get tasks as ADMIN
+GET http://localhost:8080/api/v1/tasks?page=1&size=3
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+
+### get tasks as USER
+GET http://localhost:8080/api/v1/tasks/
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+### get tasks as USER
+GET http://localhost:8080/api/v1/tasks?page=1&size=3
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk

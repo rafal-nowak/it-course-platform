@@ -31,7 +31,7 @@ class UserControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
-                "/users/" + user.getId(),
+                "/api/v1/users/" + user.getId(),
                 token,
                 null,
                 UserDto.class);
@@ -54,7 +54,7 @@ class UserControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
-                "/users/fakeId",
+                "/api/v1/users/fakeId",
                 token,
                 null,
                 ErrorResponse.class);
@@ -74,7 +74,7 @@ class UserControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
-                "/users/" + user2.getId(),
+                "/api/v1/users/" + user2.getId(),
                 accessToken,
                 null,
                 ErrorResponse.class);
@@ -92,7 +92,7 @@ class UserControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.POST,
-                "/users",
+                "/api/v1/users",
                 adminToken,
                 user,
                 ErrorResponse.class);
@@ -110,7 +110,7 @@ class UserControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.POST,
-                "/users",
+                "/api/v1/users",
                 adminAccessToken,
                 user,
                 UserDto.class);
@@ -135,7 +135,7 @@ class UserControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
-                "/users/me",
+                "/api/v1/users/me",
                 accessToken,
                 null,
                 UserDto.class);
@@ -168,7 +168,7 @@ class UserControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.PUT,
-                "/users",
+                "/api/v1/users",
                 adminAccessToken,
                 toUpdate,
                 UserDto.class);
@@ -185,7 +185,7 @@ class UserControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.PUT,
-                "/users",
+                "/api/v1/users",
                 token,
                 fakeUser,
                 ErrorResponse.class);
@@ -210,7 +210,7 @@ class UserControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.PUT,
-                "/users",
+                "/api/v1/users",
                 token,
                 userToUpdate,
                 ErrorResponse.class);
@@ -229,7 +229,7 @@ class UserControllerIT extends BaseIT {
         //when
         var response = callHttpMethod(
                 HttpMethod.DELETE,
-                "/users/" + user.getId(),
+                "/api/v1/users/" + user.getId(),
                 adminAccessToken,
                 null,
                 UserDto.class);
@@ -247,7 +247,7 @@ class UserControllerIT extends BaseIT {
         //when
         var response = callHttpMethod(
                 HttpMethod.DELETE,
-                "/users/" + user.getId(),
+                "/api/v1/users/" + user.getId(),
                 token,
                 null,
                 ErrorResponse.class);
@@ -268,7 +268,7 @@ class UserControllerIT extends BaseIT {
         //when
         var response = callHttpMethod(
                 HttpMethod.DELETE,
-                "/users/" + secondUser.getId(),
+                "/api/v1/users/" + secondUser.getId(),
                 token,
                 null,
                 ErrorResponse.class);
@@ -287,7 +287,7 @@ class UserControllerIT extends BaseIT {
         //when
         var response = callHttpMethod(
                 HttpMethod.GET,
-                "/users",
+                "/api/v1/users",
                 adminAccessToken,
                 null,
                 PageUserDto.class

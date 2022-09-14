@@ -1,1 +1,1 @@
-# projectTwo
+# IT Course Platform

@@ -28,6 +28,11 @@ public class AssigmentStorageAdapter implements AssigmentRepository {
     }
 
     @Override
+    public void remove(final String taskId) {
+        assigmentRepository.deleteByTaskId(taskId);
+    }
+
+    @Override
     public Optional<Assigment> find(String userId, String taskId) {
         Optional<AssigmentEntity> byTaskId = assigmentRepository.findByTaskId(taskId);
         // TODO jeden if - done

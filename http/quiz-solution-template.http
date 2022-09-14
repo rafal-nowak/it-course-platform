@@ -1,0 +1,48 @@
+### post quiz template
+POST http://localhost:8080/api/v1/quiz-solution-templates
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "maximumScore": 0,
+  "testTemplateId": "634a9cd95477cc38c725d937",
+  "score": 0,
+  "grade": "quiz solution template",
+  "testName": "My test 456",
+  "questions": [
+    {
+      "questionId": 1,
+      "maximumScore": 4,
+      "score": 4,
+      "type": "SINGLE_CHOICE_CLOSED_QUESTION",
+      "question": "Single choice question?",
+      "answers": [
+        "Single choice answer 10"
+      ]
+    },
+    {
+      "questionId": 2,
+      "maximumScore": 4,
+      "score": 4,
+      "type": "MULTI_CHOICE_CLOSED_QUESTION",
+      "question": "Multi choice question?",
+      "answers": [
+        "Multi choice answer 20",
+        "Multi choice answer 30"
+      ]
+    }
+  ]
+}
+
+### get quiz template
+GET http://localhost:8080/api/v1/quiz-solution-templates/634b0ff4bb1ca51037997d01
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+### get quiz templates
+GET http://localhost:8080/api/v1/quiz-solution-templates
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=

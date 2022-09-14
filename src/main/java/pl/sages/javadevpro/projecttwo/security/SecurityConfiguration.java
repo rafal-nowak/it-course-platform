@@ -15,6 +15,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+import java.util.List;
+
 @RequiredArgsConstructor
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
@@ -29,14 +32,28 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors().and()
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers(HttpMethod.GET, "/users/me").hasRole("STUDENT")
-            .antMatchers("/users/**").hasRole("ADMIN")
-            .antMatchers(HttpMethod.DELETE,"/task-blueprints").hasRole("ADMIN")
-            .mvcMatchers(HttpMethod.POST,"/task-blueprints").hasRole("ADMIN")
-            .mvcMatchers(HttpMethod.PUT,"/task-blueprints").hasRole("ADMIN")
-            .mvcMatchers("/task-blueprints/**").hasAnyRole("ADMIN", "STUDENT")
-            .antMatchers( "/assign").hasRole("ADMIN")
-            .antMatchers("/tasks/{taskId}/**").hasRole("STUDENT")
+//            .antMatchers("/api/v1/test").anonymous()
+//            .antMatchers("/quiz/**").anonymous()
+            .antMatchers(HttpMethod.GET, "/api/v1/users/me").hasAnyRole("ADMIN", "STUDENT")
+            .antMatchers("/api/v1/users/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE, "/api/v1/task-blueprints").hasRole("ADMIN")
+            .mvcMatchers(HttpMethod.POST, "/api/v1/task-blueprints").hasRole("ADMIN")
+            .mvcMatchers(HttpMethod.PUT, "/api/v1/task-blueprints").hasRole("ADMIN")
+            .mvcMatchers("/api/v1/task-blueprints/**").hasAnyRole("ADMIN", "STUDENT")
+            .antMatchers(HttpMethod.DELETE, "/api/v1/grading-tables/**").hasRole("ADMIN")
+            .mvcMatchers(HttpMethod.POST, "/api/v1/grading-tables").hasRole("ADMIN")
+            .mvcMatchers(HttpMethod.PUT, "/api/v1/grading-tables").hasRole("ADMIN")
+            .mvcMatchers("/api/v1/grading-tables/**").hasAnyRole("ADMIN", "STUDENT")
+            .antMatchers(HttpMethod.DELETE, "/api/v1/quizzes/**").hasRole("ADMIN")
+            .mvcMatchers(HttpMethod.POST, "/api/v1/quizzes").hasRole("ADMIN")
+            .mvcMatchers("/api/v1/quizzes/**").hasAnyRole("ADMIN", "STUDENT")
+            .mvcMatchers(HttpMethod.GET, "/api/v1/quiz-templates/**").hasAnyRole("ADMIN", "STUDENT")
+            .antMatchers("/api/v1/quiz-templates/**").hasRole("ADMIN")
+            .antMatchers("/api/v1/quiz-solution-templates/**").hasRole("ADMIN")
+            .antMatchers("/api/v1/quiz-solution-templates/**").hasRole("ADMIN")
+            .antMatchers("/api/v1/quiz-assign/**").hasRole("ADMIN")
+            .antMatchers("/api/v1/assign").hasRole("ADMIN")
+            .mvcMatchers("/api/v1/tasks/{taskId}/**").hasAnyRole("ADMIN", "STUDENT")
             .and()
             .httpBasic();
     }
@@ -53,10 +70,29 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+//        return source;
+//    }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.applyPermitDefaultValues();
+        corsConfiguration.addAllowedMethod(HttpMethod.GET);
+        corsConfiguration.addAllowedMethod(HttpMethod.POST);
+        corsConfiguration.addAllowedMethod(HttpMethod.PUT);
+        corsConfiguration.addAllowedMethod(HttpMethod.DELETE);
+        corsConfiguration.addAllowedMethod(HttpMethod.PATCH);
+//        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedOrigin("http://localhost:3000");
+
+        source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
     }
+
 }

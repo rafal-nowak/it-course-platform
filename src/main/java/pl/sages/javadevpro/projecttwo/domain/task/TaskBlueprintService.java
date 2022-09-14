@@ -1,6 +1,8 @@
 package pl.sages.javadevpro.projecttwo.domain.task;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import pl.sages.javadevpro.projecttwo.domain.quiz.model.PageQuiz;
 
 @RequiredArgsConstructor
 public class TaskBlueprintService {
@@ -22,6 +24,10 @@ public class TaskBlueprintService {
 
     public void update(TaskBlueprint taskBlueprint) {
         taskBlueprintRepository.update(taskBlueprint);
+    }
+
+    public PageTaskBlueprint findAll(Pageable pageable) {
+        return taskBlueprintRepository.findAll(pageable);
     }
 
 }

@@ -15,6 +15,8 @@ import pl.sages.javadevpro.projecttwo.security.UserPrincipal;
 
 import java.util.Arrays;
 
+import static pl.sages.javadevpro.projecttwo.domain.user.model.UserRole.ADMIN;
+
 @Component
 @Aspect
 @RequiredArgsConstructor
@@ -26,12 +28,13 @@ class AuthVerifierTask {
 
 
     @Before(value = "@annotation(authVerifyTask)")
-    public void userIsOwnerOfTask(JoinPoint joinPoint, AuthVerifyTask authVerifyTask) {
+    public void userIsAdminOwnerOfTask(JoinPoint joinPoint, AuthVerifyTask authVerifyTask) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String taskId = (String) getParameterByName(joinPoint, authVerifyTask.taskIdParamName());
 
         User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
-        boolean authorizationConfirmed = assigmentService.isTaskAssignedToUser(user.getId(), taskId);
+        boolean authorizationConfirmed = assigmentService.isTaskAssignedToUser(user.getId(), taskId) || user.getRoles().contains(ADMIN);
+
         if (!authorizationConfirmed) {
             throw new UserIsNotAuthorizedToThisTaskException("User is not authorized to this task.");
         }

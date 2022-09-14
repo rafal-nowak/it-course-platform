@@ -15,7 +15,7 @@ import pl.sages.javadevpro.projecttwo.security.Security;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "/users",
+@RequestMapping(path = "/api/v1/users",
         produces = "application/json",
         consumes = "application/json"
 )
